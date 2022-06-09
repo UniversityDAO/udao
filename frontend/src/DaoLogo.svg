@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="16" height="22" version="1.1" viewBox="0 0 4.2333 5.8208" xmlns="http://www.w3.org/2000/svg">
+<g>
+<rect x="-1.2344e-7" y="-4.4626e-7" width="4.2333" height="5.8208" rx=".60476" ry=".7276" fill="#603894" stroke-width="2.8238"/>
+<circle cx=".52917" cy=".52917" r=".52917" fill="#a07ece" stroke-width="2.2527"/>
+<circle cx="3.7042" cy=".52917" r=".52917" fill="#a07ece" stroke-width="2.2527"/>
+<circle cx="2.1167" cy="3.7042" r=".52917" fill="#a07ece" stroke-width="2.2527"/>
+<circle cx=".52917" cy="2.7781" r=".52917" fill="#a07ece" stroke-width="2.2527"/>
+<circle cx="3.7042" cy="2.7781" r=".52917" fill="#a07ece" stroke-width="2.2527"/>
+<rect x=".26458" y=".79375" width=".52917" height="1.5875" fill="#a07ece" stroke-width="2.7589"/>
+<rect transform="rotate(-60)" x="-2.43" y="1.7962" width=".52917" height="1.8521" fill="#a07ece" stroke-width="2.98"/>
+<rect transform="rotate(60)" x="4.0001" y="-2.059" width=".52917" height="1.8521" fill="#a07ece" stroke-width="2.98"/>
+<rect x="3.4396" y=".79375" width=".52917" height="1.5875" fill="#a07ece" stroke-width="2.7589"/>
+<circle cx=".52917" cy=".52917" r=".26458" fill="#fff" stroke-width="2.2527"/>
+<circle cx="3.7042" cy=".52917" r=".26458" fill="#fff" stroke-width="2.2527"/>
+<circle cx=".52917" cy="2.7781" r=".26458" fill="#fff" stroke-width="2.2527"/>
+<circle cx="3.7042" cy="2.7781" r=".26458" fill="#fff" stroke-width="2.2527"/>
+<circle cx="2.1167" cy="3.7042" r=".26458" fill="#fff" stroke-width="2.2527"/>
+<g transform="translate(-.07179)" fill="#ffffff" font-family="sans-serif" font-size="1.1974px" stroke-width=".17105">
+<text transform="scale(.98995 1.0102)" x="0.26726595" y="5.4648595" style="line-height:1.25" xml:space="preserve"><tspan x="0.26726595" y="5.4648595" fill="#ffffff" font-family="'Font Awesome 6 Free'" font-size="1.1974px" stroke-width=".17105">U</tspan></text>
+<text transform="scale(.98995 1.0102)" x="1.3103315" y="5.469439" style="line-height:1.25" xml:space="preserve"><tspan x="1.3103315" y="5.469439" fill="#ffffff" font-family="'Font Awesome 6 Free'" font-size="1.1974px" stroke-width=".17105">DAO</tspan></text>
+</g>
+<text x="1.5875" y="5.0270834" fill="#000000" font-family="sans-serif" font-size="10.583px" stroke-width=".26458" style="line-height:1.25" xml:space="preserve"><tspan x="1.5875" y="5.0270834" stroke-width=".26458"/></text>
+</g>
+</svg>

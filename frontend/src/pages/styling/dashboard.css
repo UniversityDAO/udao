@@ -1,0 +1,5 @@
+.dashboard-header {
+    display: flex;
+    width: calc(100vw - 48rem);
+    justify-content: flex-end;
+}
