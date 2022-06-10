@@ -2,6 +2,7 @@ import Banner from '../components/Banners/banner';
 import Navbar from '../components/Navbar/navbar';
 import TitleCard from '../components/Cards/titlecard';
 import Card from '../components/Cards/card';
+import MetamaskConnect from '../components/Buttons/MetamaskConnect';
 
 import "./styling/common.css";
 import "./styling/dashboard.css"
@@ -13,7 +14,7 @@ function Dashboard() {
         <div class="container-fluid App-content">
             <div className="App">
                 <div class="dashboard-header">
-                    <button class="btn btn-primary" style={{textAlign:'right', marginTop: "20px"}}>Connect Wallet</button>
+                    <MetamaskConnect />
                 </div>
                 <div class="row">
                     <div class="col-12">
