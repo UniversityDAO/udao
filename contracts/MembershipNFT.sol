@@ -12,7 +12,7 @@ contract MembershipNFT is ERC721, Ownable, EIP712, ERC721Votes {
 
     Counters.Counter private _tokenIdCounter;
 
-    constructor() ERC721("MyToken", "MTK") EIP712("MyToken", "1") {}
+    constructor() ERC721("UDAOToken", "UDAO") EIP712("UDAOToken", "1") {}
 
     function safeMint(address to) public onlyOwner {
         uint256 tokenId = _tokenIdCounter.current();
