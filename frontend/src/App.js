@@ -12,6 +12,9 @@ import Dashboard from './pages/dashboard';
 import Navbar from './components/Navbar/navbar';
 
 function App() {
+  // We'll need a react Router here (or in index.js) to navigate between pages
+  // essentially our app can be a single-page app that just renders different UI on different route
+  // react-router will handle this: reactrouter.com
   return (
     <>
       <Routes>
