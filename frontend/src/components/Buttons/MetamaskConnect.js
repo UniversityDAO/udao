@@ -9,9 +9,6 @@ const ref2=useRef(null);
 const ref3=useRef(null);
 
 const onboarding = new MetaMaskOnboarding();
-/*const btn = document.querySelector('.onboard');
-const statusText = document.querySelector('.h1-connect');
-const statusDesc = document.querySelector('.connect-desc');*/
 
 useEffect(() => {
     const btn = ref1.current;
@@ -79,9 +76,9 @@ useEffect(() => {
 
 return (
     <>
-        <button ref={ref1} /*class="btn btn-primary onboard"*/ style={{textAlign:'right', marginTop: "20px"}}>Connect Wallet</button>
-        <h1 ref={ref2} /*class="h1-connect"*/> </h1>
-        <p ref={ref3} /*class="connect-desc" */></p>
+        <button ref={ref1} style={{textAlign:'right', marginTop: "20px"}}>Connect Wallet</button>
+        <h1 ref={ref2}> </h1>
+        <p ref={ref3}></p>
     </>
     )
 }

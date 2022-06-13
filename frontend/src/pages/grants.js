@@ -11,7 +11,7 @@ function Grants() {
         <Navbar />
         <div class="container-fluid App-content">
             <div className="App">
-                <GBanner name = "Grants" btn1 = "Current Round" btn2 = "Past Rounds" btn3 = "My Grants" btn4 = "Apply For Grant"/>
+                <GBanner name = "Grants" btn1 = "Current Round" l1="/Grants" btn2 = "Past Rounds" btn3 = "My Grants" btn4 = "Apply For Grant" l4="/Grants/Application"/>
                 <div class="row">
                     <div class="col-10">
                         <TitleCard title="Active Grants"/>

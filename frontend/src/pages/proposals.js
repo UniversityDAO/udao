@@ -9,7 +9,7 @@ function Proposals() {
         <Navbar />
         <div class="container-fluid App-content">
             <div className="App">
-                <GBanner name = "Proposals" btn1 = "Active" btn2 = "Inactive" btn3 = "My Proposals" btn4 = "New Proposal"/>
+                <GBanner name = "Proposals" btn1 = "Active" btn2 = "Inactive" btn3 = "My Proposals" btn4 = "New Proposal" l4="/Proposals/Application"/>
                 <div class="row">
                     <div class="col-10">
                         <TitleCard title="Active Proposals"/>

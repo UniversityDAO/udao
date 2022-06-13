@@ -1,5 +1,6 @@
 import "./banner.css";
 import "../../pages/styling/common.css"
+import { Link } from "react-router-dom";
 
 function GBanner(props) {
     return (
@@ -7,16 +8,24 @@ function GBanner(props) {
             <div class="row">
                 <h1>{props.name}</h1>
                 <div class="col">
-                    <h1 class="btn btn-primary font-weight-bold">{props.btn1}</h1>
+                    <Link class="btn btn-primary font-weight-bold" to={props.l1}>
+                        {props.btn1}
+                    </Link>
                 </div>
                 <div class="col">
-                    <h1 class="btn btn-primary font-weight-bold">{props.btn2}</h1>
+                    <Link class="btn btn-primary font-weight-bold" to={props.l2}>
+                        {props.btn2}
+                    </Link>
                 </div>
                 <div class="col">
-                    <h1 class="btn btn-primary font-weight-bold">{props.btn3}</h1>
+                    <Link class="btn btn-primary font-weight-bold" to={props.l3}>
+                        {props.btn3}
+                    </Link>
                 </div>
                 <div class="col">
-                    <h1 class="btn btn-primary font-weight-bold">{props.btn4}</h1>
+                    <Link class="btn btn-primary font-weight-bold" to={props.l4}>
+                        {props.btn4}
+                    </Link>
                 </div>
             </div>
         </div>
@@ -26,6 +35,10 @@ function GBanner(props) {
 GBanner.defaultProps = {
     name: "Page Title",
     btn1: "Button 1",
+    l1: "/Dashboard",
+    l2: "/Dashboard",
+    l3: "/Dashboard",
+    l4: "/Dashboard",
     btn2: "Button 2",
     btn3: "Button 3",
     btn4: "Button 4"
