@@ -17,6 +17,12 @@
     transition: all 0.4s;
   }
   
+  .connect-wallet {
+    display: flex;
+    margin-top: 20px;
+    justify-content: center;
+  }
+
   .daoLogo {
     height: 10vmin;
   }

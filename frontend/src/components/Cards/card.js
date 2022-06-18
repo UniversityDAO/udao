@@ -2,36 +2,35 @@ import "./card.css"
 import { useState } from 'react';
 
 function Card(props) {
-    const [yesVotes, setYesVotes] = useState(0);
-    const [noVotes, setNoVotes] = useState(0);
+    const [yesVotes, setYesVotes] = useState(props.yesVotes);
+    const [noVotes, setNoVotes] = useState(props.noVotes);
 
     return (
         <div class="card">
             <div class="card-body">
-                <h5 class="card-title">{props.title}</h5>
+                <h3 class="card-title">{props.title}</h3>
                 <p class="card-text">{props.desc}</p>
                 <div class="row">
-                    <p>Yay: {yesVotes} Nay: {noVotes}</p>
-                    <button class="btn btn-primary" onClick={() => setYesVotes(yesVotes + 1)} style={{marginLeft:"20px"}}>
+                    <p>Yes: {yesVotes} No: {noVotes}</p>
+                    <button class="btn btn-primary" onClick={() => setYesVotes(yesVotes + 1)} style={{marginLeft:"20px", backgroundColor: "Green"}}>
                         Vote Yes
                     </button>
-                    <button class="btn btn-primary" onClick={() => setNoVotes(noVotes + 1)} style={{marginLeft:"20px"}}>
+                    <button class="btn btn-primary" onClick={() => setNoVotes(noVotes + 1)} style={{marginLeft:"20px", backgroundColor: "Red"}}>
                         Vote No
                     </button>
                 </div>
-                <button class="btn btn-primary">{props.tags}</button>
+                <div class="row">
+                    <ul>
+                        {props.tags.map(tag => {
+                            return <button class="btn btn-primary" style={{marginRight:"20px"}}>{tag}</button> 
+                        })}
+                    </ul>
+                </div>
             </div>
         </div>
     )
 }
 
-Card.defaultProps = {
-    title: "Title",
-    desc: "Description",
-    tags: "Tags",
-    yes: "0",
-    no: "0"
-}
 
 
 export default Card;

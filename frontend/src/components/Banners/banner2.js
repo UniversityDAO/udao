@@ -1,26 +1,78 @@
 import "./banner.css";
 import "../../pages/styling/common.css"
 import { Link } from "react-router-dom";
+import { useEffect, useRef} from 'react';
 
 function GBanner(props) {
+
+    const ref1=useRef(null);
+    const ref2=useRef(null);
+    const ref3=useRef(null);
+
+    useEffect (() => {
+        const btn1 = ref1.current;
+        const btn2 = ref2.current;
+        const btn3 = ref3.current;
+
+        btn1.style.border = "4px solid black";
+
+        function changeHighlight(clickedButton){
+            console.log(`inside changeHighlight for ${clickedButton}`);
+            switch(clickedButton){
+                case "btn1":
+                    ref1.current.style.border = "4px solid black";
+                    ref2.current.style.border = 'none';
+                    ref3.current.style.border = 'none';
+                    props.updateTitle("Active");
+                    break;
+                case "btn2":
+                    ref1.current.style.border = 'none';
+                    ref2.current.style.border = "4px solid black";
+                    ref3.current.style.border = 'none';
+                    props.updateTitle("Inactive");
+                    break;
+                case "btn3":
+                    ref1.current.style.border = 'none';
+                    ref2.current.style.border = 'none';
+                    ref3.current.style.border = "4px solid black";
+                    props.updateTitle("My");
+                    break;
+                default:
+                    ref1.current.style.border = 'none';
+                    ref2.current.style.border = 'none';
+                    ref3.current.style.border = 'none';
+            }
+        }
+
+        btn1.addEventListener('click', () => {
+            changeHighlight('btn1');
+        });
+        btn2.addEventListener('click', () => {
+            changeHighlight('btn2');
+        });
+        btn3.addEventListener('click', () => {
+            changeHighlight('btn3');
+        });
+    });
+    
     return (
         <div class="custom-banner">
             <div class="row">
                 <h1>{props.name}</h1>
                 <div class="col">
-                    <Link class="btn btn-primary font-weight-bold" to={props.l1}>
+                    <button ref={ref1} class="btn btn-primary font-weight-bold">
                         {props.btn1}
-                    </Link>
+                    </button>
                 </div>
                 <div class="col">
-                    <Link class="btn btn-primary font-weight-bold" to={props.l2}>
+                    <button ref={ref2} class="btn btn-primary font-weight-bold">
                         {props.btn2}
-                    </Link>
+                    </button>
                 </div>
                 <div class="col">
-                    <Link class="btn btn-primary font-weight-bold" to={props.l3}>
+                    <button ref={ref3} class="btn btn-primary font-weight-bold">
                         {props.btn3}
-                    </Link>
+                    </button>
                 </div>
                 <div class="col">
                     <Link class="btn btn-primary font-weight-bold" to={props.l4}>
@@ -30,18 +82,6 @@ function GBanner(props) {
             </div>
         </div>
     )
-}
-
-GBanner.defaultProps = {
-    name: "Page Title",
-    btn1: "Button 1",
-    l1: "/Dashboard",
-    l2: "/Dashboard",
-    l3: "/Dashboard",
-    l4: "/Dashboard",
-    btn2: "Button 2",
-    btn3: "Button 3",
-    btn4: "Button 4"
 }
 
 export default GBanner;
