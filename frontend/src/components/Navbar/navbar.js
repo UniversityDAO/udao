@@ -2,6 +2,8 @@ import { Link } from "react-router-dom";
 import logo from "../../DaoLogo.svg"
 import "./navbar.css";
 
+import MetamaskConnect from "../Buttons/MetamaskConnect";
+
 function Navbar() {
     return (
     <div class="vertical-nav" id="sidebar">
@@ -29,6 +31,10 @@ function Navbar() {
           <Link to="/Help" class="nav-link text-dark font-italic"><i class="fa fa-picture-o mr-3 text-primary fa-fw"></i>Help</Link>
         </li>
       </ul>
+
+      <div class="connect-wallet">
+        <MetamaskConnect />
+      </div>
     </div>
   )
 }

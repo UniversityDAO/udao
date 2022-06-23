@@ -1,5 +1,5 @@
 
-import { BrowserRouter, Route} from 'react-router-dom';
+import { Route} from 'react-router-dom';
 import { Routes } from 'react-router-dom';
 import './App.css';
 
@@ -9,7 +9,12 @@ import Help from './pages/help';
 import Landing from './pages/landing';
 
 import Dashboard from './pages/dashboard';
-import Navbar from './components/Navbar/navbar';
+import ProposalsApp from './pages/proposalsApp';
+import GrantsApp from './pages/GrantsApp';
+
+import WithNav from './layouts/WithNav';
+import WithoutNav from './layouts/WithoutNav';
+
 
 function App() {
   // We'll need a react Router here (or in index.js) to navigate between pages
@@ -18,11 +23,17 @@ function App() {
   return (
     <>
       <Routes>
-          <Route path="/" element = {<Landing />}> </Route>
-          <Route path="/Dashboard" element = {<Dashboard/>}> </Route>
-          <Route path="/Proposals" element = {<Proposals/>}> </Route>
-          <Route path="/Grants" element = {<Grants/>}> </Route>
-          <Route path="/Help" element = {<Help />}> </Route>
+          <Route element={<WithoutNav />}>
+            <Route path="/" element={<Landing />} />
+          </Route>
+          <Route element={<WithNav />} >
+            <Route path="/Dashboard" element={<Dashboard />} />
+            <Route path="/Proposals" element = {<Proposals/>}> </Route>
+            <Route path="/Proposals/Application" element = {<ProposalsApp/>}> </Route>
+            <Route path="/Grants/Application" element = {<GrantsApp/>}> </Route>
+            <Route path="/Grants" element = {<Grants/>}> </Route>
+            <Route path="/Help" element = {<Help />}> </Route>
+          </Route>
       </Routes>
     </>
   );

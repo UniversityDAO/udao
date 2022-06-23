@@ -6,3 +6,8 @@
     text-align: left;
     align-items: left;
 }
+
+.custom-title {
+    font-weight: bold;
+    font-size:xx-large;
+}

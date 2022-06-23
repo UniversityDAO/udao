@@ -9,9 +9,6 @@ const ref2=useRef(null);
 const ref3=useRef(null);
 
 const onboarding = new MetaMaskOnboarding();
-/*const btn = document.querySelector('.onboard');
-const statusText = document.querySelector('.h1-connect');
-const statusDesc = document.querySelector('.connect-desc');*/
 
 useEffect(() => {
     const btn = ref1.current;
@@ -27,9 +24,10 @@ useEffect(() => {
     }
 
     let connected = (accounts) => {
-        statusText.innerHTML = 'Connected!'
+        statusText.innerHTML = ''
         statusDesc.classList.add('account');
-        statusDesc.innerHTML = accounts[0]
+        statusDesc.style.backgroundColor = "white";
+        statusDesc.innerHTML = 'Connected to UDAO: ' + accounts[0];
         btn.style.display = 'none';
         statusDesc.classList.add('account');
     }
@@ -51,12 +49,10 @@ useEffect(() => {
         } catch (error) {
             console.error(error);
         }
-    })
+    }, []);
 
     const MetaMaskClientCheck = () => {
         if (!isMetaMaskInstalled()) {
-            statusText.innerText = 'You need to Install a Wallet';
-            statusDesc.innerText = 'We recommend the MetaMask wallet.';
             btn.innerText = 'Install MetaMask'
             btn.onclick = onClickInstallMetaMask;
         } else {
@@ -65,9 +61,7 @@ useEffect(() => {
                 if (accounts && accounts[0] > 0) {
                     connected(accounts)
                 } else {
-                    statusText.innerHTML = 'Connect your wallet'
-                    statusDesc.innerHTML = `To begin, please connect your MetaMask wallet.`
-                    btn.innerText = 'Connect MetaMask'
+                    btn.innerText = 'Connect Wallet'
                 }
             })
         }
@@ -79,9 +73,9 @@ useEffect(() => {
 
 return (
     <>
-        <button ref={ref1} /*class="btn btn-primary onboard"*/ style={{textAlign:'right', marginTop: "20px"}}>Connect Wallet</button>
-        <h1 ref={ref2} /*class="h1-connect"*/> </h1>
-        <p ref={ref3} /*class="connect-desc" */></p>
+        <button ref={ref1} style={{textAlign:'right', marginTop: "20px"}} class="btn btn-primary">Connect Wallet</button>
+        <h1 ref={ref2}> </h1>
+        <p ref={ref3}></p>
     </>
     )
 }
