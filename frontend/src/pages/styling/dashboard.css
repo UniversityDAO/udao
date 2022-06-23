@@ -1,5 +1,10 @@
-.dashboard-header {
+.nav-header {
     display: flex;
-    width: calc(100vw - 48rem);
+    width: calc(100% - 23rem);
     justify-content: flex-end;
+    margin-left: 23rem;
+}
+
+.navbar {
+    padding-top: 0px;
 }
