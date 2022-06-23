@@ -8,10 +8,10 @@ function Card(props) {
     return (
         <div class="card">
             <div class="card-body">
-                <h3 class="card-title">{props.title}</h3>
-                <p class="card-text">{props.desc}</p>
+                <h2 class="card-header">{props.title}</h2>
+                <p class="card-text"><small>{"Description: " + props.desc}</small></p>
                 <div class="row">
-                    <p>Yes: {yesVotes} No: {noVotes}</p>
+                    <p><small>Yes: {yesVotes} No: {noVotes}</small></p>
                     <button class="btn btn-primary" onClick={() => setYesVotes(yesVotes + 1)} style={{marginLeft:"20px", backgroundColor: "Green"}}>
                         Vote Yes
                     </button>
