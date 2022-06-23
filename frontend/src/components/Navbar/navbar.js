@@ -8,7 +8,7 @@ function Navbar() {
     return (
     <div class="vertical-nav" id="sidebar">
         <div class="py-4 px-3 mb-4">
-          <div class="media d-flex align-items-center">{/*<img src="https://bootstrapious.com/i/snippets/sn-v-nav/avatar.png" alt="..." width="65" class="mr-3 rounded-circle img-thumbnail shadow-sm"> </img>*/}
+          <div class="media d-flex align-items-center">
             <div class="media-body">
               <Link to="/Dashboard">
                 <img src={logo} className = "daoLogo" to="./Dashboard"/>

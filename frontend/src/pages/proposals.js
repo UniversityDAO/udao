@@ -1,12 +1,12 @@
 import Card from "../components/Cards/card";
 import GBanner from "../components/Banners/banner2";
 import TitleCard from "../components/Cards/titlecard";
-import { useState, useEffect } from 'react';
+import Loading from "../components/Loading/loading";
 
+import { useState, useEffect } from 'react';
 import { getProposals, addProposals } from "../data/UDAOApi";
 
 import "./styling/common.css"
-
 
 export default function Proposals() {
 
@@ -21,21 +21,26 @@ export default function Proposals() {
 
     function FilterProposals(props) {
         const status=props.status;
-        if (status === "Active Proposals") {
+        if (isLoading) {
+            return (
+                <Loading />
+            )
+        }
+        else if (status === "Active Proposals" && !isLoading) {
             return (
                 activeProposals.map(proposal => {
                     return <Card title={proposal.title} desc={proposal.desc} yesVotes={proposal.yesVotes} noVotes={proposal.noVotes} active={proposal.active} tags={proposal.tags} />
                 })
             )
         }
-        else if (status === "Inactive Proposals") {
+        else if (status === "Inactive Proposals" && !isLoading) {
             return (
                 inactiveProposals.map(proposal => {
                     return <Card title={proposal.title} desc={proposal.desc} yesVotes={proposal.yesVotes} noVotes={proposal.noVotes} active={proposal.active} tags={proposal.tags} />
                 })
             )
         }
-        else if (status === "My Proposals") {
+        else if (status === "My Proposals" && !isLoading) {
             return (
                 myProposals.map(proposal => {
                     return <Card title={proposal.title} desc={proposal.desc} yesVotes={proposal.yesVotes} noVotes={proposal.noVotes} active={proposal.active} tags={proposal.tags} />
@@ -65,6 +70,7 @@ export default function Proposals() {
             try{
                 const allProposals = await getProposals();
                 setProposalData(allProposals);
+                setLoading(false);
             }
             catch(err){
                 console.log(`An error occurred retrieving the proposals: ${err.message}`);
@@ -75,7 +81,6 @@ export default function Proposals() {
     }, [])
 
     useEffect (() => {
-        console.log("Inside use effect")
             try{
                 setActiveProposals(proposalData.filter(p => p.active));
                 setInactiveProposals(proposalData.filter(p => !p.active));

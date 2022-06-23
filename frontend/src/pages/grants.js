@@ -1,6 +1,7 @@
 import TitleCard from "../components/Cards/titlecard";
 import Card from "../components/Cards/card";
 import GBanner from "../components/Banners/banner2"
+import Loading from "../components/Loading/loading";
 
 //import { getGrants } from "../data/api";
 import { getGrants, addGrant } from "../data/UDAOApi";
@@ -9,7 +10,6 @@ import { useEffect, useState } from 'react';
 import "./styling/common.css"
 
 function Grants() {
-    console.log("Rendering Grants page now")
     const [grantData, setGrantData] = useState([]);
     const [isLoading, setLoading] = useState(true);
     const [activeGrants, setActiveGrants] = useState([]);
@@ -20,8 +20,12 @@ function Grants() {
 
     function FilterGrants(props) {
         const status=props.status;
-        console.log("Inside filter grants")
-        if (status === "Active Grants") {
+        if (isLoading) {
+            return (
+                <Loading />
+            )
+        }
+        else if (status === "Active Grants") {
             return (
                 activeGrants.map(grant => {
                     return <Card title={grant.title} desc={grant.desc} yesVotes={grant.yesVotes} noVotes={grant.noVotes} active={grant.active} tags={grant.tags} />
@@ -66,6 +70,7 @@ function Grants() {
             try{
                 const allGrants = await getGrants();
                 setGrantData(allGrants);
+                setLoading(false);
             }
             catch(err){
                 console.log(`An error occurred retrieving the grants: ${err.message}`);

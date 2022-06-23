@@ -1,18 +1,78 @@
 import Banner from '../components/Banners/banner';
 import TitleCard from '../components/Cards/titlecard';
 import Card from '../components/Cards/card';
+import Loading from '../components/Loading/loading';
 
 import "./styling/common.css";
 import "./styling/dashboard.css"
-import {getProposals, getGrants} from "../data/api.js"
-
-const grantData = getGrants();
-const proposalData = getProposals();
-
-const activeGrants = grantData.filter(g => g.active);
-const activeProposals = proposalData.filter(p => p.active);
+import {getProposals, getGrants} from "../data/UDAOApi"
+import { useState, useEffect } from 'react'
 
 function Dashboard() {
+    const [grantData, setGrantData] = useState([]);
+    const [isLoading, setLoading] = useState(true);
+    const [activeGrants, setActiveGrants] = useState([]);
+    const [proposalData, setProposalData] = useState([]);
+    const [activeProposals, setActiveProposals] = useState([]);
+    
+    function FilterProposals() {
+        if (isLoading) {
+            return (
+                <Loading />
+            )
+        }
+        else {
+            return (
+                activeProposals.map(proposal => {
+                    return <Card title={proposal.title} desc={proposal.desc} yesVotes={proposal.yesVotes} noVotes={proposal.noVotes} active={proposal.active} tags={proposal.tags} />
+                })
+            )
+        }
+    }
+    
+    function FilterGrants() {
+        if (isLoading) {
+            return (
+                <Loading />
+            )
+        }
+        else {
+            return (
+                activeGrants.map(grant => {
+                    return <Card title={grant.title} desc={grant.desc} yesVotes={grant.yesVotes} noVotes={grant.noVotes} active={grant.active} tags={grant.tags} />
+                }))
+        }
+    }
+
+    useEffect(() => {
+        async function retrieveData() {
+            try{
+                const allProposals = await getProposals();
+                setProposalData(allProposals);
+                const allGrants = await getGrants();
+                setGrantData(allGrants);
+                setLoading(false);
+            }
+            catch(err){
+                console.log(`An error occurred retrieving the grants: ${err.message}`);
+            }
+        }
+        console.log("Now retrieving all the data");
+        retrieveData();
+    }, [])
+    
+    useEffect (() => {
+            try{
+                setActiveGrants(grantData.filter(g => g.active));
+                setActiveProposals(proposalData.filter(p => p.active));
+            }
+            catch(err){
+                console.log(`An error occurred sorting the grants: ${err.message}`);
+            }
+            
+        
+    }, [grantData, proposalData])
+
     return (
     <div class="container-fluid">
         <div class="container-fluid App-content">
@@ -26,17 +86,13 @@ function Dashboard() {
                     <div class="col-6">
                         <TitleCard cardTitle="Active Proposals"/>
                         <ul>
-                            {activeProposals.map(proposal => {
-                                return <Card title={proposal.title} desc={proposal.desc} yesVotes={proposal.yesVotes} noVotes={proposal.noVotes} active={proposal.active} tags={proposal.tags} />
-                            })}
+                            <FilterProposals />
                         </ul>
                     </div>
                     <div class="col-6">
                         <TitleCard cardTitle="Active Grants"/>
                         <ul>
-                            {activeGrants.map(grant => {
-                                return <Card title={grant.title} desc={grant.desc} yesVotes={grant.yesVotes} noVotes={grant.noVotes} active={grant.active} tags={grant.tags} />
-                            })}
+                            <FilterGrants />
                         </ul>
                     </div>
                 </div>
