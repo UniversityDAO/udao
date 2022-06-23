@@ -1,35 +1,23 @@
 import Card from "../components/Cards/card";
 import GBanner from "../components/Banners/banner2";
 import TitleCard from "../components/Cards/titlecard";
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
-import { getProposals } from "../data/api";
+import { getProposals, addProposals } from "../data/UDAOApi";
 
-const proposalData = getProposals();
+import "./styling/common.css"
 
-const activeProposals = proposalData.filter(p => p.active);
-const inactiveProposals = proposalData.filter(p => !p.active);
-const myProposals = [];
 
 export default function Proposals() {
 
-    const [cardTitle, setCardTitle] = useState("Active Proposals");
+    console.log("Rendering Grants page now")
+    const [proposalData, setProposalData] = useState([]);
+    const [isLoading, setLoading] = useState(true);
+    const [activeProposals, setActiveProposals] = useState([]);
+    const [inactiveProposals, setInactiveProposals] = useState([]);
+    const [myProposals, setMyProposals] = useState([]);
 
-    let updateTitle = (newTitle) => {
-        switch(newTitle) {
-            case "Active":
-                setCardTitle("Active Proposals");
-                break;
-            case "Inactive":
-                setCardTitle("Inactive Proposals");
-                break;
-            case "My":
-                setCardTitle("My Proposals");
-                break;
-            default:
-                break;
-        }
-    }
+    const [cardTitle, setCardTitle] = useState("Active Proposals");
 
     function FilterProposals(props) {
         const status=props.status;
@@ -55,6 +43,49 @@ export default function Proposals() {
             )
         }
     }
+
+    let updateTitle = (newTitle) => {
+        switch(newTitle) {
+            case "Active":
+                setCardTitle("Active Proposals");
+                break;
+            case "Inactive":
+                setCardTitle("Inactive Proposals");
+                break;
+            case "My":
+                setCardTitle("My Proposals");
+                break;
+            default:
+                break;
+        }
+    }
+    
+    useEffect(() => {
+        async function retrieveProposals() {
+            try{
+                const allProposals = await getProposals();
+                setProposalData(allProposals);
+            }
+            catch(err){
+                console.log(`An error occurred retrieving the proposals: ${err.message}`);
+            }
+        }
+        console.log("Now retrieving all the proposal data");
+        retrieveProposals();
+    }, [])
+
+    useEffect (() => {
+        console.log("Inside use effect")
+            try{
+                setActiveProposals(proposalData.filter(p => p.active));
+                setInactiveProposals(proposalData.filter(p => !p.active));
+            }
+            catch(err){
+                console.log(`An error occurred sorting the proposals: ${err.message}`);
+            }
+            
+        
+    }, [proposalData])
 
     return (
     <div class="container-fluid">
