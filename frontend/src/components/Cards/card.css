@@ -5,9 +5,24 @@
     justify-content: left;
     text-align: left;
     align-items: left;
+    border-width: 10px;
 }
 
 .custom-title {
     font-weight: bold;
     font-size:xx-large;
+}
+
+.voting {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.thumb {
+    height: 6vmin;
+}
+
+.thumbBox {
+    display: flex;
+    justify-content: flex-start;
 }

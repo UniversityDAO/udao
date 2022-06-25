@@ -37,21 +37,19 @@ import * as web3Storage from './web3StorageAPI'
  * of the Web3Storage archive containing the Grants.  
  * @returns {Promise<UDAOGrant[]>} - Array of UDAOGrant objects. 
  */
-export async function getGrants(archiveName){
-    if(!archiveName){
-        archiveName = 'Grants.json';
-    }
-
-    const grantsCid = await web3Storage.retrieveArchiveCidByName(archiveName);
-    if(grantsCid){
-        const grantsArchive = await web3Storage.retrieveArchiveByCid(grantsCid);
-        if(grantsArchive){
-            let textContents = await grantsArchive[0].text();
-            return JSON.parse(textContents);
+export async function getGrants(){
+    let grants = [];
+    const allContainers = await web3Storage.listContentsWithText();
+    allContainers.forEach((container) => {
+        if(container.name.substring(0, 5)== 'Grant') {
+            console.log(container.text);
+            let textContents = container.text;
+            let grant = JSON.parse(textContents);
+            grant.cid = container.cid;
+            grants.push(grant);   
         }
-    }
-    
-    throw new Error(`Unable to retrieve grants from ${archiveName}.`);
+    });
+    return grants;
 }
 
 export async function getItemsByCID(cid) {
@@ -112,22 +110,19 @@ export async function addGrant(grant, archiveName){
  * of the Web3Storage archive containing the Proposals.
  * @returns {Promise<UDAOProposal[]} - Array of UDAOProposal objects.
  */
-export async function getProposals(archiveName){
-    if(!archiveName){
-        archiveName = 'Proposals.json';
-    }
-
-    const proposalsCid = await web3Storage.retrieveArchiveCidByName(archiveName);
-    if(proposalsCid){
-        const proposalsArchive = await web3Storage.retrieveArchiveByCid(proposalsCid);
-        if(proposalsArchive){
-            let textContents = await proposalsArchive[0].text();
-            return JSON.parse(textContents);
+export async function getProposals(){
+let proposals = [];
+    const allContainers = await web3Storage.listContentsWithText();
+    allContainers.forEach((container) => {
+        if(container.name.substring(0, 8)== 'Proposal') {
+            let textContents = container.text;
+            let proposal = JSON.parse(textContents);
+            proposal.cid = container.cid;
+            proposals.push(proposal);   
         }
-    }
-    
-    //If we get here then the shit has hit the fan...
-    throw new Error(`Unable to retrieve proposals from ${archiveName}.`);
+    });
+
+    return proposals;
 }
 
 /**

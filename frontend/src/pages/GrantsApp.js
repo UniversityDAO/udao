@@ -1,56 +1,46 @@
-import Navbar from "../components/Navbar/navbar";
 import { Link } from "react-router-dom";
 import "./styling/common.css";
 
 import { useState } from 'react'
-import { Web3Storage } from "web3.storage";
+//import { Web3Storage } from "web3.storage";
+import * as web3Storage from '../data/web3StorageAPI'
 
 function GrantsApp () {
 
-    const [name, setName] = useState("");
+    const [title, setTitle] = useState("");
     const [desc, setDesc] = useState("");
     const [amount, setAmount] = useState("")
     const [jsonObject, setJsonObject] = useState({});
 
     function submitApp() {
-        if (name === "" || desc === ""|| amount === "")
+        if (title === "" || desc === ""|| amount === "")
         {
-            console.log("Not all fields have been filled out")
+            console.log("Not all fields have been filled out");
         }
         else {
-            setJsonObject(jsonObject["Grant Title"] = name)
-            setJsonObject(jsonObject["Grant Description"] = desc)
-            setJsonObject(jsonObject["Grant Amount"] = amount)
-            console.log(JSON.stringify(jsonObject));
-            storeFiles(makeFileObjects(jsonObject));
-        }
-    }
+            setJsonObject(jsonObject["title"] = title);
+            setJsonObject(jsonObject["desc"] = desc);
+            setJsonObject(jsonObject["amount"] = amount);
+            setJsonObject(jsonObject["yesVotes"] = 0);
+            setJsonObject(jsonObject["noVotes"] = 0);
+            setJsonObject(jsonObject["active"] = true);
+            setJsonObject(jsonObject["tags"] = ["Grant"]);
 
-    function getAccessToken() {
-        // Testing token
-        return 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweENmOUUyRjI3MzQ0ZTFmQzU5QzEzNDg5RDc4NDRBRjQ4N0ZGMEYwRUUiLCJpc3MiOiJ3ZWIzLXN0b3JhZ2UiLCJpYXQiOjE2NTU1NzI5NzU2NjQsIm5hbWUiOiJEQU9Ub2tlbiJ9.xfAGJ0lBKio5FU66gQLbHpNfhJtibz8UBmlKY-RhA0g'
-    
-        //return process.env.WEB3STORAGE_TOKEN
-    }
-    
-    function makeStorageClient() {
-        return new Web3Storage({ token: getAccessToken() })
+            console.log(JSON.stringify(jsonObject));
+            let jsonFile = makeFileObjects(jsonObject);
+            let slicedString = title.slice(0,8)
+
+            web3Storage.upload(jsonFile, `Grant-${slicedString}`);
+        }
     }
 
     function makeFileObjects (obj) {
         const blob = 
             new Blob([JSON.stringify(obj)], { type: 'application/json'})
         const files = [
-            new File([blob], 'ProposalTest.json')
+            new File([blob], 'Grant.json')
         ]
         return files;
-    }
-
-    async function storeFiles (files) {
-        const client = makeStorageClient()
-        const cid = await client.put(files)
-        console.log('stored files with cid:', cid)
-        return cid;
     }
 
     return (
@@ -64,18 +54,18 @@ function GrantsApp () {
                 </Link>
                 <>
                     <div class="form-group">
-                        <label for="exampleFormControlInput1">Name</label>
-                        <input type="text" name="GrantName" onChange={e => setName(e.target.value)}class="form-control" id="exampleFormControlInput1" placeholder="Please enter first and last name"></input>
+                        <label for="exampleFormControlInput1">Grant Title</label>
+                        <input type="text" name="GrantName" onChange={e => setTitle(e.target.value)}class="form-control" id="exampleFormControlInput1" placeholder="Please enter the title of your grant"></input>
                     </div>
                     <div class="form-group">
                         <label for="exampleFormControlTextarea1" placeholder="Description of the proposal">Description</label>
-                        <textarea type="text" name="GrantDesc" onChange={e => setDesc(e.target.value)} class="form-control" id="exampleFormControlTextarea1" placeholder="Describe your proposal"></textarea>
+                        <textarea type="text" name="GrantDesc" onChange={e => setDesc(e.target.value)} class="form-control" id="exampleFormControlTextarea1" placeholder="Describe your grant"></textarea>
                     </div>
                     <div class="form-group">
                         <label for="exampleFormControlInput1">Grant Amount</label>
                         <input type="text" name="GrantAmount" onChange={e => setAmount(e.target.value)} class="form-control" id="exampleFormControlInput1" placeholder="How money money is needed for your project?"></input>
                     </div>
-                    <button class="btn btn-primary" type="button" onClick={submitApp}>Submit Proposal</button>
+                    <button class="btn btn-primary" type="button" onClick={submitApp}>Submit Grant</button>
                 </>
             </div>
         </div>

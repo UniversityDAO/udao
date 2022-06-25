@@ -4,13 +4,11 @@ import TitleCard from "../components/Cards/titlecard";
 import Loading from "../components/Loading/loading";
 
 import { useState, useEffect } from 'react';
-import { getProposals, addProposals } from "../data/UDAOApi";
+import { getProposals } from "../data/UDAOApi";
 
 import "./styling/common.css"
 
 export default function Proposals() {
-
-    console.log("Rendering Grants page now")
     const [proposalData, setProposalData] = useState([]);
     const [isLoading, setLoading] = useState(true);
     const [activeProposals, setActiveProposals] = useState([]);
@@ -68,7 +66,7 @@ export default function Proposals() {
     useEffect(() => {
         async function retrieveProposals() {
             try{
-                const allProposals = await getProposals();
+                let allProposals = await getProposals();
                 setProposalData(allProposals);
                 setLoading(false);
             }
@@ -76,7 +74,6 @@ export default function Proposals() {
                 console.log(`An error occurred retrieving the proposals: ${err.message}`);
             }
         }
-        console.log("Now retrieving all the proposal data");
         retrieveProposals();
     }, [])
 

@@ -1,6 +1,7 @@
 import Banner from '../components/Banners/banner';
 import TitleCard from '../components/Cards/titlecard';
 import Card from '../components/Cards/card';
+import GrantCard from '../components/Cards/grantCard';
 import Loading from '../components/Loading/loading';
 
 import "./styling/common.css";
@@ -39,7 +40,7 @@ function Dashboard() {
         else {
             return (
                 activeGrants.map(grant => {
-                    return <Card title={grant.title} desc={grant.desc} yesVotes={grant.yesVotes} noVotes={grant.noVotes} active={grant.active} tags={grant.tags} />
+                    return <GrantCard title={grant.title} desc={grant.desc} amount={grant.amount} yesVotes={grant.yesVotes} noVotes={grant.noVotes} active={grant.active} tags={grant.tags} />
                 }))
         }
     }

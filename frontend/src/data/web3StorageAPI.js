@@ -210,3 +210,22 @@ export async function listContents(){
 
     return uploads;
 }
+
+export async function listContentsWithText(){
+    let uploads = [];
+    const client = makeStorageClient();
+    for await (const upload of client.list()){
+        //The name, cid, date created are probably the
+        //most important properties right now but the remaining
+        //properties could always be added later. 
+        let files = await retrieveArchiveByCid(upload.cid);
+        uploads.push({
+            name:upload.name,
+            cid:upload.cid,
+            created:upload.created,
+            text: await files[0].text()
+        });
+    }
+
+    return uploads;
+}

@@ -1,56 +1,43 @@
-
-import Navbar from "../components/Navbar/navbar";
-import { Web3Storage } from 'web3.storage'
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import * as web3Storage from '../data/web3StorageAPI'
 import "./styling/common.css";
 import "./styling/applications.css"
 
-
 function ProposalsApp () {
 
-    const [name, setName] = useState("");
+    const [title, setTitle] = useState("");
     const [desc, setDesc] = useState("");
     const [jsonObject, setJsonObject] = useState({});
 
     function submitApp() {
-        if (name === "" || desc === "")
+        if (title === "" || desc === "")
         {
             console.log("Not all fields have been filled out")
         }
         else {
-            setJsonObject(jsonObject["Proposal Title"] = name)
-            setJsonObject(jsonObject["Proposal Description"] = desc)
+            setJsonObject(jsonObject["title"] = title);
+            setJsonObject(jsonObject["desc"] = desc);
+            setJsonObject(jsonObject["yesVotes"] = 0);
+            setJsonObject(jsonObject["noVotes"] = 0);
+            setJsonObject(jsonObject["active"] = true);
+            setJsonObject(jsonObject["tags"] = ["Proposal"]);
+            
             console.log(JSON.stringify(jsonObject));
-            storeFiles(makeFileObjects(jsonObject));
-        }
-    }
+            let jsonFile = makeFileObjects(jsonObject);
+            let slicedString = title.slice(0, 8);
 
-    function getAccessToken() {
-        // Testing token
-        return 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweENmOUUyRjI3MzQ0ZTFmQzU5QzEzNDg5RDc4NDRBRjQ4N0ZGMEYwRUUiLCJpc3MiOiJ3ZWIzLXN0b3JhZ2UiLCJpYXQiOjE2NTU1NzI5NzU2NjQsIm5hbWUiOiJEQU9Ub2tlbiJ9.xfAGJ0lBKio5FU66gQLbHpNfhJtibz8UBmlKY-RhA0g'
-    
-        //return process.env.WEB3STORAGE_TOKEN
-    }
-    
-    function makeStorageClient() {
-        return new Web3Storage({ token: getAccessToken() })
+            web3Storage.upload(jsonFile, `Proposal-${slicedString}`, true);
+        }
     }
 
     function makeFileObjects (obj) {
         const blob = 
             new Blob([JSON.stringify(obj)], { type: 'application/json'})
         const files = [
-            new File([blob], 'ProposalTest.json')
+            new File([blob], 'Proposal.json')
         ]
         return files;
-    }
-
-    async function storeFiles (files) {
-        const client = makeStorageClient()
-        const cid = await client.put(files)
-        console.log('stored files with cid:', cid)
-        return cid;
     }
 
     return (
@@ -64,14 +51,16 @@ function ProposalsApp () {
                 </Link>
                 <form>
                     <div class="form-group">
-                        <label for="exampleFormControlInput1">Name</label>
-                        <input type="text" name="ProposalTitle" onChange={e => setName(e.target.value)} class="form-control" id="exampleFormControlInput1" placeholder="Please enter first and last name"></input>
+                        <label for="exampleFormControlInput1">Proposal Title</label>
+                        <input type="text" name="ProposalTitle" onChange={e => setTitle(e.target.value)} class="form-control" id="exampleFormControlInput1" placeholder="Please enter the title of your proposal"></input>
                     </div>
                     <div class="form-group">
                         <label for="exampleFormControlTextarea1" placeholder="Description of the proposal">Description</label>
                         <textarea type="text" name = "ProposalDesc" onChange={e => setDesc(e.target.value)} class="form-control" id="exampleFormControlTextarea1" placeholder="Describe your proposal"></textarea>
                     </div>
-                    <button class="btn btn-primary" type="button" onClick={submitApp}>Submit Proposal</button>
+                    <Link to="/Proposals">
+                        <button class="btn btn-primary" type="button" onClick={submitApp}>Submit Proposal</button>
+                    </Link>
                 </form>
             </div>
         </div>
