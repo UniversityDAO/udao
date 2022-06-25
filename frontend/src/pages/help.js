@@ -1,8 +1,10 @@
+import Loading from "../components/Loading/loading";
+
 function Help() {
     return (
         <>
             <div className = "App">
-                <h1>Help page</h1>
+                <Loading />
             </div>
         </>
     )
