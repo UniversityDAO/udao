@@ -1,0 +1,10 @@
+.custom-banner {
+    height: 15vh;
+    margin-top: 20px;
+    margin-right: 15px;
+    background-color: white;
+}
+
+.text-primary {
+    color: black;
+}
