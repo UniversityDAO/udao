@@ -1,9 +1,48 @@
-import Navbar from "../components/Navbar/navbar";
 import { Link } from "react-router-dom";
 import "./styling/common.css";
 
+import { useState } from 'react'
+//import { Web3Storage } from "web3.storage";
+import * as web3Storage from '../data/web3StorageAPI'
 
 function GrantsApp () {
+
+    const [title, setTitle] = useState("");
+    const [desc, setDesc] = useState("");
+    const [amount, setAmount] = useState("")
+    const [jsonObject, setJsonObject] = useState({});
+
+    function submitApp() {
+        if (title === "" || desc === ""|| amount === "")
+        {
+            console.log("Not all fields have been filled out");
+        }
+        else {
+            setJsonObject(jsonObject["title"] = title);
+            setJsonObject(jsonObject["desc"] = desc);
+            setJsonObject(jsonObject["amount"] = amount);
+            setJsonObject(jsonObject["yesVotes"] = 0);
+            setJsonObject(jsonObject["noVotes"] = 0);
+            setJsonObject(jsonObject["active"] = true);
+            setJsonObject(jsonObject["tags"] = ["Grant"]);
+
+            console.log(JSON.stringify(jsonObject));
+            let jsonFile = makeFileObjects(jsonObject);
+            let slicedString = title.slice(0,8)
+
+            web3Storage.upload(jsonFile, `Grant-${slicedString}`);
+        }
+    }
+
+    function makeFileObjects (obj) {
+        const blob = 
+            new Blob([JSON.stringify(obj)], { type: 'application/json'})
+        const files = [
+            new File([blob], 'Grant.json')
+        ]
+        return files;
+    }
+
     return (
     <div class="container-fluid">
         <div class="container-fluid App-content">
@@ -15,18 +54,18 @@ function GrantsApp () {
                 </Link>
                 <>
                     <div class="form-group">
-                        <label for="exampleFormControlInput1">Name</label>
-                        <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Please enter first and last name"></input>
+                        <label for="exampleFormControlInput1">Grant Title</label>
+                        <input type="text" name="GrantName" onChange={e => setTitle(e.target.value)}class="form-control" id="exampleFormControlInput1" placeholder="Please enter the title of your grant"></input>
                     </div>
                     <div class="form-group">
                         <label for="exampleFormControlTextarea1" placeholder="Description of the proposal">Description</label>
-                        <textarea type="text" class="form-control" id="exampleFormControlTextarea1" placeholder="Describe your proposal"></textarea>
+                        <textarea type="text" name="GrantDesc" onChange={e => setDesc(e.target.value)} class="form-control" id="exampleFormControlTextarea1" placeholder="Describe your grant"></textarea>
                     </div>
                     <div class="form-group">
                         <label for="exampleFormControlInput1">Grant Amount</label>
-                        <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="How money money is needed for your project?"></input>
+                        <input type="text" name="GrantAmount" onChange={e => setAmount(e.target.value)} class="form-control" id="exampleFormControlInput1" placeholder="How money money is needed for your project?"></input>
                     </div>
-                    <button class="btn btn-primary">Submit Proposal</button>
+                    <button class="btn btn-primary" type="button" onClick={submitApp}>Submit Grant</button>
                 </>
             </div>
         </div>

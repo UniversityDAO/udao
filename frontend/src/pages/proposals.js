@@ -1,19 +1,51 @@
 import Card from "../components/Cards/card";
 import GBanner from "../components/Banners/banner2";
 import TitleCard from "../components/Cards/titlecard";
-import { useState } from 'react';
+import Loading from "../components/Loading/loading";
 
-import { getProposals } from "../data/api";
+import { useState, useEffect } from 'react';
+import { getProposals } from "../data/UDAOApi";
 
-const proposalData = getProposals();
-
-const activeProposals = proposalData.filter(p => p.active);
-const inactiveProposals = proposalData.filter(p => !p.active);
-const myProposals = [];
+import "./styling/common.css"
 
 export default function Proposals() {
+    const [proposalData, setProposalData] = useState([]);
+    const [isLoading, setLoading] = useState(true);
+    const [activeProposals, setActiveProposals] = useState([]);
+    const [inactiveProposals, setInactiveProposals] = useState([]);
+    const [myProposals, setMyProposals] = useState([]);
 
     const [cardTitle, setCardTitle] = useState("Active Proposals");
+
+    function FilterProposals(props) {
+        const status=props.status;
+        if (isLoading) {
+            return (
+                <Loading />
+            )
+        }
+        else if (status === "Active Proposals" && !isLoading) {
+            return (
+                activeProposals.map(proposal => {
+                    return <Card title={proposal.title} desc={proposal.desc} yesVotes={proposal.yesVotes} noVotes={proposal.noVotes} active={proposal.active} tags={proposal.tags} />
+                })
+            )
+        }
+        else if (status === "Inactive Proposals" && !isLoading) {
+            return (
+                inactiveProposals.map(proposal => {
+                    return <Card title={proposal.title} desc={proposal.desc} yesVotes={proposal.yesVotes} noVotes={proposal.noVotes} active={proposal.active} tags={proposal.tags} />
+                })
+            )
+        }
+        else if (status === "My Proposals" && !isLoading) {
+            return (
+                myProposals.map(proposal => {
+                    return <Card title={proposal.title} desc={proposal.desc} yesVotes={proposal.yesVotes} noVotes={proposal.noVotes} active={proposal.active} tags={proposal.tags} />
+                })
+            )
+        }
+    }
 
     let updateTitle = (newTitle) => {
         switch(newTitle) {
@@ -30,31 +62,32 @@ export default function Proposals() {
                 break;
         }
     }
+    
+    useEffect(() => {
+        async function retrieveProposals() {
+            try{
+                let allProposals = await getProposals();
+                setProposalData(allProposals);
+                setLoading(false);
+            }
+            catch(err){
+                console.log(`An error occurred retrieving the proposals: ${err.message}`);
+            }
+        }
+        retrieveProposals();
+    }, [])
 
-    function FilterProposals(props) {
-        const status=props.status;
-        if (status === "Active Proposals") {
-            return (
-                activeProposals.map(proposal => {
-                    return <Card title={proposal.title} desc={proposal.desc} yesVotes={proposal.yesVotes} noVotes={proposal.noVotes} active={proposal.active} tags={proposal.tags} />
-                })
-            )
-        }
-        else if (status === "Inactive Proposals") {
-            return (
-                inactiveProposals.map(proposal => {
-                    return <Card title={proposal.title} desc={proposal.desc} yesVotes={proposal.yesVotes} noVotes={proposal.noVotes} active={proposal.active} tags={proposal.tags} />
-                })
-            )
-        }
-        else if (status === "My Proposals") {
-            return (
-                myProposals.map(proposal => {
-                    return <Card title={proposal.title} desc={proposal.desc} yesVotes={proposal.yesVotes} noVotes={proposal.noVotes} active={proposal.active} tags={proposal.tags} />
-                })
-            )
-        }
-    }
+    useEffect (() => {
+            try{
+                setActiveProposals(proposalData.filter(p => p.active));
+                setInactiveProposals(proposalData.filter(p => !p.active));
+            }
+            catch(err){
+                console.log(`An error occurred sorting the proposals: ${err.message}`);
+            }
+            
+        
+    }, [proposalData])
 
     return (
     <div class="container-fluid">

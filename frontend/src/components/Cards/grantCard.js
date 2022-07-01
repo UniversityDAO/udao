@@ -3,7 +3,7 @@ import { useState } from 'react';
 import ThumbsUp from "../../thumbUp.svg"
 import ThumbsDown from "../../thumbDown.svg"
 
-function Card(props) {
+function GrantCard(props) {
     const [yesVotes, setYesVotes] = useState(props.yesVotes);
     const [noVotes, setNoVotes] = useState(props.noVotes);
 
@@ -25,7 +25,11 @@ function Card(props) {
                     <div class="col-2">
                         <p><small><strong>{noVotes}</strong></small></p>
                     </div>
-                    {/*<p><img src={ThumbsUp}/> {yesVotes} <img src={ThumbsDown}/> {noVotes}</p>*/}
+                </div>
+                <div class="row">
+                    <p style={{marginTop: "10px"}}> <strong><small>
+                        Amount Requested: {props.amount}
+                        </small></strong></p>
                 </div>
                 <div class="row">
                     <ul>
@@ -49,4 +53,4 @@ function Card(props) {
 
 
 
-export default Card;
+export default GrantCard;
