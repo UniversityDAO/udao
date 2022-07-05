@@ -6,7 +6,7 @@ import "@openzeppelin/contracts/governance/extensions/GovernorCountingSimple.sol
 import "@openzeppelin/contracts/governance/extensions/GovernorVotes.sol";
 
 contract Governance is Governor, GovernorCountingSimple, GovernorVotes {
-    constructor(IVotes _token) Governor("MyGovernor") GovernorVotes(_token) {}
+    constructor(IVotes _token, string memory name) Governor(name) GovernorVotes(_token) {}
 
     // NOTE: voting delay won't really matter since everyone's voting power is effectively fixed--
     // each member can have one and only one MembershipNFT. They cannot purchase or obtain more.
@@ -19,7 +19,9 @@ contract Governance is Governor, GovernorCountingSimple, GovernorVotes {
         return 45818; // 1 week
     }
 
-    function quorum(uint256 blockNumber) public pure override returns (uint256) {
+    // The minimum number of cast votes required for a proposal to be successful. It can
+    // be a fixed value, or fluctuate based on the `blockNumber`.
+    function quorum(uint256) public pure override returns (uint256) {
         return 1; // for now, set to 1 for easier testing
     }
 
