@@ -12,7 +12,7 @@ describe("MembershipNFT", async () => {
     accounts = await (await ethers.getSigners()).map((signer) => signer.address);
 
     const MembershipNFT = await ethers.getContractFactory("MembershipNFT");
-    membershipNFT = await MembershipNFT.deploy("UDAOMember", "UDM");
+    membershipNFT = await MembershipNFT.deploy("UDAOMember", "UDM"); // NOTE: add contract constructor args here
     await membershipNFT.deployed();
   });
 
