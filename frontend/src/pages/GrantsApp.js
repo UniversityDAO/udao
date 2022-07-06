@@ -5,17 +5,20 @@ import { useState } from 'react'
 //import { Web3Storage } from "web3.storage";
 import * as web3Storage from '../data/web3StorageAPI'
 
+import AppError from "../components/Errors/AppError";
+
 function GrantsApp () {
 
     const [title, setTitle] = useState("");
     const [desc, setDesc] = useState("");
     const [amount, setAmount] = useState("")
     const [jsonObject, setJsonObject] = useState({});
+    const [error, setError] = useState(false);
 
     function submitApp() {
         if (title === "" || desc === ""|| amount === "")
         {
-            console.log("Not all fields have been filled out");
+            setError(true);
         }
         else {
             setJsonObject(jsonObject["title"] = title);
@@ -66,6 +69,7 @@ function GrantsApp () {
                         <input type="text" name="GrantAmount" onChange={e => setAmount(e.target.value)} class="form-control" id="exampleFormControlInput1" placeholder="How money money is needed for your project?"></input>
                     </div>
                     <button class="btn btn-primary" type="button" onClick={submitApp}>Submit Grant</button>
+                    {error && <AppError />}
                 </>
             </div>
         </div>
