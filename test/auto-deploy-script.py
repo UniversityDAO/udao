@@ -1,7 +1,7 @@
 import os
 import time
 
-
+#deployment order matters in hardhat, ensure the order in set_steps mathches addresses in scripts
 #ensure node is running before running
 #also ensure to npm install to get dependencies
 hh_compile = "npx hardhat compile"
