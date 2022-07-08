@@ -5,9 +5,9 @@ async function main() {
 
   await membershipNFT.deployed();
   console.log("MembershipNFT deployed to:", membershipNFT.address);
-
+  
 }
-
+  
 
 main()
   .then(() => process.exit(0))
@@ -15,5 +15,4 @@ main()
     console.error(error);
     process.exit(1);
   });
-
 
