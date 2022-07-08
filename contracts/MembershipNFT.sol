@@ -24,9 +24,9 @@ contract MembershipNFT is ERC721, Ownable, EIP712, ERC721Votes {
     }
 
     // POTENTIAL UPGRADE: automatically sets the delagatee to the receiver itself
-    function _delegateToSelf(address delagatee) public {
-         _delegate(delagatee, delagatee);
-    }
+    //function _delegateToSelf(address delagatee) public {
+         //_delegate(delagatee, delagatee);
+    //}
 
     // The following functions are overrides required by Solidity.
     function _afterTokenTransfer(address from, address to, uint256 tokenId)
