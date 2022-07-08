@@ -4,7 +4,7 @@ async function main() {
     console.log("Deploying MyGovernor");
 
 //address 0x5FbDB2315678afecb367f032d93F642f64180aa3 is the membershipNFT contract
-    const myGovernor = await MyGovernor.deploy("0x5FbDB2315678afecb367f032d93F642f64180aa3", 'UDAOGovnor');
+    const myGovernor = await MyGovernor.deploy("0x5FbDB2315678afecb367f032d93F642f64180aa3", 'UDAOGovenor');
     const deployedGovernor  = await myGovernor.deployed()
     console.log("MyGovernor deployed to:", myGovernor.address);
   }
