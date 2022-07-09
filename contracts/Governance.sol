@@ -12,7 +12,7 @@ contract Governance is Governor, GovernorCountingSimple, GovernorVotes {
     // each member can have one and only one MembershipNFT. They cannot purchase or obtain more.
     // the only thing a delay will serve us is additional time before voting begins
     function votingDelay() public pure override returns (uint256) {
-        return 1; // 1 block
+        return 0; // 1 block
     }
 
     function votingPeriod() public pure override returns (uint256) {
