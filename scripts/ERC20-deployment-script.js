@@ -1,7 +1,6 @@
 const hre = require("hardhat");
 
 async function main() {
-
   const UDAOToken = await hre.ethers.getContractFactory("UDAOToken");
   const udaotoken = await UDAOToken.deploy();
 

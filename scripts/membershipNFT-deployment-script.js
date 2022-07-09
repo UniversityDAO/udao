@@ -1,5 +1,5 @@
-async function main() {
 
+async function main() {
   const MembershipNFT = await hre.ethers.getContractFactory("MembershipNFT");
   const membershipNFT = await MembershipNFT.deploy('UDAOToken', 'UDAO');
 
