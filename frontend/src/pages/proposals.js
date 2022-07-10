@@ -75,7 +75,7 @@ export default function Proposals() {
             }
         }
         retrieveProposals();
-    }, [])
+    }, []) 
 
     useEffect (() => {
             try{

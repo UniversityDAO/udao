@@ -4,18 +4,22 @@ import * as web3Storage from '../data/web3StorageAPI'
 import "./styling/common.css";
 import "./styling/applications.css"
 
+import AppError from "../components/Errors/AppError";
+
 function ProposalsApp () {
 
     const [title, setTitle] = useState("");
     const [desc, setDesc] = useState("");
     const [jsonObject, setJsonObject] = useState({});
+    const [error, setError] = useState(false);
 
     function submitApp() {
         if (title === "" || desc === "")
         {
-            console.log("Not all fields have been filled out")
+            setError(true);
         }
         else {
+            setError(false);
             setJsonObject(jsonObject["title"] = title);
             setJsonObject(jsonObject["desc"] = desc);
             setJsonObject(jsonObject["yesVotes"] = 0);
@@ -27,7 +31,11 @@ function ProposalsApp () {
             let jsonFile = makeFileObjects(jsonObject);
             let slicedString = title.slice(0, 8);
 
+
             web3Storage.upload(jsonFile, `Proposal-${slicedString}`, true);
+            return (
+                <Link to="/proposals"/>
+            )
         }
     }
 
@@ -58,9 +66,8 @@ function ProposalsApp () {
                         <label for="exampleFormControlTextarea1" placeholder="Description of the proposal">Description</label>
                         <textarea type="text" name = "ProposalDesc" onChange={e => setDesc(e.target.value)} class="form-control" id="exampleFormControlTextarea1" placeholder="Describe your proposal"></textarea>
                     </div>
-                    <Link to="/Proposals">
-                        <button class="btn btn-primary" type="button" onClick={submitApp}>Submit Proposal</button>
-                    </Link>
+                    <button class="btn btn-primary" type="button" onClick={submitApp}>Submit Proposal</button>
+                    {error && <AppError />}
                 </form>
             </div>
         </div>
