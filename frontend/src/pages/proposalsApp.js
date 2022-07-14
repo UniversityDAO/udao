@@ -4,6 +4,8 @@ import * as web3Storage from '../data/web3StorageAPI'
 import "./styling/common.css";
 import "./styling/applications.css"
 
+import { generateHash } from "../data/EthersApi";
+
 import AppError from "../components/Errors/AppError";
 
 function ProposalsApp () {
