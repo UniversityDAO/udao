@@ -1,4 +1,5 @@
 import * as web3Storage from './web3StorageAPI'
+import { getVoteData, getActiveStatus } from "./EthersApi";
 
 /**
  * @typedef UDAOGrant
@@ -113,15 +114,29 @@ export async function addGrant(grant, archiveName){
 export async function getProposals(){
 let proposals = [];
     const allContainers = await web3Storage.listContentsWithText();
-    allContainers.forEach((container) => {
+    for await (const container of allContainers) {
         if(container.name.substring(0, 8)== 'Proposal') {
             let textContents = container.text;
             let proposal = JSON.parse(textContents);
             proposal.cid = container.cid;
-            proposals.push(proposal);   
-        }
-    });
+               
 
+            let proposalID = proposal.proposalID;
+            console.log(`Proposal ID is equal to: ${proposalID}`);
+
+            let voteData = await getVoteData(proposalID);
+            console.log(`Proposal Vote data is: ${voteData}`);
+            console.log(JSON.stringify(voteData));
+
+            let state = await getActiveStatus(proposalID);
+
+            proposal.yesVotes = voteData[1].hex;
+            proposal.noVotes = voteData[0].hex;
+            //proposal.active = state;
+
+            proposals.push(proposal);
+        }
+    }
     return proposals;
 }
 

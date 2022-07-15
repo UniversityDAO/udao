@@ -5,6 +5,7 @@ import "./styling/common.css";
 import "./styling/applications.css"
 
 import AppError from "../components/Errors/AppError";
+import { generateHash, createProposal } from "../data/EthersApi";
 
 function ProposalsApp () {
 
@@ -13,7 +14,7 @@ function ProposalsApp () {
     const [jsonObject, setJsonObject] = useState({});
     const [error, setError] = useState(false);
 
-    function submitApp() {
+    async function submitApp() {
         if (title === "" || desc === "")
         {
             setError(true);
@@ -22,15 +23,18 @@ function ProposalsApp () {
             setError(false);
             setJsonObject(jsonObject["title"] = title);
             setJsonObject(jsonObject["desc"] = desc);
-            setJsonObject(jsonObject["yesVotes"] = 0);
-            setJsonObject(jsonObject["noVotes"] = 0);
-            setJsonObject(jsonObject["active"] = true);
             setJsonObject(jsonObject["tags"] = ["Proposal"]);
             
+            let hashResult = generateHash(jsonObject);
+            console.log(hashResult);
+
+            //let proposalID = await createProposal(hashResult);
+
+            //setJsonObject(jsonObject["proposalID"] = proposalID);
+
             console.log(JSON.stringify(jsonObject));
             let jsonFile = makeFileObjects(jsonObject);
             let slicedString = title.slice(0, 8);
-
 
             web3Storage.upload(jsonFile, `Proposal-${slicedString}`, true);
             return (

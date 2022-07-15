@@ -25,7 +25,7 @@ function Dashboard() {
         else {
             return (
                 activeProposals.map(proposal => {
-                    return <Card title={proposal.title} desc={proposal.desc} yesVotes={proposal.yesVotes} noVotes={proposal.noVotes} active={proposal.active} tags={proposal.tags} />
+                    return <Card title={proposal.title} desc={proposal.desc} yesVotes={proposal.yesVotes} noVotes={proposal.noVotes} active={proposal.active}/>
                 })
             )
         }
@@ -40,7 +40,7 @@ function Dashboard() {
         else {
             return (
                 activeGrants.map(grant => {
-                    return <GrantCard title={grant.title} desc={grant.desc} amount={grant.amount} yesVotes={grant.yesVotes} noVotes={grant.noVotes} active={grant.active} tags={grant.tags} />
+                    return <GrantCard title={grant.title} desc={grant.desc} amount={grant.amount} yesVotes={grant.yesVotes} noVotes={grant.noVotes} active={grant.active}/>
                 }))
         }
     }
@@ -64,8 +64,8 @@ function Dashboard() {
     
     useEffect (() => {
             try{
-                setActiveGrants(grantData.filter(g => g.active));
-                setActiveProposals(proposalData.filter(p => p.active));
+                setActiveGrants(grantData.filter(g => g.active === "Active"));
+                setActiveProposals(proposalData.filter(p => p.active === "Active"));
             }
             catch(err){
                 console.log(`An error occurred sorting the grants: ${err.message}`);

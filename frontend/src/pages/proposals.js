@@ -6,6 +6,7 @@ import Loading from "../components/Loading/loading";
 import { useState, useEffect } from 'react';
 import { getProposals } from "../data/UDAOApi";
 
+
 import "./styling/common.css"
 
 export default function Proposals() {
@@ -27,14 +28,14 @@ export default function Proposals() {
         else if (status === "Active Proposals" && !isLoading) {
             return (
                 activeProposals.map(proposal => {
-                    return <Card title={proposal.title} desc={proposal.desc} yesVotes={proposal.yesVotes} noVotes={proposal.noVotes} active={proposal.active} tags={proposal.tags} />
+                    return <Card title={proposal.title} desc={proposal.desc} yesVotes={proposal.yesVotes} noVotes={proposal.noVotes} active={proposal.active}/>
                 })
             )
         }
         else if (status === "Inactive Proposals" && !isLoading) {
             return (
                 inactiveProposals.map(proposal => {
-                    return <Card title={proposal.title} desc={proposal.desc} yesVotes={proposal.yesVotes} noVotes={proposal.noVotes} active={proposal.active} tags={proposal.tags} />
+                    return <Card title={proposal.title} desc={proposal.desc} yesVotes={proposal.yesVotes} noVotes={proposal.noVotes} active={proposal.active}/>
                 })
             )
         }
@@ -79,8 +80,8 @@ export default function Proposals() {
 
     useEffect (() => {
             try{
-                setActiveProposals(proposalData.filter(p => p.active));
-                setInactiveProposals(proposalData.filter(p => !p.active));
+                setActiveProposals(proposalData.filter(p => p.active === "Active"));
+                setInactiveProposals(proposalData.filter(p => p.active !== "Active"));
             }
             catch(err){
                 console.log(`An error occurred sorting the proposals: ${err.message}`);
