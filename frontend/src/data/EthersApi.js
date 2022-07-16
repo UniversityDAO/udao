@@ -44,3 +44,30 @@ export async function getActiveStatus(proposalId) {
     let state = await gov.state(proposalId);
     return state;
 }
+
+export async function getProposalIDsWithCID() {
+    let proposals = [];
+    let address = govAddress();
+    let abi = govAbi();
+    let provider = new ethers.providers.JsonRpcProvider();
+
+    const gov = new ethers.Contract(address, abi, provider);
+
+    const filters = await gov.filters.ProposalCreated();
+    const logs = await gov.queryFilter(filters, 0, "latest");
+    const events = logs.map((log) => gov.interface.parseLog(log));
+
+    let id, cid, proposal;
+
+    events.forEach(event => {
+        proposal = {};
+        id = Number(event.args.proposalId._hex)
+        cid = event.args.description;
+        proposal.proposalId = id;
+        proposal.cid = cid;
+        console.log(proposal.cid);
+        proposals.push(proposal);
+    })
+
+    return proposals;
+}

@@ -1,5 +1,5 @@
 import * as web3Storage from './web3StorageAPI'
-import { getVoteData, getActiveStatus } from "./EthersApi";
+import { getVoteData, getActiveStatus, getProposalIDsWithCID } from "./EthersApi";
 
 /**
  * @typedef UDAOGrant
@@ -38,7 +38,7 @@ import { getVoteData, getActiveStatus } from "./EthersApi";
  * of the Web3Storage archive containing the Grants.  
  * @returns {Promise<UDAOGrant[]>} - Array of UDAOGrant objects. 
  */
-export async function getGrants(){
+export async function getGrantsOriginal(){
     let grants = [];
     const allContainers = await web3Storage.listContentsWithText();
     for await (const container of allContainers) {
@@ -61,6 +61,50 @@ export async function getGrants(){
     return grants;
 }
 
+export async function getGrants(){
+    let grants = [];
+    const proposals = await getProposalIDsWithCID();
+    for await (const proposal of proposals) {
+        let file = await web3Storage.retrieveArchiveByCid(proposal.cid);
+        let text = file[0].text();
+        let grant = JSON.parse(text);
+
+        if (grant.isGrant === true) {
+            let voteData = await getVoteData(proposal.proposalId);
+            let state = await getActiveStatus(proposal.proposalId);
+    
+            grant.yesVotes = Number(voteData.forVotes._hex);
+            grant.noVotes = Number(voteData.againstVotes._hex);
+            grant.active = state;
+    
+            grants.push(grant);
+        }
+    }
+    return grants;
+}
+
+
+export async function getProposals(){
+    let proposalsArray = [];
+    const proposals = await getProposalIDsWithCID();
+    for await (const proposal of proposals) {
+        let file = await web3Storage.retrieveArchiveByCid(proposal.cid);
+        let text = file[0].text();
+        let prop = JSON.parse(text);
+
+        if (prop.isGrant === false) {
+            let voteData = await getVoteData(proposal.proposalId);
+            let state = await getActiveStatus(proposal.proposalId);
+    
+            prop.yesVotes = Number(voteData.forVotes._hex);
+            prop.noVotes = Number(voteData.againstVotes._hex);
+            prop.active = state;
+    
+            proposalsArray.push(prop);
+        }
+    }
+    return proposalsArray;
+}
 /**
  * Retrieve the array of UDAOProposal objects
  * from IPFS (Web3Storage). Note: This method assumes
@@ -70,7 +114,7 @@ export async function getGrants(){
  * of the Web3Storage archive containing the Proposals.
  * @returns {Promise<UDAOProposal[]} - Array of UDAOProposal objects.
  */
-export async function getProposals(){
+export async function getProposalsOriginal(){
 let proposals = [];
     const allContainers = await web3Storage.listContentsWithText();
     for await (const container of allContainers) {
