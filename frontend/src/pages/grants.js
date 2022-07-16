@@ -29,21 +29,21 @@ function Grants() {
         else if (status === "Active Grants" && !isLoading) {
             return (
                 activeGrants.map(grant => {
-                    return <GrantCard title={grant.title} desc={grant.desc} amount={grant.amount} yesVotes={grant.yesVotes} noVotes={grant.noVotes} active={grant.active} tags={grant.tags} />
+                    return <GrantCard title={grant.title} desc={grant.desc} amount={grant.amount} yesVotes={grant.yesVotes} noVotes={grant.noVotes} active={grant.active}/>
                 })
             )
         }
         else if (status === "Inactive Grants" && !isLoading) {
             return (
                 inactiveGrants.map(grant => {
-                    return <GrantCard title={grant.title} desc={grant.desc} amount={grant.amount} yesVotes={grant.yesVotes} noVotes={grant.noVotes} active={grant.active} tags={grant.tags} />
+                    return <GrantCard title={grant.title} desc={grant.desc} amount={grant.amount} yesVotes={grant.yesVotes} noVotes={grant.noVotes} active={grant.active}/>
                 })
             )
         }
         else if (status === "My Grants" && !isLoading) {
             return (
                 myGrants.map(grant => {
-                    return <GrantCard title={grant.title} desc={grant.desc} amount={grant.amount} yesVotes={grant.yesVotes} noVotes={grant.noVotes} active={grant.active} tags={grant.tags} />
+                    return <GrantCard title={grant.title} desc={grant.desc} amount={grant.amount} yesVotes={grant.yesVotes} noVotes={grant.noVotes} active={grant.active}/>
                 })
             )
         }
@@ -81,10 +81,9 @@ function Grants() {
     }, [])
 
     useEffect (() => {
-        console.log("Inside use effect")
             try{
-                setActiveGrants(grantData.filter(g => g.active));
-                setInactiveGrants(grantData.filter(g => !g.active));
+                setActiveGrants(grantData.filter(g => g.active === 1));
+                setInactiveGrants(grantData.filter(g => g.active !== 1));
             }
             catch(err){
                 console.log(`An error occurred sorting the grants: ${err.message}`);

@@ -64,8 +64,8 @@ function Dashboard() {
     
     useEffect (() => {
             try{
-                setActiveGrants(grantData.filter(g => g.active === "Active"));
-                setActiveProposals(proposalData.filter(p => p.active === "Active"));
+                setActiveGrants(grantData.filter(g => g.active === 1));
+                setActiveProposals(proposalData.filter(p => p.active === 1));
             }
             catch(err){
                 console.log(`An error occurred sorting the grants: ${err.message}`);

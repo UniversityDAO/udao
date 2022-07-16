@@ -28,11 +28,11 @@ function Card(props) {
                     {/*<p><img src={ThumbsUp}/> {yesVotes} <img src={ThumbsDown}/> {noVotes}</p>*/}
                 </div>
                 <div class="row">
-                    <ul>
+                    {/*<ul>
                         {props.tags.map(tag => {
                             return <button class="btn btn-primary" style={{marginRight:"20px"}}>{tag}</button> 
                         })}
-                    </ul>
+                    </ul>*/}
                     <div class="voting col-10">
                         <button class="btn btn-primary" onClick={() => setYesVotes(yesVotes + 1)} style={{marginLeft:"20px", backgroundColor: "Green"}}>
                             Vote Yes

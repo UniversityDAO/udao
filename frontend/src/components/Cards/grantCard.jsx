@@ -32,11 +32,6 @@ function GrantCard(props) {
                         </small></strong></p>
                 </div>
                 <div class="row">
-                    <ul>
-                        {props.tags.map(tag => {
-                            return <button class="btn btn-primary" style={{marginRight:"20px"}}>{tag}</button> 
-                        })}
-                    </ul>
                     <div class="voting col-10">
                         <button class="btn btn-primary" onClick={() => setYesVotes(yesVotes + 1)} style={{marginLeft:"20px", backgroundColor: "Green"}}>
                             Vote Yes

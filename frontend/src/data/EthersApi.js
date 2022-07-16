@@ -24,6 +24,5 @@ export async function getActiveStatus(proposalId) {
     const gov = new ethers.Contract(address, abi, provider);
 
     let state = await gov.state(proposalId);
-    console.log(`State is equal to: ${state}`);
     return state;
 }

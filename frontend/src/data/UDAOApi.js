@@ -41,29 +41,68 @@ import { getVoteData, getActiveStatus } from "./EthersApi";
 export async function getGrants(){
     let grants = [];
     const allContainers = await web3Storage.listContentsWithText();
-    allContainers.forEach((container) => {
-        if(container.name.substring(0, 5)== 'Grant') {
-            console.log(container.text);
+    for await (const container of allContainers) {
+        if(container.name.substring(0, 5) === 'Grant') {
             let textContents = container.text;
             let grant = JSON.parse(textContents);
             grant.cid = container.cid;
-            grants.push(grant);   
+               
+            let proposalID = grant.proposalID;
+            let voteData = await getVoteData(proposalID);
+            let state = await getActiveStatus(proposalID);
+
+            grant.yesVotes = Number(voteData.forVotes._hex);
+            grant.noVotes = Number(voteData.againstVotes._hex);
+            grant.active = state;
+
+            grants.push(grant);
         }
-    });
+    }
     return grants;
 }
 
-export async function getItemsByCID(cid) {
-    if(cid) {
-        const grantsArchive = await web3Storage.retrieveArchiveByCid(cid);
-        if(grantsArchive) {
-            let textContents = await grantsArchive[0].text();
-            return JSON.parse(textContents);
+/**
+ * Retrieve the array of UDAOProposal objects
+ * from IPFS (Web3Storage). Note: This method assumes
+ * that the archive specified by the name contains a 
+ * single JSON file containing the proposals.
+ * @param {String} [archiveName=Proposals.json] - Optional name 
+ * of the Web3Storage archive containing the Proposals.
+ * @returns {Promise<UDAOProposal[]} - Array of UDAOProposal objects.
+ */
+export async function getProposals(){
+let proposals = [];
+    const allContainers = await web3Storage.listContentsWithText();
+    for await (const container of allContainers) {
+        if(container.name.substring(0, 8) === 'Proposal') {
+            let textContents = container.text;
+            let proposal = JSON.parse(textContents);
+            proposal.cid = container.cid;
+               
+            let proposalID = proposal.proposalID;
+            let voteData = await getVoteData(proposalID);
+            let state = await getActiveStatus(proposalID);
+
+            proposal.yesVotes = Number(voteData.forVotes._hex);
+            proposal.noVotes = Number(voteData.againstVotes._hex);
+            proposal.active = state;
+
+            proposals.push(proposal);
         }
     }
+    return proposals;
 }
 
+/**
+ * Add a new Proposal
+ * @param {UDAOProposal} proposal - Proposal object to be added. 
+ * @param {String} [archiveName=Proposals.json] - Optional name of the
+ * Web3Storage archive containing the Proposals. Defaults to Proposals.json.
+ */
+/*export async function addProposal(proposal, archiveName){
 
+}*/
+/*
 /**
  * Add a new Grant 
  * @param {UDAOGrant} grant - Grant object to be added. 
@@ -71,7 +110,7 @@ export async function getItemsByCID(cid) {
  * Web3Storage archive containing the Grants. Defaults to Grants.json.
  * @returns {Promise<String>} - The CID of the new grant. 
  */
-export async function addGrant(grant, archiveName){
+ /*export async function addGrant(grant, archiveName){
     if(!archiveName){
         archiveName = 'Grants.json';
     }
@@ -100,52 +139,14 @@ export async function addGrant(grant, archiveName){
         //we need to throw a different type of error. 
         throw new Error(`An error occurred while parsing the grants in ${archiveName}. The object returned was not an array.`);
     }
-}
+}*/
 
-/**
- * Retrieve the array of UDAOProposal objects
- * from IPFS (Web3Storage). Note: This method assumes
- * that the archive specified by the name contains a 
- * single JSON file containing the proposals.
- * @param {String} [archiveName=Proposals.json] - Optional name 
- * of the Web3Storage archive containing the Proposals.
- * @returns {Promise<UDAOProposal[]} - Array of UDAOProposal objects.
- */
-export async function getProposals(){
-let proposals = [];
-    const allContainers = await web3Storage.listContentsWithText();
-    for await (const container of allContainers) {
-        if(container.name.substring(0, 8)== 'Proposal') {
-            let textContents = container.text;
-            let proposal = JSON.parse(textContents);
-            proposal.cid = container.cid;
-               
-
-            let proposalID = proposal.proposalID;
-            console.log(`Proposal ID is equal to: ${proposalID}`);
-
-            let voteData = await getVoteData(proposalID);
-            console.log(`Proposal Vote data is: ${voteData}`);
-            console.log(JSON.stringify(voteData));
-
-            let state = await getActiveStatus(proposalID);
-
-            proposal.yesVotes = voteData[1].hex;
-            proposal.noVotes = voteData[0].hex;
-            //proposal.active = state;
-
-            proposals.push(proposal);
+/*export async function getItemsByCID(cid) {
+    if(cid) {
+        const grantsArchive = await web3Storage.retrieveArchiveByCid(cid);
+        if(grantsArchive) {
+            let textContents = await grantsArchive[0].text();
+            return JSON.parse(textContents);
         }
     }
-    return proposals;
-}
-
-/**
- * Add a new Proposal
- * @param {UDAOProposal} proposal - Proposal object to be added. 
- * @param {String} [archiveName=Proposals.json] - Optional name of the
- * Web3Storage archive containing the Proposals. Defaults to Proposals.json.
- */
-export async function addProposal(proposal, archiveName){
-
-}
+}*/
