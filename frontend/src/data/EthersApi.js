@@ -60,6 +60,7 @@ export async function getProposalIDsWithCID() {
     let id, cid, proposal;
 
     events.forEach(event => {
+        console.log(event);
         proposal = {};
         id = Number(event.args.proposalId._hex)
         cid = event.args.description;

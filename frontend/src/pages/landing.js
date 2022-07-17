@@ -4,9 +4,11 @@ import "./styling/landing.css"
 
 function Landing() {
     return (
-        <div class="landing-content">
-            <h1 class="display-1">University DAO</h1>
-            <Link class="btn btn-primary" to="/Dashboard">Launch App</Link>
+        <div className="landing-page">
+            <div className="landing-content">
+                <h1 className="display-1 animate-character">University DAO</h1>
+                <Link className="btn landing-button" to="/Dashboard">Launch App</Link>
+            </div>
         </div>
     )
 }
