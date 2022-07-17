@@ -75,22 +75,22 @@ function Dashboard() {
     }, [grantData, proposalData])
 
     return (
-    <div class="container-fluid">
-        <div class="container-fluid App-content">
+    <div className="container-fluid">
+        <div className="container-fluid App-content">
             <div className="App">
-                <div class="row">
-                    <div class="col-12">
+                <div className="row">
+                    <div className="col-12">
                         <Banner name1="Total Supply" name2="Active Proposals" name3="Active Grants" supply="69420/69420" proposals={activeProposals.length} grants={activeGrants.length}/>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-6">
+                <div className="row">
+                    <div className="col-6">
                         <TitleCard cardTitle="Active Proposals"/>
                         <ul>
                             <FilterProposals />
                         </ul>
                     </div>
-                    <div class="col-6">
+                    <div className="col-6">
                         <TitleCard cardTitle="Active Grants"/>
                         <ul>
                             <FilterGrants />

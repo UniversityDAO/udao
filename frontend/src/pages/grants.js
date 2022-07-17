@@ -1,10 +1,8 @@
 import TitleCard from "../components/Cards/titlecard";
-import Card from "../components/Cards/card";
 import GrantCard from "../components/Cards/grantCard";
 import GBanner from "../components/Banners/banner2"
 import Loading from "../components/Loading/loading";
 
-//import { getGrants } from "../data/api";
 import { getGrants } from "../data/UDAOApi";
 import { useEffect, useState } from 'react';
 
@@ -95,8 +93,8 @@ function Grants() {
 
 
     return (
-    <div class="container-fluid">
-        <div class="container-fluid App-content">
+    <div className="container-fluid">
+        <div className="container-fluid App-content">
             <div className="App">
                 <GBanner updateTitle={updateTitle} 
                     name = "Grants" 
@@ -106,8 +104,8 @@ function Grants() {
                     btn3 = "My Grants" 
                     btn4 = "Apply For Grant" 
                     l4="/Grants/Application"/>
-                <div class="row">
-                    <div class="col-10">
+                <div className="row">
+                    <div className="col-10">
                         <TitleCard cardTitle={cardTitle}/>
                         <ul>
                             <FilterGrants status={cardTitle} />

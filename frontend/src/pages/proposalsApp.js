@@ -53,24 +53,24 @@ function ProposalsApp () {
     }
 
     return (
-    <div class="container-fluid">
-        <div class="container-fluid App-content">
+    <div className="container-fluid">
+        <div className="container-fluid App-content">
             <div className="App">
                 <Link to="/Proposals">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="currentColor" class="bi bi-arrow-return-left" viewBox="0 0 16 16" align="left">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="currentColor" className="bi bi-arrow-return-left" viewBox="0 0 16 16" align="left">
                         <path fillRule="evenodd" d="M14.5 1.5a.5.5 0 0 1 .5.5v4.8a2.5 2.5 0 0 1-2.5 2.5H2.707l3.347 3.346a.5.5 0 0 1-.708.708l-4.2-4.2a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 8.3H12.5A1.5 1.5 0 0 0 14 6.8V2a.5.5 0 0 1 .5-.5z"/>
                     </svg>
                 </Link>
                 <form>
-                    <div class="form-group">
+                    <div className="form-group">
                         <label for="exampleFormControlInput1">Proposal Title</label>
-                        <input type="text" name="ProposalTitle" onChange={e => setTitle(e.target.value)} class="form-control" id="exampleFormControlInput1" placeholder="Please enter the title of your proposal"></input>
+                        <input type="text" name="ProposalTitle" onChange={e => setTitle(e.target.value)} className="form-control" id="exampleFormControlInput1" placeholder="Please enter the title of your proposal"></input>
                     </div>
-                    <div class="form-group">
+                    <div className="form-group">
                         <label for="exampleFormControlTextarea1" placeholder="Description of the proposal">Description</label>
-                        <textarea type="text" name = "ProposalDesc" onChange={e => setDesc(e.target.value)} class="form-control" id="exampleFormControlTextarea1" placeholder="Describe your proposal"></textarea>
+                        <textarea type="text" name = "ProposalDesc" onChange={e => setDesc(e.target.value)} className="form-control" id="exampleFormControlTextarea1" placeholder="Describe your proposal"></textarea>
                     </div>
-                    <button class="btn btn-primary" type="button" onClick={submitApp}>Submit Proposal</button>
+                    <button className="btn btn-primary" type="button" onClick={submitApp}>Submit Proposal</button>
                     {error && <AppError />}
                 </form>
             </div>

@@ -93,8 +93,8 @@ export default function Proposals() {
     }, [proposalData])
 
     return (
-    <div class="container-fluid">
-        <div class="container-fluid App-content">
+    <div className="container-fluid">
+        <div className="container-fluid App-content">
             <div className="App">
                 <GBanner updateTitle={updateTitle} 
                     name = "Proposals" 
@@ -103,8 +103,8 @@ export default function Proposals() {
                     btn3 = "My Proposals" 
                     btn4 = "New Proposal" 
                     l4="/Proposals/Application"/>
-                <div class="row">
-                    <div class="col-10">
+                <div className="row">
+                    <div className="col-10">
                         <TitleCard cardTitle={cardTitle}/>
                         <ul>
                             <FilterProposals status={cardTitle} />

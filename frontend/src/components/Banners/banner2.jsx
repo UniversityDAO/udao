@@ -56,26 +56,26 @@ function GBanner(props) {
     });
     
     return (
-        <div class="custom-banner">
-            <div class="row">
+        <div className="custom-banner">
+            <div className="row">
                 <h1>{props.name}</h1>
-                <div class="col">
-                    <button ref={ref1} class="btn btn-primary font-weight-bold">
+                <div className="col">
+                    <button ref={ref1} className="btn btn-primary font-weight-bold">
                         {props.btn1}
                     </button>
                 </div>
-                <div class="col">
-                    <button ref={ref2} class="btn btn-primary font-weight-bold">
+                <div className="col">
+                    <button ref={ref2} className="btn btn-primary font-weight-bold">
                         {props.btn2}
                     </button>
                 </div>
                 <div class="col">
-                    <button ref={ref3} class="btn btn-primary font-weight-bold">
+                    <button ref={ref3} className="btn btn-primary font-weight-bold">
                         {props.btn3}
                     </button>
                 </div>
                 <div class="col">
-                    <Link class="btn btn-primary font-weight-bold" to={props.l4}>
+                    <Link className="btn btn-primary font-weight-bold" to={props.l4}>
                         {props.btn4}
                     </Link>
                 </div>

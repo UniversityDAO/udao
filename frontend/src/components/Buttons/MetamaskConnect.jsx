@@ -73,7 +73,7 @@ useEffect(() => {
 
 return (
     <>
-        <button ref={ref1} style={{textAlign:'right', marginTop: "20px"}} class="btn btn-primary">Connect Wallet</button>
+        <button ref={ref1} style={{textAlign:'right', marginTop: "20px"}} className="btn btn-primary">Connect Wallet</button>
         <h1 ref={ref2}> </h1>
         <p ref={ref3}></p>
     </>
