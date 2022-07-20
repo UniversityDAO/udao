@@ -1,5 +1,16 @@
 const { ethers } = require("hardhat");
 
+/*
+    The purpose of this document is to create a testing environment for proposals
+    and simulate what real voting may look like given 20 Hardhat testing accounts.
+    The main() function contains calls to all of the below functions and is called on its own,
+    so running this file by itself will simulate the testing environment. To run, do the following:
+    1. Create a fresh Hardhat node. $ npx hardhat node
+    2. Run the python auto-deploy script. $ python auto-deploy-script.py
+    3. Run this file. $ npx hardhat run --network localhost EthersTesting.js
+*/
+
+
 /*For the sake of testing:
   MembershipNFT address = 0x5FbDB2315678afecb367f032d93F642f64180aa3
   UDAOToken address = 0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512

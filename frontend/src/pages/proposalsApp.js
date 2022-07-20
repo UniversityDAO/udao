@@ -5,7 +5,6 @@ import "./styling/common.css";
 import "./styling/applications.css"
 
 import AppError from "../components/Errors/AppError";
-import { generateHash, createProposal } from "../data/EthersApi";
 
 function ProposalsApp () {
 
@@ -24,13 +23,6 @@ function ProposalsApp () {
             setJsonObject(jsonObject["title"] = title);
             setJsonObject(jsonObject["desc"] = desc);
             setJsonObject(jsonObject["tags"] = ["Proposal"]);
-            
-            let hashResult = generateHash(jsonObject);
-            console.log(hashResult);
-
-            //let proposalID = await createProposal(hashResult);
-
-            //setJsonObject(jsonObject["proposalID"] = proposalID);
 
             console.log(JSON.stringify(jsonObject));
             let jsonFile = makeFileObjects(jsonObject);

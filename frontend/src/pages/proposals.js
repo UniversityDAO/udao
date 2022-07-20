@@ -83,7 +83,6 @@ export default function Proposals() {
             try{
                 setActiveProposals(proposalData.filter(p => p.active === 1));
                 setInactiveProposals(proposalData.filter(p => p.active !== 1));
-                getProposalIDsWithCID();
             }
             catch(err){
                 console.log(`An error occurred sorting the proposals: ${err.message}`);
