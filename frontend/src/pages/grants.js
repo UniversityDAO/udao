@@ -1,10 +1,8 @@
 import TitleCard from "../components/Cards/titlecard";
-import Card from "../components/Cards/card";
 import GrantCard from "../components/Cards/grantCard";
 import GBanner from "../components/Banners/banner2"
 import Loading from "../components/Loading/loading";
 
-//import { getGrants } from "../data/api";
 import { getGrants } from "../data/UDAOApi";
 import { useEffect, useState } from 'react';
 
@@ -29,21 +27,21 @@ function Grants() {
         else if (status === "Active Grants" && !isLoading) {
             return (
                 activeGrants.map(grant => {
-                    return <GrantCard title={grant.title} desc={grant.desc} amount={grant.amount} yesVotes={grant.yesVotes} noVotes={grant.noVotes} active={grant.active} tags={grant.tags} />
+                    return <GrantCard title={grant.title} desc={grant.desc} amount={grant.amount} yesVotes={grant.yesVotes} noVotes={grant.noVotes} active={grant.active}/>
                 })
             )
         }
         else if (status === "Inactive Grants" && !isLoading) {
             return (
                 inactiveGrants.map(grant => {
-                    return <GrantCard title={grant.title} desc={grant.desc} amount={grant.amount} yesVotes={grant.yesVotes} noVotes={grant.noVotes} active={grant.active} tags={grant.tags} />
+                    return <GrantCard title={grant.title} desc={grant.desc} amount={grant.amount} yesVotes={grant.yesVotes} noVotes={grant.noVotes} active={grant.active}/>
                 })
             )
         }
         else if (status === "My Grants" && !isLoading) {
             return (
                 myGrants.map(grant => {
-                    return <GrantCard title={grant.title} desc={grant.desc} amount={grant.amount} yesVotes={grant.yesVotes} noVotes={grant.noVotes} active={grant.active} tags={grant.tags} />
+                    return <GrantCard title={grant.title} desc={grant.desc} amount={grant.amount} yesVotes={grant.yesVotes} noVotes={grant.noVotes} active={grant.active}/>
                 })
             )
         }
@@ -81,10 +79,9 @@ function Grants() {
     }, [])
 
     useEffect (() => {
-        console.log("Inside use effect")
             try{
-                setActiveGrants(grantData.filter(g => g.active));
-                setInactiveGrants(grantData.filter(g => !g.active));
+                setActiveGrants(grantData.filter(g => g.active === 1));
+                setInactiveGrants(grantData.filter(g => g.active !== 1));
             }
             catch(err){
                 console.log(`An error occurred sorting the grants: ${err.message}`);
@@ -96,8 +93,8 @@ function Grants() {
 
 
     return (
-    <div class="container-fluid">
-        <div class="container-fluid App-content">
+    <div className="container-fluid">
+        <div className="container-fluid App-content">
             <div className="App">
                 <GBanner updateTitle={updateTitle} 
                     name = "Grants" 
@@ -107,8 +104,8 @@ function Grants() {
                     btn3 = "My Grants" 
                     btn4 = "Apply For Grant" 
                     l4="/Grants/Application"/>
-                <div class="row">
-                    <div class="col-10">
+                <div className="row">
+                    <div className="col-10">
                         <TitleCard cardTitle={cardTitle}/>
                         <ul>
                             <FilterGrants status={cardTitle} />

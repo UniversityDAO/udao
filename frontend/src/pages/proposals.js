@@ -6,7 +6,9 @@ import Loading from "../components/Loading/loading";
 import { useState, useEffect } from 'react';
 import { getProposals } from "../data/UDAOApi";
 
+
 import "./styling/common.css"
+import { getProposalIDsWithCID } from "../data/EthersApi";
 
 export default function Proposals() {
     const [proposalData, setProposalData] = useState([]);
@@ -24,27 +26,27 @@ export default function Proposals() {
                 <Loading />
             )
         }
-        else if (status === "Active Proposals" && !isLoading) {
+        else if (status === "Active Proposals" && !isLoading && activeProposals.length !== 0) {
             return (
                 activeProposals.map(proposal => {
-                    return <Card title={proposal.title} desc={proposal.desc} yesVotes={proposal.yesVotes} noVotes={proposal.noVotes} active={proposal.active} tags={proposal.tags} />
+                    return <Card title={proposal.title} desc={proposal.desc} yesVotes={proposal.yesVotes} noVotes={proposal.noVotes} active={proposal.active}/>
                 })
             )
         }
-        else if (status === "Inactive Proposals" && !isLoading) {
+        else if (status === "Inactive Proposals" && !isLoading && inactiveProposals.length !== 0) {
             return (
                 inactiveProposals.map(proposal => {
-                    return <Card title={proposal.title} desc={proposal.desc} yesVotes={proposal.yesVotes} noVotes={proposal.noVotes} active={proposal.active} tags={proposal.tags} />
+                    return <Card title={proposal.title} desc={proposal.desc} yesVotes={proposal.yesVotes} noVotes={proposal.noVotes} active={proposal.active}/>
                 })
             )
         }
-        else if (status === "My Proposals" && !isLoading) {
+        /*else if (status === "My Proposals" && !isLoading) {
             return (
                 myProposals.map(proposal => {
-                    return <Card title={proposal.title} desc={proposal.desc} yesVotes={proposal.yesVotes} noVotes={proposal.noVotes} active={proposal.active} tags={proposal.tags} />
+                    return <Card title={proposal.title} desc={proposal.desc} yesVotes={proposal.yesVotes} noVotes={proposal.noVotes} active={proposal.active}/>
                 })
             )
-        }
+        }*/
     }
 
     let updateTitle = (newTitle) => {
@@ -79,8 +81,8 @@ export default function Proposals() {
 
     useEffect (() => {
             try{
-                setActiveProposals(proposalData.filter(p => p.active));
-                setInactiveProposals(proposalData.filter(p => !p.active));
+                setActiveProposals(proposalData.filter(p => p.active === 1));
+                setInactiveProposals(proposalData.filter(p => p.active !== 1));
             }
             catch(err){
                 console.log(`An error occurred sorting the proposals: ${err.message}`);
@@ -90,8 +92,8 @@ export default function Proposals() {
     }, [proposalData])
 
     return (
-    <div class="container-fluid">
-        <div class="container-fluid App-content">
+    <div className="container-fluid">
+        <div className="container-fluid App-content">
             <div className="App">
                 <GBanner updateTitle={updateTitle} 
                     name = "Proposals" 
@@ -100,8 +102,8 @@ export default function Proposals() {
                     btn3 = "My Proposals" 
                     btn4 = "New Proposal" 
                     l4="/Proposals/Application"/>
-                <div class="row">
-                    <div class="col-10">
+                <div className="row">
+                    <div className="col-10">
                         <TitleCard cardTitle={cardTitle}/>
                         <ul>
                             <FilterProposals status={cardTitle} />

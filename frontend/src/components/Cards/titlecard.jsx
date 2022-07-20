@@ -3,9 +3,9 @@ import {react} from 'react';
 
 function TitleCard({cardTitle}) {
     return (
-        <div class="card">
-            <div class="card-body">
-                <h5 class="custom-title">{cardTitle}</h5>
+        <div className="card">
+            <div className="card-body">
+                <h5 className="custom-title">{cardTitle}</h5>
             </div>
         </div>
     )

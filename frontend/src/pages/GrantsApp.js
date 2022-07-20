@@ -47,8 +47,8 @@ function GrantsApp () {
     }
 
     return (
-    <div class="container-fluid">
-        <div class="container-fluid App-content">
+    <div className="container-fluid">
+        <div className="container-fluid App-content">
             <div className="App">
                 <Link to="/Grants">
                     <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="currentColor" class="bi bi-arrow-return-left" viewBox="0 0 16 16" align="left">
@@ -56,19 +56,19 @@ function GrantsApp () {
                     </svg>
                 </Link>
                 <>
-                    <div class="form-group">
+                    <div className="form-group">
                         <label for="exampleFormControlInput1">Grant Title</label>
-                        <input type="text" name="GrantName" onChange={e => setTitle(e.target.value)}class="form-control" id="exampleFormControlInput1" placeholder="Please enter the title of your grant"></input>
+                        <input type="text" name="GrantName" onChange={e => setTitle(e.target.value)} className="form-control" id="exampleFormControlInput1" placeholder="Please enter the title of your grant"></input>
                     </div>
-                    <div class="form-group">
+                    <div className="form-group">
                         <label for="exampleFormControlTextarea1" placeholder="Description of the proposal">Description</label>
-                        <textarea type="text" name="GrantDesc" onChange={e => setDesc(e.target.value)} class="form-control" id="exampleFormControlTextarea1" placeholder="Describe your grant"></textarea>
+                        <textarea type="text" name="GrantDesc" onChange={e => setDesc(e.target.value)} className="form-control" id="exampleFormControlTextarea1" placeholder="Describe your grant"></textarea>
                     </div>
-                    <div class="form-group">
+                    <div className="form-group">
                         <label for="exampleFormControlInput1">Grant Amount</label>
-                        <input type="text" name="GrantAmount" onChange={e => setAmount(e.target.value)} class="form-control" id="exampleFormControlInput1" placeholder="How money money is needed for your project?"></input>
+                        <input type="text" name="GrantAmount" onChange={e => setAmount(e.target.value)} className="form-control" id="exampleFormControlInput1" placeholder="How money money is needed for your project?"></input>
                     </div>
-                    <button class="btn btn-primary" type="button" onClick={submitApp}>Submit Grant</button>
+                    <button className="btn btn-primary" type="button" onClick={submitApp}>Submit Grant</button>
                     {error && <AppError />}
                 </>
             </div>

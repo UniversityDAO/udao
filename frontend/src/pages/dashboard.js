@@ -25,7 +25,7 @@ function Dashboard() {
         else {
             return (
                 activeProposals.map(proposal => {
-                    return <Card title={proposal.title} desc={proposal.desc} yesVotes={proposal.yesVotes} noVotes={proposal.noVotes} active={proposal.active} tags={proposal.tags} />
+                    return <Card title={proposal.title} desc={proposal.desc} yesVotes={proposal.yesVotes} noVotes={proposal.noVotes} active={proposal.active}/>
                 })
             )
         }
@@ -40,7 +40,7 @@ function Dashboard() {
         else {
             return (
                 activeGrants.map(grant => {
-                    return <GrantCard title={grant.title} desc={grant.desc} amount={grant.amount} yesVotes={grant.yesVotes} noVotes={grant.noVotes} active={grant.active} tags={grant.tags} />
+                    return <GrantCard title={grant.title} desc={grant.desc} amount={grant.amount} yesVotes={grant.yesVotes} noVotes={grant.noVotes} active={grant.active}/>
                 }))
         }
     }
@@ -64,8 +64,8 @@ function Dashboard() {
     
     useEffect (() => {
             try{
-                setActiveGrants(grantData.filter(g => g.active));
-                setActiveProposals(proposalData.filter(p => p.active));
+                setActiveGrants(grantData.filter(g => g.active === 1));
+                setActiveProposals(proposalData.filter(p => p.active === 1));
             }
             catch(err){
                 console.log(`An error occurred sorting the grants: ${err.message}`);
@@ -75,22 +75,22 @@ function Dashboard() {
     }, [grantData, proposalData])
 
     return (
-    <div class="container-fluid">
-        <div class="container-fluid App-content">
+    <div className="container-fluid">
+        <div className="container-fluid App-content">
             <div className="App">
-                <div class="row">
-                    <div class="col-12">
+                <div className="row">
+                    <div className="col-12">
                         <Banner name1="Total Supply" name2="Active Proposals" name3="Active Grants" supply="69420/69420" proposals={activeProposals.length} grants={activeGrants.length}/>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-6">
+                <div className="row">
+                    <div className="col-6">
                         <TitleCard cardTitle="Active Proposals"/>
                         <ul>
                             <FilterProposals />
                         </ul>
                     </div>
-                    <div class="col-6">
+                    <div className="col-6">
                         <TitleCard cardTitle="Active Grants"/>
                         <ul>
                             <FilterGrants />
