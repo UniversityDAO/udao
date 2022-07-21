@@ -8,43 +8,35 @@ import { useEffect, useState } from 'react';
 
 import "./styling/common.css"
 
-function Grants() {
-    const [grantData, setGrantData] = useState([]);
-    const [isLoading, setLoading] = useState(true);
-    const [activeGrants, setActiveGrants] = useState([]);
-    const [inactiveGrants, setInactiveGrants] = useState([]);
-    const [myGrants, setMyGrants] = useState([])
-
+export default function Grants(props) {
+  
+    let activeGrants = props.activeGrants;
+    let inactiveGrants = props.inactiveGrants;
     const [cardTitle, setCardTitle] = useState("Active Grants");
 
     function FilterGrants(props) {
         const status=props.status;
-        if (isLoading) {
-            return (
-                <Loading />
-            )
-        }
-        else if (status === "Active Grants" && !isLoading) {
+        if (status === "Active Grants") {
             return (
                 activeGrants.map(grant => {
                     return <GrantCard title={grant.title} desc={grant.desc} amount={grant.amount} yesVotes={grant.yesVotes} noVotes={grant.noVotes} active={grant.active}/>
                 })
             )
         }
-        else if (status === "Inactive Grants" && !isLoading) {
+        else if (status === "Inactive Grants") {
             return (
                 inactiveGrants.map(grant => {
                     return <GrantCard title={grant.title} desc={grant.desc} amount={grant.amount} yesVotes={grant.yesVotes} noVotes={grant.noVotes} active={grant.active}/>
                 })
             )
         }
-        else if (status === "My Grants" && !isLoading) {
+        /*else if (status === "My Grants") {
             return (
                 myGrants.map(grant => {
                     return <GrantCard title={grant.title} desc={grant.desc} amount={grant.amount} yesVotes={grant.yesVotes} noVotes={grant.noVotes} active={grant.active}/>
                 })
             )
-        }
+        }*/
     }
 
     let updateTitle = (newTitle) => {
@@ -62,35 +54,6 @@ function Grants() {
                 break;
         }
     }
-
-    useEffect(() => {
-        async function retrieveGrants() {
-            try{
-                let allGrants = await getGrants();
-                setGrantData(allGrants);
-                setLoading(false);
-            }
-            catch(err){
-                console.log(`An error occurred retrieving the grants: ${err.message}`);
-            }
-        }
-        console.log("Now retrieving all the grant data");
-        retrieveGrants();
-    }, [])
-
-    useEffect (() => {
-            try{
-                setActiveGrants(grantData.filter(g => g.active === 1));
-                setInactiveGrants(grantData.filter(g => g.active !== 1));
-            }
-            catch(err){
-                console.log(`An error occurred sorting the grants: ${err.message}`);
-            }
-            
-        
-    }, [grantData])
-    
-
 
     return (
     <div className="container-fluid">
@@ -117,5 +80,3 @@ function Grants() {
     </div>
     )
 }
-
-export default Grants;

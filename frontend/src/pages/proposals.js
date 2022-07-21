@@ -10,30 +10,22 @@ import { getProposals } from "../data/UDAOApi";
 import "./styling/common.css"
 import { getProposalIDsWithCID } from "../data/EthersApi";
 
-export default function Proposals() {
-    const [proposalData, setProposalData] = useState([]);
-    const [isLoading, setLoading] = useState(true);
-    const [activeProposals, setActiveProposals] = useState([]);
-    const [inactiveProposals, setInactiveProposals] = useState([]);
-    const [myProposals, setMyProposals] = useState([]);
+export default function Proposals(props) {
+    let activeProposals = props.activeProposals;
+    let inactiveProposals = props.inactiveProposals;
 
     const [cardTitle, setCardTitle] = useState("Active Proposals");
 
     function FilterProposals(props) {
         const status=props.status;
-        if (isLoading) {
-            return (
-                <Loading />
-            )
-        }
-        else if (status === "Active Proposals" && !isLoading && activeProposals.length !== 0) {
+        if (status === "Active Proposals" && activeProposals.length !== 0) {
             return (
                 activeProposals.map(proposal => {
                     return <Card title={proposal.title} desc={proposal.desc} yesVotes={proposal.yesVotes} noVotes={proposal.noVotes} active={proposal.active}/>
                 })
             )
         }
-        else if (status === "Inactive Proposals" && !isLoading && inactiveProposals.length !== 0) {
+        else if (status === "Inactive Proposals" && inactiveProposals.length !== 0) {
             return (
                 inactiveProposals.map(proposal => {
                     return <Card title={proposal.title} desc={proposal.desc} yesVotes={proposal.yesVotes} noVotes={proposal.noVotes} active={proposal.active}/>
@@ -64,32 +56,6 @@ export default function Proposals() {
                 break;
         }
     }
-    
-    useEffect(() => {
-        async function retrieveProposals() {
-            try{
-                let allProposals = await getProposals();
-                setProposalData(allProposals);
-                setLoading(false);
-            }
-            catch(err){
-                console.log(`An error occurred retrieving the proposals: ${err.message}`);
-            }
-        }
-        retrieveProposals();
-    }, []) 
-
-    useEffect (() => {
-            try{
-                setActiveProposals(proposalData.filter(p => p.active === 1));
-                setInactiveProposals(proposalData.filter(p => p.active !== 1));
-            }
-            catch(err){
-                console.log(`An error occurred sorting the proposals: ${err.message}`);
-            }
-            
-        
-    }, [proposalData])
 
     return (
     <div className="container-fluid">

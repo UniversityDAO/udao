@@ -9,70 +9,25 @@ import "./styling/dashboard.css"
 import {getProposals, getGrants} from "../data/UDAOApi"
 import { useState, useEffect } from 'react'
 
-function Dashboard() {
-    const [grantData, setGrantData] = useState([]);
-    const [isLoading, setLoading] = useState(true);
-    const [activeGrants, setActiveGrants] = useState([]);
-    const [proposalData, setProposalData] = useState([]);
-    const [activeProposals, setActiveProposals] = useState([]);
+function Dashboard(props) {
+    let activeProposals = props.activeProposals;
+    let activeGrants = props.activeGrants;
     
     function FilterProposals() {
-        if (isLoading) {
-            return (
-                <Loading />
-            )
-        }
-        else {
-            return (
-                activeProposals.map(proposal => {
-                    return <Card title={proposal.title} desc={proposal.desc} yesVotes={proposal.yesVotes} noVotes={proposal.noVotes} active={proposal.active}/>
-                })
-            )
-        }
+        return (
+            activeProposals.map(proposal => {
+                return <Card title={proposal.title} desc={proposal.desc} yesVotes={proposal.yesVotes} noVotes={proposal.noVotes} active={proposal.active}/>
+            })
+        )
     }
     
     function FilterGrants() {
-        if (isLoading) {
-            return (
-                <Loading />
-            )
-        }
-        else {
-            return (
-                activeGrants.map(grant => {
-                    return <GrantCard title={grant.title} desc={grant.desc} amount={grant.amount} yesVotes={grant.yesVotes} noVotes={grant.noVotes} active={grant.active}/>
-                }))
-        }
-    }
-
-    useEffect(() => {
-        async function retrieveData() {
-            try{
-                const allProposals = await getProposals();
-                setProposalData(allProposals);
-                const allGrants = await getGrants();
-                setGrantData(allGrants);
-                setLoading(false);
-            }
-            catch(err){
-                console.log(`An error occurred retrieving the grants: ${err.message}`);
-            }
-        }
-        console.log("Now retrieving all the data");
-        retrieveData();
-    }, [])
-    
-    useEffect (() => {
-            try{
-                setActiveGrants(grantData.filter(g => g.active === 1));
-                setActiveProposals(proposalData.filter(p => p.active === 1));
-            }
-            catch(err){
-                console.log(`An error occurred sorting the grants: ${err.message}`);
-            }
-            
+        return (
+            activeGrants.map(grant => {
+                return <GrantCard title={grant.title} desc={grant.desc} amount={grant.amount} yesVotes={grant.yesVotes} noVotes={grant.noVotes} active={grant.active}/>
+            }))
         
-    }, [grantData, proposalData])
+    }
 
     return (
     <div className="container-fluid">
