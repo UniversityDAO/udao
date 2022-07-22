@@ -1,10 +1,7 @@
 import TitleCard from "../components/Cards/titlecard";
 import GrantCard from "../components/Cards/grantCard";
 import GBanner from "../components/Banners/banner2"
-import Loading from "../components/Loading/loading";
-
-import { getGrants } from "../data/UDAOApi";
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import "./styling/common.css"
 

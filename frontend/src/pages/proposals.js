@@ -1,14 +1,10 @@
 import Card from "../components/Cards/card";
 import GBanner from "../components/Banners/banner2";
 import TitleCard from "../components/Cards/titlecard";
-import Loading from "../components/Loading/loading";
-
-import { useState, useEffect } from 'react';
-import { getProposals } from "../data/UDAOApi";
-
+import { useState } from 'react';
 
 import "./styling/common.css"
-import { getProposalIDsWithCID } from "../data/EthersApi";
+
 
 export default function Proposals(props) {
     let activeProposals = props.activeProposals;

@@ -20,6 +20,8 @@ export default function LoadingPage(props) {
             )
         }
         else {
-            <Navigate to="/Dashboard"/>
+            return (
+                <Navigate to="/Dashboard" replace={true}/>
+            )
         }
 }

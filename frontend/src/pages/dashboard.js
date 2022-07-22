@@ -2,12 +2,9 @@ import Banner from '../components/Banners/banner';
 import TitleCard from '../components/Cards/titlecard';
 import Card from '../components/Cards/card';
 import GrantCard from '../components/Cards/grantCard';
-import Loading from '../components/Loading/loading';
 
 import "./styling/common.css";
 import "./styling/dashboard.css"
-import {getProposals, getGrants} from "../data/UDAOApi"
-import { useState, useEffect } from 'react'
 
 function Dashboard(props) {
     let activeProposals = props.activeProposals;

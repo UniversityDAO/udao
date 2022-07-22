@@ -1,5 +1,4 @@
 import "./card.css";
-import {react} from 'react';
 
 function TitleCard({cardTitle}) {
     return (
