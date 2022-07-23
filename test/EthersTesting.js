@@ -10,6 +10,15 @@ const { ethers } = require("hardhat");
     3. Run this file. $ npx hardhat run --network localhost EthersTesting.js
 */
 
+const proposalCIDs = 
+[
+    'bafybeicemp7nuvbwvmi3xeyrtxvplyiabdchc3rqkzunjgcy6faljzmmpe', 
+    'bafybeiahbaiznop3g6immxmapl5lvpiezcquqk4finn3y5p342k4pwcfve',
+    'bafybeie23fhkbp2t2hugegjmc7o4zmf3t5qhw4frvquvgzfqrx6m3vpasq',
+    'bafybeiedjiszwue27ev6cse4jmtz2dlwv26pmdyouzzfqu6lqs363qxeii',
+    'bafybeigfsz4enuwgiipcmhoaflrktiizirck7trxnem4avodb72vwnpm3e',
+    'bafybeiglfbgvqsqevcxoaperb3rkuffn22bjrq2ncnqzvxt5fdys2c27qq'
+]
 
 /*For the sake of testing:
   MembershipNFT address = 0x5FbDB2315678afecb367f032d93F642f64180aa3
@@ -61,13 +70,22 @@ async function generateMockProposals() {
     const transferCalldata = token.interface.encodeFunctionData('transfer', [teamAddress, grantAmount]);
 
     //Create 10 mock proposals and push the IDs of each one into an array
+    /*
     for (let i=0; i<10; i++) {
         const proposal = await gov.propose([tokenAddress], [i], [transferCalldata], "Hash goes here");
         const receipt = await proposal.wait();
 
         const proposalID = await receipt.events[0].args.proposalId;
         proposalIDs.push(proposalID);
+    }*/
+    for (let i=0; i<proposalCIDs.length; i++) {
+        const proposal = await gov.propose([tokenAddress], [250], [transferCalldata], proposalCIDs[i]);
+        const receipt = await proposal.wait();
+
+        const proposalID = await receipt.events[0].args.proposalId;
+        proposalIDs.push(proposalID);
     }
+
     //Return our array of ProposalIDs
     return proposalIDs;
 }
