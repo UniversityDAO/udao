@@ -79,7 +79,7 @@ async function generateMockProposals() {
         proposalIDs.push(proposalID);
     }*/
     for (let i=0; i<proposalCIDs.length; i++) {
-        const proposal = await gov.propose([tokenAddress], [0], [transferCalldata], proposalCIDs[i]);
+        const proposal = await gov.propose([tokenAddress], [250], [transferCalldata], proposalCIDs[i]);
         const receipt = await proposal.wait();
 
         const proposalID = await receipt.events[0].args.proposalId;

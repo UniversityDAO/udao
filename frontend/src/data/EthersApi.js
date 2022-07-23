@@ -1,6 +1,4 @@
 import { ethers } from 'ethers';
-import { GOV_ADDRESS, TOKEN_ADDRESS, NFT_ADDRESS } from './config';
-import { GOV_ABI, TOKEN_ABI, NFT_ABI } from './config';
 
 /**
  * Returns voting data for a proposal with id proposalID
@@ -39,7 +37,7 @@ export async function getActiveStatus(proposalId, address, abi, provider) {
  * @param {JsonRpcProvider} provider - Instance of network we are using
  * @returns {Array} - Return an array of objects, each of format {ProposalID, CID}
  */
-export async function getProposalIDsWithCID(address, abi, provider) {
+export async function getProposalData(address, abi, provider) {
     let proposals = [];
     
     const gov = new ethers.Contract(address, abi, provider);
@@ -48,17 +46,16 @@ export async function getProposalIDsWithCID(address, abi, provider) {
     const logs = await gov.queryFilter(filters, 0, "latest");
     const events = logs.map((log) => gov.interface.parseLog(log));
 
-    let id, cid, proposal;
-
+    let id, cid, grantAmount, proposal;
     events.forEach(event => {
         proposal = {};
         id = String(event.args.proposalId._hex)
         cid = event.args.description;
+        grantAmount = Number(event.args[3][0]._hex);
         proposal.proposalId = id;
         proposal.cid = cid;
+        proposal.amount = grantAmount; 
         proposals.push(proposal);
     })
-
-    console.log(proposals);
     return proposals;
 }

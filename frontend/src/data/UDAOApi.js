@@ -1,5 +1,5 @@
 import * as web3Storage from './web3StorageAPI'
-import { getVoteData, getActiveStatus, getProposalIDsWithCID } from "./EthersApi";
+import { getVoteData, getActiveStatus, getProposalData } from "./EthersApi";
 
 /**
  * Grabs Proposal ID and CID for every proposal off the blockchain. Uses
@@ -13,7 +13,7 @@ import { getVoteData, getActiveStatus, getProposalIDsWithCID } from "./EthersApi
  */
 export async function getAllProposals(address, abi, provider) {
     let proposalsArray = [];
-    const proposals = await getProposalIDsWithCID(address, abi, provider);
+    const proposals = await getProposalData(address, abi, provider);
 
     for await (const proposal of proposals) {
         let file = await web3Storage.retrieveArchiveByCid(proposal.cid);
@@ -26,6 +26,7 @@ export async function getAllProposals(address, abi, provider) {
         prop.yesVotes = Number(voteData.forVotes._hex);
         prop.noVotes = Number(voteData.againstVotes._hex);
         prop.active = state;
+        prop.amount = proposal.amount;
 
         proposalsArray.push(prop);
     }
