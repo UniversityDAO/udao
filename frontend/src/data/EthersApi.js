@@ -59,3 +59,52 @@ export async function getProposalData(address, abi, provider) {
     })
     return proposals;
 }
+
+/**
+ * 
+ * @param {*} transfer 
+ * @param {*} teamAddress 
+ * @param {*} grantAmount 
+ * @param {*} proposalDescription 
+ */
+export async function propose(transfer, teamAddress, grantAmount, proposalDescription) {
+  const governor = await ethers.getContract("Governance");
+  const erc721 = await ethers.getContract("MembershipNFT");
+  const transferCalldata = token.interface.encodeFunctionData(transfer, [teamAddress, grantAmount]);
+
+  console.log("Proposing: " + transfer + "\n");
+  console.log("Proposal Description: " + proposalDescription + "\n");
+
+  const proposeTx = await governor.propose(
+    [erc721.address],
+    [0],
+    [transferCalldata],
+    proposalDescription
+  );
+
+  const proposeReceipt = await proposeTx.wait(1);
+  const proposalId = proposeReceipt.events[0].args.proposalId;
+  console.log("Proposed with proposal ID: " + proposalId + "\n");
+
+  const proposalState = await governor.state(proposalId);
+  const proposalDeadline = await governor.proposalDeadline(proposalId);
+
+  console.log("Proposal State: " + proposalState);
+  console.log("Proposal Deadline: " + proposalDeadline);
+}
+
+/**
+ * 
+ * @param {*} proposalId 
+ * @param {*} support 
+ * @param {*} reason 
+ */
+export async function vote(proposalId, support, reason) {
+  console.log("Voting...");
+  const governor = await ethers.getContract("Governance");
+  const voteTx = await ethers.castVoteWithReason(proposalId, support, reason);
+  const voteTxReceipt = await voteTx.wait(1);
+  console.log(voteTxReceipt.events[0].args.reason);
+  const proposalState = await governor.state(proposalId);
+  console.log("Current proposal state: " + proposalState);  
+}
