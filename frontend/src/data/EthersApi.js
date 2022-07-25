@@ -61,6 +61,7 @@ export async function getProposalData(address, abi, provider) {
 }
 
 /**
+ * Create a new proposal
  * 
  * @param {*} transfer 
  * @param {*} teamAddress 
@@ -94,6 +95,7 @@ export async function propose(transfer, teamAddress, grantAmount, proposalDescri
 }
 
 /**
+ * Vote on a proposal
  * 
  * @param {*} proposalId 
  * @param {*} support 
