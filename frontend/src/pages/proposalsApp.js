@@ -6,7 +6,7 @@ import "./styling/applications.css"
 
 import AppError from "../components/Errors/AppError";
 
-import { propose, vote } from "../data/EthersApi"
+import { propose } from "../data/EthersApi"
 import { GOV_ABI, GOV_ADDRESS } from "../data/config";
 
 function ProposalsApp () {
@@ -38,7 +38,7 @@ function ProposalsApp () {
               We should think about where we are going to store the ERC addresses,
               will they be in the same spot as GOV_ADDRESS or somewhere else?
             */
-            // propose([GOV_ADDRESS, GOV_ABI], [ERC], [], desc);
+            propose([GOV_ADDRESS, GOV_ABI, null], desc);
 
             /*
               Rest of calling functions go here

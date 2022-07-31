@@ -57,6 +57,7 @@ export async function getProposalData(address, abi, provider) {
         proposal.amount = grantAmount; 
         proposals.push(proposal);
     })
+
     return proposals;
 }
 
@@ -68,19 +69,20 @@ export async function getProposalData(address, abi, provider) {
  * @param {*} grantAmount 
  * @param {*} proposalDescription 
  */
-export async function propose([governorAddress, governorABI, governorProvider], [erc721Address, erc721ABI, erc721Provider], [transfer, teamAddress, grantAmount], proposalDescription) {
+export async function propose([governorAddress, governorABI, governorProvider], proposalDescription) {
   const governor = new ethers.Contract(governorAddress, governorABI, governorProvider);
-  const erc721 = new ethers.Contract(erc721Address, erc721ABI, erc721Provider);
-  const transferCalldata = erc721.interface.encodeFunctionData(transfer, [teamAddress, grantAmount]);
+  // const erc721 = new ethers.Contract(erc721Address, erc721ABI, erc721Provider);
+  // const transferCalldata = erc721.interface.encodeFunctionData(transfer, [teamAddress, grantAmount]);
 
-  console.log("Proposing: " + transfer + "\n");
+  // console.log("Proposing: " + transfer + "\n");
   console.log("Proposal Description: " + proposalDescription + "\n");
 
   const proposeTx = await governor.propose(
-    [erc721Address],
+    //[erc721Address],
+    [null],
     [0],
-    [transferCalldata],
-    proposalDescription
+    [null],
+    //[transferCalldata],
   );
 
   const proposeReceipt = await proposeTx.wait(1);
@@ -111,15 +113,17 @@ export async function vote([governorAddress, governorABI, governorProvider], pro
   console.log("Current proposal state: " + proposalState);  
 }
 
-export async function queueAndExecute([governorAddress, governorABI, governorProvider], [erc721Address, erc721ABI, erc721Provider], description) {
+export async function queueAndExecute([governorAddress, governorABI, governorProvider], description) {
   const governor = new ethers.Contract(governorAddress, governorABI, governorProvider);
-  const erc721 = new ethers.Contract(erc721Address, erc721ABI, erc721Provider);
-  const transferCalldata = erc721.interface.encodeFunctionData();
+  // const erc721 = new ethers.Contract(erc721Address, erc721ABI, erc721Provider);
+  // const transferCalldata = erc721.interface.encodeFunctionData();
   const descriptionHash = ethers.utils.id(description);
   const queueTx = await governor.queue(
-    [erc721Address],
+    //[erc721Address],
+    [null],
     [0],
-    [transferCalldata],
+    [null],
+    //[transferCalldata],
     descriptionHash
   );
   await queueTx.wait(1)
@@ -127,9 +131,11 @@ export async function queueAndExecute([governorAddress, governorABI, governorPro
   console.log("Executing...");
 
   const executeTx = await governor.execute(
-    [erc721Address],
+    //[erc721Address],
+    [null],
     [0],
-    [transferCalldata],
+    [null],
+    //[transferCalldata],
     descriptionHash
   )
 
