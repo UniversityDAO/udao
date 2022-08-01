@@ -3,8 +3,8 @@ import { ethers } from 'ethers';
 /**
  * Returns voting data for a proposal with id proposalID
  * @param {uint256} proposalId - The Proposal ID for the proposal we want to retrieve data for
- * @param {uint256} address - Address of governance contract
- * @param {JSON} abi - Abi of governance contract
+ * @param {uint256} address - Address of governor contract
+ * @param {JSON} abi - Abi of governor contract
  * @param {JsonRpcProvider} provider - Instance of network we are using
  * @returns {Object} - Return an object of format {forVotes, againstVotes, obstainVotes}
  */
@@ -17,8 +17,8 @@ export async function getVoteData(proposalId, address, abi, provider) {
 /**
  * Return proposal active status for a particular proposalID 
  * @param {uint256} proposalId - The Proposal ID for the proposal we want to retrieve data for
- * @param {uint256} address - Address of governance contract
- * @param {JSON} abi - Abi of governance contract
+ * @param {uint256} address - Address of governor contract
+ * @param {JSON} abi - Abi of governor contract
  * @param {JsonRpcProvider} provider - Instance of network we are using
  * @returns {enum} - Return an enum where active == 1. See enum IGovernor.ProposalState on Open Zeppelin
  */
@@ -32,8 +32,8 @@ export async function getActiveStatus(proposalId, address, abi, provider) {
 /**
  * Filters through all ProposalCreated event logs and
  * retrieves the Proposal ID and CID (description string) for all proposals
- * @param {uint256} address - Address of governance contract
- * @param {JSON} abi - Abi of governance contract
+ * @param {uint256} address - Address of governor contract
+ * @param {JSON} abi - Abi of governor contract
  * @param {JsonRpcProvider} provider - Instance of network we are using
  * @returns {Array} - Return an array of objects, each of format {ProposalID, CID}
  */
@@ -57,5 +57,87 @@ export async function getProposalData(address, abi, provider) {
         proposal.amount = grantAmount; 
         proposals.push(proposal);
     })
+
     return proposals;
+}
+
+/**
+ * Create a new proposal
+ * 
+ * @param {*} transfer 
+ * @param {*} teamAddress 
+ * @param {*} grantAmount 
+ * @param {*} proposalDescription 
+ */
+export async function propose([governorAddress, governorABI, governorProvider], proposalDescription) {
+  const governor = new ethers.Contract(governorAddress, governorABI, governorProvider);
+  // const erc721 = new ethers.Contract(erc721Address, erc721ABI, erc721Provider);
+  // const transferCalldata = erc721.interface.encodeFunctionData(transfer, [teamAddress, grantAmount]);
+
+  // console.log("Proposing: " + transfer + "\n");
+  console.log("Proposal Description: " + proposalDescription + "\n");
+
+  const proposeTx = await governor.propose(
+    //[erc721Address],
+    [null],
+    [0],
+    [null],
+    //[transferCalldata],
+  );
+
+  const proposeReceipt = await proposeTx.wait(1);
+  const proposalId = proposeReceipt.events[0].args.proposalId;
+  console.log("Proposed with proposal ID: " + proposalId + "\n");
+
+  const proposalState = await governor.state(proposalId);
+  const proposalDeadline = await governor.proposalDeadline(proposalId);
+
+  console.log("Proposal State: " + proposalState);
+  console.log("Proposal Deadline: " + proposalDeadline);
+}
+
+/**
+ * Vote on a proposal
+ * 
+ * @param {*} proposalId 
+ * @param {*} support 
+ * @param {*} reason 
+ */
+export async function vote([governorAddress, governorABI, governorProvider], proposalId, support, reason) {
+  console.log("Voting...");
+  const governor = new ethers.Contract(governorAddress, governorABI, governorProvider);
+  const voteTx = await governor.castVoteWithReason(proposalId, support, reason);
+  const voteTxReceipt = await voteTx.wait(1);
+  console.log(voteTxReceipt.events[0].args.reason);
+  const proposalState = await governor.state(proposalId);
+  console.log("Current proposal state: " + proposalState);  
+}
+
+export async function queueAndExecute([governorAddress, governorABI, governorProvider], description) {
+  const governor = new ethers.Contract(governorAddress, governorABI, governorProvider);
+  // const erc721 = new ethers.Contract(erc721Address, erc721ABI, erc721Provider);
+  // const transferCalldata = erc721.interface.encodeFunctionData();
+  const descriptionHash = ethers.utils.id(description);
+  const queueTx = await governor.queue(
+    //[erc721Address],
+    [null],
+    [0],
+    [null],
+    //[transferCalldata],
+    descriptionHash
+  );
+  await queueTx.wait(1)
+
+  console.log("Executing...");
+
+  const executeTx = await governor.execute(
+    //[erc721Address],
+    [null],
+    [0],
+    [null],
+    //[transferCalldata],
+    descriptionHash
+  )
+
+  await executeTx.wait(1);
 }
