@@ -6,6 +6,9 @@ import "./styling/applications.css"
 
 import AppError from "../components/Errors/AppError";
 
+import { propose } from "../data/EthersApi"
+import { GOV_ABI, GOV_ADDRESS } from "../data/config";
+
 function ProposalsApp () {
 
     const [title, setTitle] = useState("");
@@ -29,6 +32,18 @@ function ProposalsApp () {
             let slicedString = title.slice(0, 8);
 
             web3Storage.upload(jsonFile, `Proposal-${slicedString}`, true);
+            
+            /*
+              TODO:
+              We should think about where we are going to store the ERC addresses,
+              will they be in the same spot as GOV_ADDRESS or somewhere else?
+            */
+            propose([GOV_ADDRESS, GOV_ABI, null], desc);
+
+            /*
+              Rest of calling functions go here
+            */
+
             return (
                 <Link to="/proposals"/>
             )
