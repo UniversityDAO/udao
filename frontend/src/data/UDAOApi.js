@@ -16,19 +16,23 @@ export async function getAllProposals(address, abi, provider) {
     const proposals = await getProposalData(address, abi, provider);
 
     for await (const proposal of proposals) {
-        let file = await web3Storage.retrieveArchiveByCid(proposal.cid);
-        let text = await file[0].text();
-        let prop = JSON.parse(text);
+        try {
+            let file = await web3Storage.retrieveArchiveByCid(proposal.cid);
+            let text = await file[0].text();
+            let prop = JSON.parse(text);
 
-        let voteData = await getVoteData(proposal.proposalId, address, abi, provider);
-        let state = await getActiveStatus(proposal.proposalId, address, abi, provider);
-
-        prop.yesVotes = Number(voteData.forVotes._hex);
-        prop.noVotes = Number(voteData.againstVotes._hex);
-        prop.active = state;
-        prop.amount = proposal.amount;
-
-        proposalsArray.push(prop);
+            let voteData = await getVoteData(proposal.proposalId, address, abi, provider);
+            let state = await getActiveStatus(proposal.proposalId, address, abi, provider);
+    
+            prop.yesVotes = Number(voteData.forVotes._hex);
+            prop.noVotes = Number(voteData.againstVotes._hex);
+            prop.active = state;
+            prop.amount = proposal.amount;
+    
+            proposalsArray.push(prop);
+        } catch (e) {
+            console.error(e);
+        }
     }
     return proposalsArray;
 }

@@ -6,22 +6,20 @@ import GrantCard from '../components/Cards/grantCard';
 import "./styling/common.css";
 import "./styling/dashboard.css"
 
+import { useLocation } from 'react-router';
+
 function Dashboard(props) {
-    let activeProposals = props.activeProposals;
-    let activeGrants = props.activeGrants;
+    const location = useLocation();
+    const { activeProposals, inactiveProposals, activeGrants, inactiveGrants } = location.state;
     
     function FilterProposals() {
-        return (
-            activeProposals.map(proposal => {
-                return <Card title={proposal.title} desc={proposal.desc} yesVotes={proposal.yesVotes} noVotes={proposal.noVotes} active={proposal.active}/>
-            })
-        )
+        return activeProposals.map(proposal => <Card provider={props.provider} proposal={proposal} />);
     }
     
     function FilterGrants() {
         return (
             activeGrants.map(grant => {
-                return <GrantCard title={grant.title} desc={grant.desc} amount={grant.amount} yesVotes={grant.yesVotes} noVotes={grant.noVotes} active={grant.active}/>
+                return <GrantCard provider={props.provider} title={grant.title} desc={grant.desc} amount={grant.amount} yesVotes={grant.yesVotes} noVotes={grant.noVotes} active={grant.active}/>
             }))
         
     }
