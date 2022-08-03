@@ -7,14 +7,15 @@ import { vote } from "../../data/EthersApi"
 import { GOV_ABI, GOV_ADDRESS } from "../../data/config";
 
 function Card(props) {
-    const [yesVotes, setYesVotes] = useState(props.yesVotes);
-    const [noVotes, setNoVotes] = useState(props.noVotes);
+    let proposal = props.proposal;
+    const [yesVotes, setYesVotes] = useState(proposal.yesVotes);
+    const [noVotes, setNoVotes] = useState(proposal.noVotes);
 
     return (
         <div className="card">
             <div className="card-body">
-                <h2 className="card-header">{props.title}</h2>
-                <p className="card-text"><small><small><em>{"Description: " + props.desc}</em></small></small></p>
+                <h2 className="card-header">{proposal.title}</h2>
+                <p className="card-text"><small><small><em>{"Description: " + proposal.desc}</em></small></small></p>
                 <div className="row">
                     <div className="col-2 thumbBox">
                         <img src={ThumbsUp} className="thumb" /> 
@@ -37,10 +38,10 @@ function Card(props) {
                         })}
                     </ul>*/}
                     <div className="voting col-10">
-                        <button className="btn btn-primary" onClick={vote.vote([GOV_ADDRESS, GOV_ABI, null], 0, "voted yes")} style={{marginLeft:"20px", backgroundColor: "Green"}}>
+                        <button className="btn btn-primary" onClick={() => vote([GOV_ADDRESS, GOV_ABI, props.provider], proposal.proposalID, 1, "voted yes")} style={{marginLeft:"20px", backgroundColor: "Green"}}>
                             Vote Yes
                         </button>
-                        <button className="btn btn-primary" onClick={vote.vote([GOV_ADDRESS, GOV_ABI, null], 0, "voted no")} style={{marginLeft:"20px", backgroundColor: "Red"}}>
+                        <button className="btn btn-primary" onClick={() => vote([GOV_ADDRESS, GOV_ABI, props.provider], proposal.proposalID, 0, "voted no")} style={{marginLeft:"20px", backgroundColor: "Red"}}>
                             Vote No
                         </button>
                     </div>
@@ -49,7 +50,5 @@ function Card(props) {
         </div>
     )
 }
-
-
 
 export default Card;

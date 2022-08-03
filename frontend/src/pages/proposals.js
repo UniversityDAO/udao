@@ -2,6 +2,7 @@ import Card from "../components/Cards/card";
 import GBanner from "../components/Banners/banner2";
 import TitleCard from "../components/Cards/titlecard";
 import { useState } from 'react';
+import { useLocation } from "react-router";
 
 import "./styling/common.css"
 
