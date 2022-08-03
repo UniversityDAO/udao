@@ -6,37 +6,37 @@ import MetamaskConnect from "../Buttons/MetamaskConnect";
 
 function Navbar() {
     return (
-    <div className="vertical-nav" id="sidebar">
-        <div className="py-4 px-3 mb-4">
-          <div className="media d-flex align-items-center">
-            <div className="media-body">
-              <Link to="/Dashboard">
-                <img src={logo} className = "daoLogo" to="./Dashboard"/>
-              </Link>
+        <div className="vertical-nav" id="sidebar">
+            <div className="py-4 px-3 mb-4">
+                <div className="media d-flex align-items-center">
+                    <div className="media-body">
+                    <Link to="/dashboard">
+                        <img src={logo} className = "daoLogo" to="./Dashboard"/>
+                    </Link>
+                    </div>
+                </div>
             </div>
-          </div>
+
+            <ul className="nav flex-column bg-white mb-0">
+                <li className="nav-item">
+                <Link to="/dashboard" className="nav-link text-dark font-italic bg-light"><i className="fa fa-home mr-3 text-primary fa-fw"></i>Dashboard</Link>  
+                </li>
+                <li className="nav-item">
+                <Link to="/grants" className="nav-link text-dark font-italic"><i className="fa-solid fa-dollar-sign mr-3 text-primary fa-fw"/>Grants</Link>
+                </li>
+                <li className="nav-item">
+                <Link to="/proposals" className="nav-link text-dark font-italic"><i className="fa fa-picture-o mr-3 text-primary fa-fw"></i>Proposals</Link>
+                </li>
+                <li className="nav-item">
+                <Link to="/help" className="nav-link text-dark font-italic"><i className="fa fa-picture-o mr-3 text-primary fa-fw"></i>Help</Link>
+                </li>
+            </ul>
+
+            <div className="connect-wallet">
+                <MetamaskConnect />
+            </div>
         </div>
-
-      <ul className="nav flex-column bg-white mb-0">
-        <li className="nav-item">
-          <Link to="/Dashboard" className="nav-link text-dark font-italic bg-light"><i className="fa fa-home mr-3 text-primary fa-fw"></i>Dashboard</Link>  
-        </li>
-        <li className="nav-item">
-          <Link to="/Grants" className="nav-link text-dark font-italic"><i className="fa-solid fa-dollar-sign mr-3 text-primary fa-fw"/>Grants</Link>
-        </li>
-        <li className="nav-item">
-          <Link to="/Proposals" className="nav-link text-dark font-italic"><i className="fa fa-picture-o mr-3 text-primary fa-fw"></i>Proposals</Link>
-        </li>
-        <li className="nav-item">
-          <Link to="/Help" className="nav-link text-dark font-italic"><i className="fa fa-picture-o mr-3 text-primary fa-fw"></i>Help</Link>
-        </li>
-      </ul>
-
-      <div className="connect-wallet">
-        <MetamaskConnect />
-      </div>
-    </div>
-  )
+    )
 }
 
 export default Navbar;

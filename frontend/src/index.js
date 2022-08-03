@@ -3,16 +3,38 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import Landing from './pages/landing';
 
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import Grants from './pages/grants';
+import Proposals from './pages/proposals';
+import Help from './pages/help';
+import Loading from './pages/loading';
+
+import Dashboard from './pages/dashboard';
+import ProposalsApp from './pages/proposalsApp';
+import GrantsApp from './pages/GrantsApp';
+
+import Layout from './layouts/Layout';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
+        <BrowserRouter>
+            <Routes>
+                <Route path="/" element={<App/>} />
+                <Route path="/loading" element={<Loading />}/>
+                <Route element={<Layout />} >
+                    <Route path="/dashboard" element={<Dashboard />} />
+                    <Route path="/proposals" element = {<Proposals />}>
+                        <Route path="application" element = {<ProposalsApp/>} />
+                    </Route>
+                    <Route path="/grants" element = {<Grants />}>
+                        <Route path="application" element = {<GrantsApp/>}> </Route>
+                    </Route>
+                    <Route path="/help" element = {<Help />}> </Route>
+                </Route>
+            </Routes>
+        </BrowserRouter>
   </React.StrictMode>
 );
 

@@ -64,7 +64,7 @@ export default function LoadingPage() {
                         <span>Loading Data...</span>
                     </div>
                 </div> :
-                <Navigate to="/Dashboard" replace={true} state={{ activeProposals, inactiveProposals, activeGrants, inactiveGrants }} />
+                <Navigate to="/dashboard" replace={true} state={{ activeProposals, inactiveProposals, activeGrants, inactiveGrants }} />
             }
         </>
     )
