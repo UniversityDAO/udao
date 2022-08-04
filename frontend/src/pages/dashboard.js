@@ -11,6 +11,7 @@ function Dashboard(props) {
     let activeGrants = props.activeGrants;
 
     function FilterProposals() {
+        // TODO: passing in the provider to each card is a bit repetitive/waste of memory
         return activeProposals.map(proposal => <Card provider={props.metamaskProvider} proposal={proposal} />);
     }
     
