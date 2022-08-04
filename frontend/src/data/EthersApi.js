@@ -37,7 +37,7 @@ export async function getActiveStatus(proposalId, address, abi, provider) {
  * @param {uint256} address - Address of governor contract
  * @param {JSON} abi - Abi of governor contract
  * @param {JsonRpcProvider} provider - Instance of network we are using
- * @returns {Array} - Return an array of objects, each of format {ProposalID, CID}
+ * @returns {Array} - Return an array of objects, each of format {ProposalID, CID, amount}
  */
 export async function getProposalData(address, abi, provider) {
     let proposals = [];

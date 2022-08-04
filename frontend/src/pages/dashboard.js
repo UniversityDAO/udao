@@ -9,13 +9,9 @@ import "./styling/dashboard.css";
 function Dashboard(props) {
     let activeProposals = props.activeProposals;
     let activeGrants = props.activeGrants;
-    
+
     function FilterProposals() {
-        return (
-            activeProposals.map(proposal => {
-                return <Card title={proposal.title} desc={proposal.desc} yesVotes={proposal.yesVotes} noVotes={proposal.noVotes} active={proposal.active}/>
-            })
-        )
+        return activeProposals.map(proposal => <Card provider={props.metamaskProvider} proposal={proposal} />);
     }
     
     function FilterGrants() {

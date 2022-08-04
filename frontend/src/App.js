@@ -38,15 +38,13 @@ function App() {
 
     // metamask provider provides write functionality
     // TODO: may need to connect wallet first? need to request accounts?
-    const metamask_provider = new ethers.providers.Web3Provider(window.ethereum);
+    const metamaskProvider = new ethers.providers.Web3Provider(window.ethereum);
 
     async function loadApp() {
         let allProposals = await getAllProposals(GOV_ADDRESS, GOV_ABI, alchemy_provider);
 
         let proposals = allProposals.filter(p => p.isGrant === false);
         let grants = allProposals.filter(g => g.isGrant === true);
-        console.log(proposals)
-        console.log(grants)
 
         setActiveProposals(proposals.filter(p => p.active === 1));
         setInactiveProposals(proposals.filter(p => p.active !== 1));
@@ -65,9 +63,9 @@ function App() {
             <Route path="/Loading" element={<Loading loading={loading} loadApp={loadApp}/>}/>
           </Route>
           <Route element={<WithNav />} >
-            <Route path="/Dashboard" element={<Dashboard metamaskProvider={metamask_provider} activeProposals={activeProposals} inactiveProposals={inactiveProposals} activeGrants={activeGrants} inactiveGrants={inactiveGrants}/>} />
+            <Route path="/Dashboard" element={<Dashboard metamaskProvider={metamaskProvider} activeProposals={activeProposals} inactiveProposals={inactiveProposals} activeGrants={activeGrants} inactiveGrants={inactiveGrants}/>} />
             <Route path="/Proposals" element = {<Proposals activeProposals={activeProposals} inactiveProposals={inactiveProposals}/>}> </Route>
-            <Route path="/Proposals/Application" element = {<ProposalsApp provider={metamask_provider} />}> </Route>
+            <Route path="/Proposals/Application" element = {<ProposalsApp provider={metamaskProvider} />}> </Route>
             <Route path="/Grants/Application" element = {<GrantsApp/>}> </Route>
             <Route path="/Grants" element = {<Grants activeGrants={activeGrants} inactiveGrants={inactiveGrants}/>}> </Route>
             <Route path="/Help" element = {<Help />}> </Route>
