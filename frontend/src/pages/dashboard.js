@@ -4,7 +4,7 @@ import Card from '../components/Cards/card';
 import GrantCard from '../components/Cards/grantCard';
 
 import "./styling/common.css";
-import "./styling/dashboard.css"
+import "./styling/dashboard.css";
 
 function Dashboard(props) {
     let activeProposals = props.activeProposals;
@@ -23,7 +23,6 @@ function Dashboard(props) {
             activeGrants.map(grant => {
                 return <GrantCard title={grant.title} desc={grant.desc} amount={grant.amount} yesVotes={grant.yesVotes} noVotes={grant.noVotes} active={grant.active}/>
             }))
-        
     }
 
     return (

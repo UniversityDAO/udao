@@ -45,6 +45,8 @@ function App() {
 
         let proposals = allProposals.filter(p => p.isGrant === false);
         let grants = allProposals.filter(g => g.isGrant === true);
+        console.log(proposals)
+        console.log(grants)
 
         setActiveProposals(proposals.filter(p => p.active === 1));
         setInactiveProposals(proposals.filter(p => p.active !== 1));
@@ -63,7 +65,7 @@ function App() {
             <Route path="/Loading" element={<Loading loading={loading} loadApp={loadApp}/>}/>
           </Route>
           <Route element={<WithNav />} >
-            <Route path="/Dashboard" element={<Dashboard activeProposals={activeProposals} inactiveProposals={inactiveProposals} activeGrants={activeGrants} inactiveGrants={inactiveGrants}/>} />
+            <Route path="/Dashboard" element={<Dashboard metamaskProvider={metamask_provider} activeProposals={activeProposals} inactiveProposals={inactiveProposals} activeGrants={activeGrants} inactiveGrants={inactiveGrants}/>} />
             <Route path="/Proposals" element = {<Proposals activeProposals={activeProposals} inactiveProposals={inactiveProposals}/>}> </Route>
             <Route path="/Proposals/Application" element = {<ProposalsApp provider={metamask_provider} />}> </Route>
             <Route path="/Grants/Application" element = {<GrantsApp/>}> </Route>

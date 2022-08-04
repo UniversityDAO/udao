@@ -119,6 +119,19 @@ export async function propose([governorAddress, governorABI, provider], proposal
     // console.log("Current proposal state: " + proposalState);  
 }
 
+/**
+ * Delegate ERC721 to `delagatee`
+ * @param {*} delegatee the address to delegate ERC721 to
+ */
+export async function delegate([membershipNFTAddress, membershipNFTabi, provider], delegatee) {
+    const signer = provider.getSigner();
+    const membershipNFT = new ethers.Contract(membershipNFTAddress, membershipNFTabi, signer);
+    await membershipNFT.delegate(delegatee);
+
+    //TODO: may do something with result of delegate() call
+    console.log("delegated NFT");
+}
+
 export async function queueAndExecute([governorAddress, governorABI, governorProvider], description) {
   const governor = new ethers.Contract(governorAddress, governorABI, governorProvider);
   // const erc721 = new ethers.Contract(erc721Address, erc721ABI, erc721Provider);
