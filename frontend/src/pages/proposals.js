@@ -15,18 +15,10 @@ export default function Proposals(props) {
     function FilterProposals(props) {
         const status=props.status;
         if (status === "Active Proposals" && activeProposals.length !== 0) {
-            return (
-                activeProposals.map(proposal => {
-                    return <Card title={proposal.title} desc={proposal.desc} yesVotes={proposal.yesVotes} noVotes={proposal.noVotes} active={proposal.active}/>
-                })
-            )
+            return activeProposals.map(proposal => <Card provider={props.metamaskProvider} proposal={proposal} />);
         }
         else if (status === "Inactive Proposals" && inactiveProposals.length !== 0) {
-            return (
-                inactiveProposals.map(proposal => {
-                    return <Card title={proposal.title} desc={proposal.desc} yesVotes={proposal.yesVotes} noVotes={proposal.noVotes} active={proposal.active}/>
-                })
-            )
+            return inactiveProposals.map(proposal => <Card provider={props.metamaskProvider} proposal={proposal} />);
         }
         /*else if (status === "My Proposals" && !isLoading) {
             return (
