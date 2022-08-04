@@ -1,5 +1,7 @@
 import { ethers } from 'ethers';
 
+const NULL_ADDRESS = "0x0000000000000000000000000000000000000000";
+
 /**
  * Returns voting data for a proposal with id proposalID
  * @param {uint256} proposalId - The Proposal ID for the proposal we want to retrieve data for
@@ -67,33 +69,36 @@ export async function getProposalData(address, abi, provider) {
  * @param {*} transfer 
  * @param {*} teamAddress 
  * @param {*} grantAmount 
- * @param {*} proposalDescription 
+ * @param {*} proposalDescription the IPFS cid
  */
-export async function propose([governorAddress, governorABI, governorProvider], proposalDescription) {
-  const governor = new ethers.Contract(governorAddress, governorABI, governorProvider);
-  // const erc721 = new ethers.Contract(erc721Address, erc721ABI, erc721Provider);
-  // const transferCalldata = erc721.interface.encodeFunctionData(transfer, [teamAddress, grantAmount]);
+export async function propose([governorAddress, governorABI, provider], proposalDescription) {
+    const signer = provider.getSigner();
+    // console.log(signer)
+    const governor = new ethers.Contract(governorAddress, governorABI, signer);
+    console.log(governor)
+    // const erc721 = new ethers.Contract(erc721Address, erc721ABI, erc721Provider);
+    // const transferCalldata = erc721.interface.encodeFunctionData(transfer, [teamAddress, grantAmount]);
 
-  // console.log("Proposing: " + transfer + "\n");
-  console.log("Proposal Description: " + proposalDescription + "\n");
+    console.log("proposing...")
+    const proposeTx = await governor.connect(signer).propose(
+        [NULL_ADDRESS],
+        [0],
+        [0],
+        proposalDescription
+    );
+    console.log('hi')
 
-  const proposeTx = await governor.propose(
-    //[erc721Address],
-    [null],
-    [0],
-    [null],
-    //[transferCalldata],
-  );
+    const proposeReceipt = await proposeTx.wait();
+    const proposalId = proposeReceipt.events[0].args.proposalId;
+    console.log("Proposed with proposal ID: " + proposalId + "\n");
 
-  const proposeReceipt = await proposeTx.wait(1);
-  const proposalId = proposeReceipt.events[0].args.proposalId;
-  console.log("Proposed with proposal ID: " + proposalId + "\n");
+    const proposalState = await governor.state(proposalId);
+    const proposalDeadline = await governor.proposalDeadline(proposalId);
 
-  const proposalState = await governor.state(proposalId);
-  const proposalDeadline = await governor.proposalDeadline(proposalId);
+    console.log("Proposal State: " + proposalState);
+    console.log("Proposal Deadline: " + proposalDeadline);
 
-  console.log("Proposal State: " + proposalState);
-  console.log("Proposal Deadline: " + proposalDeadline);
+    return proposalId;
 }
 
 /**
