@@ -115,7 +115,7 @@ export async function retrieveArchiveByCid(cid){
         return archives;
     }
     else{
-        throw new Error(`Call to the Web3Storage api for cid ${cid} failed. HttpResponse: ${response.status} - ${response.statusText}`);
+        throw new Error(`Call to the Web3Storage api for cid "${cid}" failed. HttpResponse: ${response.status} - ${response.statusText}`);
     }
 }
 
