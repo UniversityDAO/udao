@@ -32,11 +32,16 @@ function App() {
 
     const [loading, setLoading] = useState(true);
 
-    //   const provider = new ethers.providers.JsonRpcProvider();
-    const provider = new ethers.providers.AlchemyProvider("maticmum", process.env.ALCHEMY_API_KEY);
+    // alchemy provider can only read from blockchain. need b/c we want people w/o metamask to be able
+    // to view the site
+    const alchemy_provider = new ethers.providers.AlchemyProvider("maticmum", process.env.ALCHEMY_API_KEY);
+
+    // metamask provider provides write functionality
+    // TODO: may need to connect wallet first? need to request accounts?
+    const metamask_provider = new ethers.providers.Web3Provider(window.ethereum);
 
     async function loadApp() {
-        let allProposals = await getAllProposals(GOV_ADDRESS, GOV_ABI, provider);
+        let allProposals = await getAllProposals(GOV_ADDRESS, GOV_ABI, alchemy_provider);
 
         let proposals = allProposals.filter(p => p.isGrant === false);
         let grants = allProposals.filter(g => g.isGrant === true);
@@ -60,7 +65,7 @@ function App() {
           <Route element={<WithNav />} >
             <Route path="/Dashboard" element={<Dashboard activeProposals={activeProposals} inactiveProposals={inactiveProposals} activeGrants={activeGrants} inactiveGrants={inactiveGrants}/>} />
             <Route path="/Proposals" element = {<Proposals activeProposals={activeProposals} inactiveProposals={inactiveProposals}/>}> </Route>
-            <Route path="/Proposals/Application" element = {<ProposalsApp/>}> </Route>
+            <Route path="/Proposals/Application" element = {<ProposalsApp provider={metamask_provider} />}> </Route>
             <Route path="/Grants/Application" element = {<GrantsApp/>}> </Route>
             <Route path="/Grants" element = {<Grants activeGrants={activeGrants} inactiveGrants={inactiveGrants}/>}> </Route>
             <Route path="/Help" element = {<Help />}> </Route>

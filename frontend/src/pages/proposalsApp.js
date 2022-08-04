@@ -9,19 +9,17 @@ import AppError from "../components/Errors/AppError";
 import { propose } from "../data/EthersApi"
 import { GOV_ABI, GOV_ADDRESS } from "../data/config";
 
-function ProposalsApp () {
-
+function ProposalsApp(props) {
+    const provider = props.provider;
     const [title, setTitle] = useState("");
     const [desc, setDesc] = useState("");
     const [jsonObject, setJsonObject] = useState({});
     const [error, setError] = useState(false);
 
     async function submitApp() {
-        if (title === "" || desc === "")
-        {
+        if (title === "" || desc === "") {
             setError(true);
-        }
-        else {
+        } else {
             setError(false);
             setJsonObject(jsonObject["title"] = title);
             setJsonObject(jsonObject["desc"] = desc);
@@ -31,18 +29,14 @@ function ProposalsApp () {
             let jsonFile = makeFileObjects(jsonObject);
             let slicedString = title.slice(0, 8);
 
-            web3Storage.upload(jsonFile, `Proposal-${slicedString}`, true);
-            
-            /*
-              TODO:
-              We should think about where we are going to store the ERC addresses,
-              will they be in the same spot as GOV_ADDRESS or somewhere else?
-            */
-            propose([GOV_ADDRESS, GOV_ABI, null], desc);
+            // TODO: find way to get cid w/o uploading. then wait for blockchain txn to confirm
+            // first before then finalling uploading to IPFS (or else we might have files in limbo)
+            let ipfs_cid = await web3Storage.upload(jsonFile, `Proposal-${slicedString}`, true);
 
-            /*
-              Rest of calling functions go here
-            */
+            // create a proposal on blockchain
+            let proposal_id = await propose([GOV_ADDRESS, GOV_ABI, provider], ipfs_cid);
+
+            // can now do something with proposal_id, like fetch and render or something
 
             return (
                 <Link to="/proposals"/>
