@@ -23,7 +23,10 @@ function ProposalsApp(props) {
             setError(false);
             setJsonObject(jsonObject["title"] = title);
             setJsonObject(jsonObject["desc"] = desc);
-            setJsonObject(jsonObject["tags"] = ["Proposal"]);
+
+            // NOTE: removing "tags" and replacing with "isGrant"
+            // setJsonObject(jsonObject["tags"] = ["Proposal"]);
+            setJsonObject(jsonObject["isGrant"] = false); // because this is proposals page, so always false
 
             console.log(JSON.stringify(jsonObject));
             let jsonFile = makeFileObjects(jsonObject);
