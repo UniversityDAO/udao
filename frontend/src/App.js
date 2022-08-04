@@ -24,30 +24,31 @@ import { GOV_ABI } from './data/config';
 import { getAllProposals } from './data/UDAOApi';
 
 function App() {
-  const [activeProposals, setActiveProposals] = useState([]);
-  const [inactiveProposals, setInactiveProposals] = useState([]);
+    const [activeProposals, setActiveProposals] = useState([]);
+    const [inactiveProposals, setInactiveProposals] = useState([]);
 
-  const [activeGrants, setActiveGrants] = useState([]);
-  const [inactiveGrants, setInactiveGrants] = useState([]);
+    const [activeGrants, setActiveGrants] = useState([]);
+    const [inactiveGrants, setInactiveGrants] = useState([]);
 
-  const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(true);
 
-  const provider = new ethers.providers.JsonRpcProvider();
+    //   const provider = new ethers.providers.JsonRpcProvider();
+    const provider = new ethers.providers.AlchemyProvider("maticmum", process.env.ALCHEMY_API_KEY);
 
-  async function loadApp() {
-    let allProposals = await getAllProposals(GOV_ADDRESS, GOV_ABI, provider);
+    async function loadApp() {
+        let allProposals = await getAllProposals(GOV_ADDRESS, GOV_ABI, provider);
 
-    let proposals = allProposals.filter(p => p.isGrant === false);
-    let grants = allProposals.filter(g => g.isGrant === true);
+        let proposals = allProposals.filter(p => p.isGrant === false);
+        let grants = allProposals.filter(g => g.isGrant === true);
 
-    setActiveProposals(proposals.filter(p => p.active === 1));
-    setInactiveProposals(proposals.filter(p => p.active !== 1));
+        setActiveProposals(proposals.filter(p => p.active === 1));
+        setInactiveProposals(proposals.filter(p => p.active !== 1));
 
-    setActiveGrants(grants.filter(g => g.active === 1));
-    setInactiveGrants(grants.filter(g => g.active !== 1));
+        setActiveGrants(grants.filter(g => g.active === 1));
+        setInactiveGrants(grants.filter(g => g.active !== 1));
 
-    setLoading(false);
-  }
+        setLoading(false);
+    }
 
   return (
     <>

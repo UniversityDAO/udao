@@ -103,14 +103,15 @@ export async function propose([governorAddress, governorABI, governorProvider], 
  * @param {*} support 
  * @param {*} reason 
  */
-export async function vote([governorAddress, governorABI, governorProvider], proposalId, support, reason) {
-  console.log("Voting...");
-  const governor = new ethers.Contract(governorAddress, governorABI, governorProvider);
-  const voteTx = await governor.castVoteWithReason(proposalId, support, reason);
-  const voteTxReceipt = await voteTx.wait(1);
-  console.log(voteTxReceipt.events[0].args.reason);
-  const proposalState = await governor.state(proposalId);
-  console.log("Current proposal state: " + proposalState);  
+ export async function vote([governorAddress, governorABI, provider], proposalId, support, reason) {
+    const signer = provider.getSigner();
+    const governor = new ethers.Contract(governorAddress, governorABI, signer);
+    const voteTx = await governor.connect(signer).castVoteWithReason(proposalId, support, reason);
+
+    const voteTxReceipt = await voteTx.wait();
+    console.log(voteTxReceipt.events[0].args);
+    // const proposalState = await governor.state(proposalId);
+    // console.log("Current proposal state: " + proposalState);  
 }
 
 export async function queueAndExecute([governorAddress, governorABI, governorProvider], description) {
