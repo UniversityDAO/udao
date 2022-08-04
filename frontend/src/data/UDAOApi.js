@@ -9,7 +9,7 @@ import { getVoteData, getActiveStatus, getProposalData } from "./EthersApi";
  * @param {JSON} abi - Abi of governance contract
  * @param {JsonRpcProvider} provider - Instance of network we are using
  * @returns {Array<proposals>} - Returns array of proposal objects of format 
- * {title, desc, yesVotes, noVotes, isGrant} 
+ * {title, desc, yesVotes, noVotes, isGrant}
  */
 export async function getAllProposals(address, abi, provider) {
     let proposalsArray = [];
@@ -29,6 +29,7 @@ export async function getAllProposals(address, abi, provider) {
             prop.active = state;
             prop.amount = proposal.amount;
     
+            console.log(prop)
             proposalsArray.push(prop);
         } catch (e) {
             console.error(e);

@@ -1,8 +1,7 @@
 import MetaMaskOnboarding from '@metamask/onboarding';
 import React, { useRef, useEffect } from 'react';
 
-function MetamaskConnect ()
-{
+function MetamaskConnect() {
 
 const ref1=useRef(null);
 const ref2=useRef(null);
