@@ -10,14 +10,17 @@ import Help from './pages/Help';
 import New_Proposal from './pages/New_Proposal';
 import New_Grant from './pages/New_Grant';
 import View_Proposal from './pages/View_Proposal';
+import Layout from './Layout';
 
 function App() {
   return (
     <Router>
       <Routes>
-        <Route exact path='/' element={<Dashboard/>}></Route>
-        <Route path='/proposals' element={<Proposals/>}></Route>
-        <Route path='/grants' element={<Grants/>}></Route>
+        <Route element={<Layout />}>
+            <Route exact path='/' element={<Dashboard/>}></Route>
+            <Route path='/proposals' element={<Proposals/>}></Route>
+            <Route path='/grants' element={<Grants/>}></Route>
+        </Route>
         <Route path='/help' element={<Help/>}></Route>
         <Route path='/new_proposal' element={<New_Proposal/>}></Route>
         <Route path='/new_grant' element={<New_Grant/>}></Route>
