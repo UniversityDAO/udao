@@ -43,14 +43,14 @@ function App() {
     async function loadApp() {
         let allProposals = await getAllProposals(GOV_ADDRESS, GOV_ABI, alchemy_provider);
 
-        let proposals = allProposals.filter(p => p.isGrant === false);
-        let grants = allProposals.filter(g => g.isGrant === true);
+        let proposals = allProposals.filter(p => p.metadata.isGrant === false);
+        let grants = allProposals.filter(g => g.metadata.isGrant === true);
 
-        setActiveProposals(proposals.filter(p => p.active === 1));
-        setInactiveProposals(proposals.filter(p => p.active !== 1));
+        setActiveProposals(proposals.filter(p => p.state === 1));
+        setInactiveProposals(proposals.filter(p => p.state !== 1));
 
-        setActiveGrants(grants.filter(g => g.active === 1));
-        setInactiveGrants(grants.filter(g => g.active !== 1));
+        setActiveGrants(grants.filter(g => g.state === 1));
+        setInactiveGrants(grants.filter(g => g.state !== 1));
 
         setLoading(false);
     }

@@ -1,4 +1,5 @@
 import { ethers } from 'ethers';
+import { ProposalCreatedEvent } from './classes';
 
 const NULL_ADDRESS = "0x0000000000000000000000000000000000000000";
 
@@ -8,7 +9,7 @@ const NULL_ADDRESS = "0x0000000000000000000000000000000000000000";
  * @param {uint256} address - Address of governor contract
  * @param {JSON} abi - Abi of governor contract
  * @param {JsonRpcProvider} provider - Instance of network we are using
- * @returns {Object} - Return an object of format {forVotes, againstVotes, obstainVotes}
+ * @returns {Object} - Return an object of format {forVotes, againstVotes, abstainVotes}
  */
 export async function getVoteData(proposalId, address, abi, provider) {
     const gov = new ethers.Contract(address, abi, provider);
@@ -22,45 +23,33 @@ export async function getVoteData(proposalId, address, abi, provider) {
  * @param {uint256} address - Address of governor contract
  * @param {JSON} abi - Abi of governor contract
  * @param {JsonRpcProvider} provider - Instance of network we are using
- * @returns {enum} - Return an enum where active == 1. See enum IGovernor.ProposalState on Open Zeppelin
+ * @returns {enum} - Returns an enum variant, where the enum is ProposalCreated.
+ * See https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/governance/IGovernor.sol#L14
  */
 export async function getActiveStatus(proposalId, address, abi, provider) {
     const gov = new ethers.Contract(address, abi, provider);
-
     let state = await gov.state(proposalId);
     return state;
 }
 
 /**
- * Filters through all ProposalCreated event logs and
- * retrieves the Proposal ID and CID (description string) for all proposals
+ * Returns all ProposalCreated events
  * @param {uint256} address - Address of governor contract
  * @param {JSON} abi - Abi of governor contract
  * @param {JsonRpcProvider} provider - Instance of network we are using
- * @returns {Array} - Return an array of objects, each of format {ProposalID, CID, amount}
+ * @returns {Array} - array of ProposalCreated objects
  */
-export async function getProposalData(address, abi, provider) {
-    let proposals = [];
-    
+export async function getProposalCreatedEvents(address, abi, provider) {
     const gov = new ethers.Contract(address, abi, provider);
 
     const filters = await gov.filters.ProposalCreated();
     const logs = await gov.queryFilter(filters, 0, "latest");
     const events = logs.map((log) => gov.interface.parseLog(log));
 
-    let id, cid, grantAmount, proposal;
-    events.forEach(event => {
-        proposal = {};
-        id = String(event.args.proposalId._hex)
-        cid = event.args.description;
-        grantAmount = Number(event.args[3][0]._hex);
-        proposal.proposalId = id;
-        proposal.cid = cid;
-        proposal.amount = grantAmount; 
-        proposals.push(proposal);
-    })
+    let proposalCreatedObjects = [];
+    events.forEach(event => proposalCreatedObjects.push(new ProposalCreatedEvent(event.args)));
 
-    return proposals;
+    return proposalCreatedObjects;
 }
 
 /**
@@ -75,7 +64,6 @@ export async function propose([governorAddress, governorABI, provider], proposal
     const signer = provider.getSigner();
     // console.log(signer)
     const governor = new ethers.Contract(governorAddress, governorABI, signer);
-    console.log(governor)
     // const erc721 = new ethers.Contract(erc721Address, erc721ABI, erc721Provider);
     // const transferCalldata = erc721.interface.encodeFunctionData(transfer, [teamAddress, grantAmount]);
 
@@ -86,7 +74,6 @@ export async function propose([governorAddress, governorABI, provider], proposal
         [0],
         proposalDescription
     );
-    console.log('hi')
 
     const proposeReceipt = await proposeTx.wait();
     const proposalId = proposeReceipt.events[0].args.proposalId;
