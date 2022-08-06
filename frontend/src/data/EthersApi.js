@@ -28,8 +28,13 @@ export async function getVoteData(proposalId, address, abi, provider) {
  */
 export async function getActiveStatus(proposalId, address, abi, provider) {
     const gov = new ethers.Contract(address, abi, provider);
-    let state = await gov.state(proposalId);
-    return state;
+
+    try {
+        let state = await gov.state(proposalId);
+        return state;
+    } catch (e) {
+        handleError(e);
+    }
 }
 
 /**
@@ -53,8 +58,8 @@ export async function getProposalCreatedEvents(address, abi, provider) {
 }
 
 /**
- * Create a new proposal
- * 
+ * Create a new proposal.
+ * NOTE: for now, proposals cannot perform any on-chain execution, they are purely "description" proposals
  * @param {*} transfer 
  * @param {*} teamAddress 
  * @param {*} grantAmount 
@@ -62,30 +67,28 @@ export async function getProposalCreatedEvents(address, abi, provider) {
  */
 export async function propose([governorAddress, governorABI, provider], proposalDescription) {
     const signer = provider.getSigner();
-    // console.log(signer)
     const governor = new ethers.Contract(governorAddress, governorABI, signer);
     // const erc721 = new ethers.Contract(erc721Address, erc721ABI, erc721Provider);
     // const transferCalldata = erc721.interface.encodeFunctionData(transfer, [teamAddress, grantAmount]);
 
-    console.log("proposing...")
-    const proposeTx = await governor.connect(signer).propose(
-        [NULL_ADDRESS],
-        [0],
-        [0],
-        proposalDescription
-    );
+    try {
+        console.log("proposing...");
+        const proposeTx = await governor.connect(signer).propose(
+            [NULL_ADDRESS],
+            [0],
+            [0],
+            proposalDescription
+        );
 
-    const proposeReceipt = await proposeTx.wait();
-    const proposalId = proposeReceipt.events[0].args.proposalId;
-    console.log("Proposed with proposal ID: " + proposalId + "\n");
-
-    const proposalState = await governor.state(proposalId);
-    const proposalDeadline = await governor.proposalDeadline(proposalId);
-
-    console.log("Proposal State: " + proposalState);
-    console.log("Proposal Deadline: " + proposalDeadline);
-
-    return proposalId;
+        // TODO: the following is for debugging purposes and can be removed
+        const proposeReceipt = await proposeTx.wait();
+        const proposalId = proposeReceipt.events[0].args.proposalId;
+        console.log("Proposed with proposal ID: " + proposalId + "\n");
+    
+        return proposalId;
+    } catch (e) {
+        handleError(e);
+    }
 }
 
 /**
@@ -98,12 +101,16 @@ export async function propose([governorAddress, governorABI, provider], proposal
  export async function vote([governorAddress, governorABI, provider], proposalId, support, reason) {
     const signer = provider.getSigner();
     const governor = new ethers.Contract(governorAddress, governorABI, signer);
-    const voteTx = await governor.connect(signer).castVoteWithReason(proposalId, support, reason);
 
-    const voteTxReceipt = await voteTx.wait();
-    console.log(voteTxReceipt.events[0].args);
-    // const proposalState = await governor.state(proposalId);
-    // console.log("Current proposal state: " + proposalState);  
+    try {
+        const voteTx = await governor.connect(signer).castVoteWithReason(proposalId, support, reason);
+        const voteTxReceipt = await voteTx.wait();
+        console.log(voteTxReceipt.events[0].args);
+
+        return voteTxReceipt.events[0].args;
+    } catch (e) {
+        handleError(e);
+    }
 }
 
 /**
@@ -113,10 +120,15 @@ export async function propose([governorAddress, governorABI, provider], proposal
 export async function delegate([membershipNFTAddress, membershipNFTabi, provider], delegatee) {
     const signer = provider.getSigner();
     const membershipNFT = new ethers.Contract(membershipNFTAddress, membershipNFTabi, signer);
-    await membershipNFT.delegate(delegatee);
 
-    //TODO: may do something with result of delegate() call
-    console.log("delegated NFT");
+    try {
+        await membershipNFT.delegate(delegatee);
+
+        //TODO: may do something with result of delegate() call
+        console.log("delegated NFT to " + delegatee);
+    } catch (e) {
+        handleError(e);
+    }
 }
 
 export async function queueAndExecute([governorAddress, governorABI, governorProvider], description) {
@@ -146,4 +158,9 @@ export async function queueAndExecute([governorAddress, governorABI, governorPro
   )
 
   await executeTx.wait(1);
+}
+
+function handleError(e) {
+    console.error(e);
+    alert(e.error.data.message);
 }

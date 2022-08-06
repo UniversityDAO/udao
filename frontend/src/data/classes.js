@@ -32,3 +32,15 @@ export class ProposalCreatedEvent {
         this.description = args.description;
     }
 }
+
+/**
+ * Proposal metadata information. Title and description are strings from the frontend form.
+ * isGrant is a boolean indicating whether this proposal a grant or not.
+ */
+export class ProposalMetadata {
+    constructor(title, description, isGrant) {
+        this.title = title;
+        this.description = description;
+        this.isGrant = isGrant;
+    }
+}

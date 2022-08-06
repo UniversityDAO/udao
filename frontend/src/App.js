@@ -2,7 +2,7 @@ import { Route } from 'react-router-dom';
 import { Routes } from 'react-router-dom';
 import './App.css';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import Grants from './pages/grants';
 import Proposals from './pages/proposals';
@@ -38,8 +38,9 @@ function App() {
 
     // metamask provider provides write functionality
     // TODO: may need to connect wallet first? need to request accounts?
+    // TODO: need to refactor this, will throw error and not load app if no metamask
     const metamaskProvider = new ethers.providers.Web3Provider(window.ethereum);
-
+    
     async function loadApp() {
         let allProposals = await getAllProposals(GOV_ADDRESS, GOV_ABI, alchemy_provider);
 

@@ -5,7 +5,8 @@ import Loading from "../components/Loading/loading"
 
 //Testing token
 //const accessToken = ipfsConfig.web3AccessToken;
-const accessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweENmOUUyRjI3MzQ0ZTFmQzU5QzEzNDg5RDc4NDRBRjQ4N0ZGMEYwRUUiLCJpc3MiOiJ3ZWIzLXN0b3JhZ2UiLCJpYXQiOjE2NTU1NzI5NzU2NjQsIm5hbWUiOiJEQU9Ub2tlbiJ9.xfAGJ0lBKio5FU66gQLbHpNfhJtibz8UBmlKY-RhA0g'
+// TODO: move to env
+const accessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweENmOUUyRjI3MzQ0ZTFmQzU5QzEzNDg5RDc4NDRBRjQ4N0ZGMEYwRUUiLCJpc3MiOiJ3ZWIzLXN0b3JhZ2UiLCJpYXQiOjE2NTU1NzI5NzU2NjQsIm5hbWUiOiJEQU9Ub2tlbiJ9.xfAGJ0lBKio5FU66gQLbHpNfhJtibz8UBmlKY-RhA0g';
 
 /**
  * A Web3 Storage object that extends the standard File object
