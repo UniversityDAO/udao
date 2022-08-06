@@ -9,6 +9,10 @@ import { GOV_ABI, GOV_ADDRESS } from "../../data/config";
 function Card(props) {
     let proposal = props.proposal;
 
+    let voteAndCheck = async (voteType) => {
+        let event = await vote([GOV_ADDRESS, GOV_ABI, props.provider], proposal.event.proposalId, voteType, "");
+    }
+
     return (
         <div className="card">
             <div className="card-body">
@@ -37,10 +41,10 @@ function Card(props) {
                     </ul>*/}
                     <div className="voting col-10">
                         {/* need to handle voting > 1: error handling or remove vote button and move to "voted proposals" */}
-                        <button className="btn btn-primary" onClick={() => vote([GOV_ADDRESS, GOV_ABI, props.provider], proposal.event.proposalId, 1, "")} style={{marginLeft:"20px", backgroundColor: "Green"}}>
+                        <button className="btn btn-primary" onClick={() => voteAndCheck(1) } style={{marginLeft:"20px", backgroundColor: "Green"}}>
                             Vote Yes
                         </button>
-                        <button className="btn btn-primary" onClick={() => vote([GOV_ADDRESS, GOV_ABI, props.provider], proposal.event.proposalId, 0, "")} style={{marginLeft:"20px", backgroundColor: "Red"}}>
+                        <button className="btn btn-primary" onClick={() => voteAndCheck(0)} style={{marginLeft:"20px", backgroundColor: "Red"}}>
                             Vote No
                         </button>
                     </div>

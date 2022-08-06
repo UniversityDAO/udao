@@ -8,12 +8,12 @@ import AppError from "../components/Errors/AppError";
 
 import { propose } from "../data/EthersApi"
 import { GOV_ABI, GOV_ADDRESS } from "../data/config";
+import { ProposalMetadata } from '../data/classes';
 
 function ProposalsApp(props) {
     const provider = props.provider;
     const [title, setTitle] = useState("");
     const [desc, setDesc] = useState("");
-    const [jsonObject, setJsonObject] = useState({});
     const [error, setError] = useState(false);
 
     async function submitApp() {
@@ -21,15 +21,10 @@ function ProposalsApp(props) {
             setError(true);
         } else {
             setError(false);
-            setJsonObject(jsonObject["title"] = title);
-            setJsonObject(jsonObject["desc"] = desc);
+            let metadata = new ProposalMetadata(title, desc, false);
+            let jsonFile = makeFileObjects(metadata);
 
-            // NOTE: removing "tags" and replacing with "isGrant"
-            // setJsonObject(jsonObject["tags"] = ["Proposal"]);
-            setJsonObject(jsonObject["isGrant"] = false); // because this is proposals page, so always false
-
-            console.log(JSON.stringify(jsonObject));
-            let jsonFile = makeFileObjects(jsonObject);
+            // TODO: why are indexes hardcoded?
             let slicedString = title.slice(0, 8);
 
             // TODO: find way to get cid w/o uploading. then wait for blockchain txn to confirm
@@ -38,7 +33,6 @@ function ProposalsApp(props) {
 
             // create a proposal on blockchain
             let proposal_id = await propose([GOV_ADDRESS, GOV_ABI, provider], ipfs_cid);
-
             // can now do something with proposal_id, like fetch and render or something
 
             return (
