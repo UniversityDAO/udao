@@ -1,10 +1,37 @@
 import { Link } from "react-router-dom";
+import { useState } from 'react';
 import logo from "../../DaoLogo.svg"
 import "./navbar.css";
 
 import MetamaskConnect from "../Buttons/MetamaskConnect";
 
+import { delegate } from '../../data/EthersApi';
+import { NFT_ADDRESS, NFT_ABI } from '../../data/config';
+import { useEffect } from "react";
+import { ethers } from "ethers";
+
 function Navbar() {
+    const [account, setAccount] = useState(null);
+    const [provider, setProvider] = useState(null);
+
+    useEffect(() => {
+        async function setUp() {
+            let accounts = await window.ethereum.request({ method: 'eth_accounts' });
+            setAccount(accounts[0]);
+            setProvider(new ethers.providers.Web3Provider(window.ethereum));
+        }
+        setUp();
+    }, []);
+
+
+    const checkAndDelegate = () => {
+        if (account && provider) {
+            delegate([NFT_ADDRESS, NFT_ABI, provider], account);
+        } else {
+            console.log("Account is null. Must connect metamask first before delegating");
+        }
+    }
+
     return (
     <div className="vertical-nav" id="sidebar">
         <div className="py-4 px-3 mb-4">
@@ -35,6 +62,7 @@ function Navbar() {
       <div className="connect-wallet">
         <MetamaskConnect />
       </div>
+      <button className='btn btn-primary' onClick={() => checkAndDelegate()}>Delegate (to self)</button>
     </div>
   )
 }

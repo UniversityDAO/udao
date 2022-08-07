@@ -3,27 +3,29 @@ import { useState } from 'react';
 import ThumbsUp from "../../thumbUp.svg"
 import ThumbsDown from "../../thumbDown.svg"
 
+import { vote } from "../../data/EthersApi"
+import { GOV_ABI, GOV_ADDRESS } from "../../data/config";
+
 function Card(props) {
-    const [yesVotes, setYesVotes] = useState(props.yesVotes);
-    const [noVotes, setNoVotes] = useState(props.noVotes);
+    let proposal = props.proposal;
 
     return (
         <div className="card">
             <div className="card-body">
-                <h2 className="card-header">{props.title}</h2>
-                <p className="card-text"><small><small><em>{"Description: " + props.desc}</em></small></small></p>
+                <h2 className="card-header">{proposal.title}</h2>
+                <p className="card-text"><small><small><em>{"Description: " + proposal.desc}</em></small></small></p>
                 <div className="row">
                     <div className="col-2 thumbBox">
                         <img src={ThumbsUp} className="thumb" /> 
                     </div>
                     <div className="col-2">
-                        <p><small><strong>{yesVotes}</strong></small></p>
+                        <p><small><strong>{proposal.yesVotes}</strong></small></p>
                     </div>
                     <div className="col-2 thumbBox">
                         <img src={ThumbsDown} className="thumb"/>
                     </div>
                     <div className="col-2">
-                        <p><small><strong>{noVotes}</strong></small></p>
+                        <p><small><strong>{proposal.noVotes}</strong></small></p>
                     </div>
                     {/*<p><img src={ThumbsUp}/> {yesVotes} <img src={ThumbsDown}/> {noVotes}</p>*/}
                 </div>
@@ -34,10 +36,11 @@ function Card(props) {
                         })}
                     </ul>*/}
                     <div className="voting col-10">
-                        <button className="btn btn-primary" onClick={() => setYesVotes(yesVotes + 1)} style={{marginLeft:"20px", backgroundColor: "Green"}}>
+                        {/* need to handle voting > 1: error handling or remove vote button and move to "voted proposals" */}
+                        <button className="btn btn-primary" onClick={() => vote([GOV_ADDRESS, GOV_ABI, props.provider], proposal.proposalID, 1, "")} style={{marginLeft:"20px", backgroundColor: "Green"}}>
                             Vote Yes
                         </button>
-                        <button className="btn btn-primary" onClick={() => setNoVotes(noVotes + 1)} style={{marginLeft:"20px", backgroundColor: "Red"}}>
+                        <button className="btn btn-primary" onClick={() => vote([GOV_ADDRESS, GOV_ABI, props.provider], proposal.proposalID, 0, "")} style={{marginLeft:"20px", backgroundColor: "Red"}}>
                             Vote No
                         </button>
                     </div>

@@ -4,18 +4,15 @@ import Card from '../components/Cards/card';
 import GrantCard from '../components/Cards/grantCard';
 
 import "./styling/common.css";
-import "./styling/dashboard.css"
+import "./styling/dashboard.css";
 
 function Dashboard(props) {
     let activeProposals = props.activeProposals;
     let activeGrants = props.activeGrants;
-    
+
     function FilterProposals() {
-        return (
-            activeProposals.map(proposal => {
-                return <Card title={proposal.title} desc={proposal.desc} yesVotes={proposal.yesVotes} noVotes={proposal.noVotes} active={proposal.active}/>
-            })
-        )
+        // TODO: passing in the provider to each card is a bit repetitive/waste of memory
+        return activeProposals.map(proposal => <Card provider={props.metamaskProvider} proposal={proposal} />);
     }
     
     function FilterGrants() {
@@ -23,7 +20,6 @@ function Dashboard(props) {
             activeGrants.map(grant => {
                 return <GrantCard title={grant.title} desc={grant.desc} amount={grant.amount} yesVotes={grant.yesVotes} noVotes={grant.noVotes} active={grant.active}/>
             }))
-        
     }
 
     return (
