@@ -2,14 +2,11 @@ import Loading from "../components/Loading/loading";
 import "./styling/loading.css"
 
 import { Navigate } from 'react-router'
-import { useEffect } from "react";
+import { useSelector } from "react-redux";
 
-export default function LoadingPage(props) {
-    useEffect(() => {
-        props.loadApp();
-    }, []);
-
-        if (props.loading) {
+export default function LoadingPage() {
+    let loading = useSelector(state => state.isLoading);
+        if (loading) {
             return (
                 <div className="loading-page">
                     <div className="loading-content">

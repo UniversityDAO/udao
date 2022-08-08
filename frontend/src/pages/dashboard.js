@@ -2,24 +2,40 @@ import Banner from '../components/Banners/banner';
 import TitleCard from '../components/Cards/titlecard';
 import Card from '../components/Cards/card';
 import GrantCard from '../components/Cards/grantCard';
+import Loading from '../components/Loading/loading';
+
+import { useSelector } from 'react-redux';
 
 import "./styling/common.css";
 import "./styling/dashboard.css";
 
-function Dashboard(props) {
-    let activeProposals = props.activeProposals;
-    let activeGrants = props.activeGrants;
+function Dashboard() {
+    let activeProposals = useSelector(state => state.activeProposals);
+    let activeGrants = useSelector(state => state.activeGrants);
+
+    let metamaskProvider = useSelector(state => state.metamaskProvider);
+    let loading = useSelector(state => state.isLoading);
 
     function FilterProposals() {
+        if (loading) {
+            return <Loading />
+        }
         // TODO: passing in the provider to each card is a bit repetitive/waste of memory
-        return activeProposals.map(proposal => <Card provider={props.metamaskProvider} proposal={proposal} />);
+        else {
+            return activeProposals.map(proposal => <Card provider={metamaskProvider} proposal={proposal} />);
+        }
     }
     
     function FilterGrants() {
-        return (
-            activeGrants.map(grant => {
-                return <GrantCard title={grant.title} desc={grant.desc} amount={grant.amount} yesVotes={grant.yesVotes} noVotes={grant.noVotes} active={grant.active}/>
-            }))
+        if (loading) {
+            return <Loading />
+        }
+        else {
+            return (
+                activeGrants.map(grant => {
+                    return <GrantCard title={grant.title} desc={grant.desc} amount={grant.amount} yesVotes={grant.yesVotes} noVotes={grant.noVotes} active={grant.active}/>
+                }))
+        }
     }
 
     return (
