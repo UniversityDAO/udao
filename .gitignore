@@ -23,11 +23,7 @@ artifacts
 
 # production
 /build
-<<<<<<< HEAD
-/frontend/src/data/artifacts/build-info
-=======
 /frontend/src/data/artifacts
->>>>>>> b08869e (Added artifacts to gitignore)
 
 # misc
 .DS_Store
