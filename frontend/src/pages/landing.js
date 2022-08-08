@@ -15,7 +15,7 @@ function Landing() {
             return (<Link className="btn landing-button" to="/Dashboard">Launch App</Link>)
         }
     }
-    
+
     return (
         <div className="landing-page">
             <div className="landing-content">
