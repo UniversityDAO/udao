@@ -6,6 +6,7 @@ import { useSelector } from "react-redux";
 
 export default function LoadingPage() {
     let loading = useSelector(state => state.isLoading);
+
     if (loading) {
         return (
             <div className="loading-page">

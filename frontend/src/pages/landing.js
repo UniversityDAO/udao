@@ -5,17 +5,6 @@ import { useSelector } from "react-redux";
 
 import "./styling/landing.css";
 function Landing() {
-    let loading = useSelector(state => state.isLoading);
-
-    function HandleLink() {
-        if (loading) {
-            return (<Link className="btn landing-button" to="/Loading">Launch App</Link>)
-        }
-        else {
-            return (<Link className="btn landing-button" to="/Dashboard">Launch App</Link>)
-        }
-    }
-
     return (
         <div className="landing-page">
             <div className="landing-content">
