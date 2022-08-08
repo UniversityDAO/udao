@@ -1,38 +1,40 @@
-import React, {useEffect} from 'react'
-import { Link } from 'react-router-dom';
-import * as Icons from '@mui/icons-material'
-import Navbar from '../components/Navbar'
+import React, {useEffect} from "react";
+import { Link } from "react-router-dom";
+import ThumbUpOffAltSharp from "@mui/icons-material/ThumbUpOffAltSharp"
+import ThumbDownOffAltSharp from "@mui/icons-material/ThumbDownOffAltSharp"
 
-function View_Proposal() {
+function ViewProposalLayout(props) {
   useEffect(() => {
-    document.title = "UDAO - View Proposal"
+    document.title = "UDAO - View " + props.name;
   }, []);
   
   return (
     <>
-      <Navbar/>
-      <div className='page-content'>
-        <div className='top' id='view-proposal'>
-          <h1>Name of very long proposal here</h1>
+      <div className="flex flex-col p-5 mb-5 rounded-lg bg-black">
+        <p className="text-3xl">{props.proposalname}</p>
+      </div>
+
+      <div className="flex flex-col p-5 mb-5 rounded-lg bg-black">
+        <p className="text-3xl mb-2">Votes</p>
+        <div className="flex mb-2">
+          <ThumbUpOffAltSharp className="mr-2.5"/>
+          <p className="mr-2.5">{props.yesvotes}</p>
+          <ThumbDownOffAltSharp className="mr-2.5"/>
+          <p>{props.novotes}</p>
         </div>
-        <div className='row' id='vote-area'>
-          <div className='vote-container'>
-            <Icons.ThumbUpOffAltSharp className='vote-icon'/>
-            <p className='vote-number'>43</p>
-            <Icons.ThumbDownOffAltSharp className='vote-icon'/>
-            <p className='vote-number'>7</p>
-          </div>
-          <div className='vote-bar' id='no-votes'>
-            <div className='vote-bar' id='yes-votes'/>
-          </div>
-          <div className='body-buttons'>
-            <button className='body-button' id='yea'>Yea</button>
-            <button className='body-button' id='nay'>Nay</button>
-            <Link className='body-button' id='yes' to='/proposals'>Cancel</Link>
-          </div>
+        <div className="w-full h-2.5 mb-5 rounded-lg bg-red">
+          <div className="w-10/12 rounded-r-none h-2.5 mb-5 rounded-lg bg-green"/>
         </div>
-        <div className='row' id='bottom'>
-          <h1 className='header-text'>Description</h1>
+        <div className="flex justify-between">
+          <div className="flex">
+            <button className="mr-5 w-72 h-10 flex justify-center items-center rounded-lg text-2xl bg-green hover:bg-hover-green">Yea</button>
+            <button className="w-72 h-10 flex justify-center items-center rounded-lg text-2xl bg-red hover:bg-hover-red">Nay</button>
+          </div>
+          <Link className="w-72 h-10 flex justify-center items-center rounded-lg text-2xl bg-purple hover:bg-hover-purple" to={"/" + props.name.toLowerCase() + "s"}>Cancel</Link>
+        </div>
+      </div>
+      <div className="flex flex-col p-5 mb-5 rounded-lg bg-black">
+        <p className="text-3xl mb-2">Description</p>
           <p>
             This is an example of a very long proposal description.
             <br/><br/>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sed ex sem. In semper magna auctor nibh auctor, vitae viverra velit finibus. Curabitur condimentum mollis arcu sed viverra. Aliquam finibus velit risus, ac hendrerit odio vestibulum id. Morbi ullamcorper enim vel ipsum eleifend maximus. Cras nec erat vulputate tellus tempor mattis a sit amet metus. Integer eu maximus quam. Fusce aliquet non lorem eget accumsan. Duis gravida vehicula tortor, eget malesuada mauris. Proin tristique lorem ipsum, semper lacinia odio interdum tempor. Etiam vel sem velit. Nunc varius lorem sed turpis semper blandit. Nunc malesuada rutrum eleifend. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Aenean semper consequat mollis.
@@ -41,10 +43,13 @@ function View_Proposal() {
             <br/><br/>Nunc ut augue vel nulla cursus porta. Donec nec nibh mollis, finibus odio vel, sodales felis. Vestibulum lacinia sagittis dui, sed ornare ligula luctus vitae. Curabitur rutrum sem urna, a viverra eros porta a. Donec faucibus purus vel enim mollis, sed cursus nisi tincidunt. Maecenas tempus vestibulum tincidunt. Suspendisse potenti. Phasellus non nunc maximus, interdum tortor sit amet, maximus elit.
             <br/><br/>Vestibulum nec risus a ligula aliquet ullamcorper. Morbi feugiat lectus velit, id pulvinar odio porttitor quis. Sed sem neque, vulputate finibus tempor non, eleifend nec augue. Mauris luctus malesuada dignissim. Fusce pulvinar urna ultricies lectus blandit, ac accumsan ipsum bibendum. Cras non tortor dignissim lacus vulputate elementum. Nunc vitae purus ut dui auctor commodo eget pretium velit. Fusce consequat euismod ligula, at scelerisque dolor molestie id. Suspendisse mattis diam nunc, nec tincidunt nulla lobortis nec. Vivamus ultrices odio vel elit rhoncus, eget porta leo laoreet.
           </p>
-        </div>
+      </div>
+
+      <div className="row" id="bottom">
+        
       </div>
     </>
   )
 }
 
-export default View_Proposal
+export default ViewProposalLayout

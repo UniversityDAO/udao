@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
-import * as Icons from '@mui/icons-material'
-import { Link, NavLink } from 'react-router-dom';
-import { SidebarData } from './SidebarData';
-import '../css/Navbar.css'
-import Logo from '../assets/udao_logo_square.svg'
+import React, { useState } from "react";
+import DarkMode from "@mui/icons-material/DarkMode"
+import Language from "@mui/icons-material/Language"
+import Twitter from "@mui/icons-material/Twitter"
+import GitHub from "@mui/icons-material/GitHub"
+import { NavLink } from "react-router-dom";
+import { SidebarData } from "./SidebarData";
+import Logo from "../assets/udao_logo_square.svg"
 
 function Navbar() {
   const [sidebar, setSidebar] = useState(false);
@@ -12,42 +14,32 @@ function Navbar() {
 
   return (
     <>
-      <div className='navbar'>
-        <Link to='#' className='menu-icon'>
-          <Icons.Menu onClick={showSidebar}/>
-        </Link>
-        <div className="nav-button-container">
-          <button className='nav-button' id='connect-wallet'>Connect Wallet</button>
-          <button className='nav-button' id='theme'><Icons.DarkMode/></button>
-          <button className='nav-button' id='language'><Icons.Language/></button>
-        </div>
+      <div className="w-full h-20 flex justify-end">
+        <button className="w-48 m-5 ml-2.5 mr-2.5 rounded-lg text-lg cursor-pointer bg-purple hover:bg-hover-purple hover:text-white">Connect Wallet</button>
+        <button className="w-10 m-5 ml-2.5 mr-2.5 rounded-lg text-lg cursor-pointer bg-purple hover:bg-hover-purple hover:text-white"><DarkMode/></button>
+        <button className="w-10 m-5 ml-2.5 rounded-lg text-lg cursor-pointer bg-purple hover:bg-hover-purple hover:text-white"><Language/></button>
       </div>
-      <nav className={sidebar ? 'nav-menu-open' : 'nav-menu'}>
-        <ul className='nav-menu-items' onClick={showSidebar}>
-          <li className='navbar-toggle'>
-            <Link to='#' className='menu-icon'>
-              <Icons.Close/>
-            </Link>
-          </li>
-          <div className='nav-logo-container'>
-            <img src={Logo} id='nav-logo' alt='logo'/>
+      <nav className="bg-black w-72 h-screen flex justify-center fixed top-0 flex-1">
+        <ul className="w-full">
+          <div className="h-28 m-5 flex justify-center align-center">
+            <img src={Logo} alt="logo"/>
           </div>
-          <h1 className='nav-logo-text'>UDAO</h1>
-          <div className='nav-horizontal' id='top'/>
+          <p className="flex justify-center align-center font text-7xl">UDAO</p>
+          <div className="h-0.5 m-5 flex justify-center align-center bg-purple"/>
           {SidebarData.map((item, index) => {
             return (
-              <li key={index} className='nav-li'>
-                <NavLink to={item.path} className='navlink'>
+              <li key={index} className="flex justify-center">
+                <NavLink to={item.path} className="w-10/12 mb-2.5 p-3 flex justify-start align-center rounded-lg hover:bg-purple hover:text-white">
                   {item.icon}
-                  <span>{item.title}</span>
+                  <span className="ml-4">{item.title}</span>
                 </NavLink>
               </li>
             );
           })}
-          <div className='nav-horizontal'/>
-          <div className='nav-social-container'>
-            <a href='https://twitter.com/TrumanUDAO' target='_blank'><button className='social-button'><Icons.Twitter/></button></a>
-            <a href='https://github.com/UniversityDAO/' target='_blank'><button className='social-button'><Icons.GitHub/></button></a>
+          <div className="h-0.5 m-5 mt-2.5 flex justify-center align-center bg-purple"/>
+          <div className="flex justify-center align-center">
+            <a href="https://twitter.com/TrumanUDAO" target="_blank" className="w-10 h-10 m-5 mt-0 mr-2.5 text-lg rounded-lg bg-purple hover:bg-hover-purple hover:text-white"><div className="w-full h-full flex justify-center items-center"><Twitter/></div></a>
+            <a href="https://github.com/UniversityDAO/" target="_blank" className="w-10 h-10 mt-0 m-5 ml-2.5 text-lg rounded-lg bg-purple hover:bg-hover-purple hover:text-white"><div className="w-full h-full flex justify-center items-center"><GitHub/></div></a>
           </div>
         </ul>
       </nav>
