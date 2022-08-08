@@ -9,26 +9,32 @@ import { getVoteData, getActiveStatus, getProposalData } from "./EthersApi";
  * @param {JSON} abi - Abi of governance contract
  * @param {JsonRpcProvider} provider - Instance of network we are using
  * @returns {Array<proposals>} - Returns array of proposal objects of format 
- * {title, desc, yesVotes, noVotes, isGrant} 
+ * {title, desc, yesVotes, noVotes, active, amount, isGrant, proposalID, cid}
  */
 export async function getAllProposals(address, abi, provider) {
     let proposalsArray = [];
     const proposals = await getProposalData(address, abi, provider);
 
     for await (const proposal of proposals) {
-        let file = await web3Storage.retrieveArchiveByCid(proposal.cid);
-        let text = await file[0].text();
-        let prop = JSON.parse(text);
-
-        let voteData = await getVoteData(proposal.proposalId, address, abi, provider);
-        let state = await getActiveStatus(proposal.proposalId, address, abi, provider);
-
-        prop.yesVotes = Number(voteData.forVotes._hex);
-        prop.noVotes = Number(voteData.againstVotes._hex);
-        prop.active = state;
-        prop.amount = proposal.amount;
-
-        proposalsArray.push(prop);
+        try {
+            let file = await web3Storage.retrieveArchiveByCid(proposal.cid);
+            let text = await file[0].text();
+            let prop = JSON.parse(text);
+    
+            let voteData = await getVoteData(proposal.proposalId, address, abi, provider);
+            let state = await getActiveStatus(proposal.proposalId, address, abi, provider);
+    
+            prop.yesVotes = Number(voteData.forVotes._hex);
+            prop.noVotes = Number(voteData.againstVotes._hex);
+            prop.active = state;
+            prop.amount = proposal.amount;
+            prop.proposalID = proposal.proposalId;
+            prop.cid = proposal.cid;
+            
+            proposalsArray.push(prop);
+        } catch (e) {
+            console.error(e);
+        }
     }
     return proposalsArray;
 }

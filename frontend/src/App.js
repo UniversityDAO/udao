@@ -24,30 +24,36 @@ import { GOV_ABI } from './data/config';
 import { getAllProposals } from './data/UDAOApi';
 
 function App() {
-  const [activeProposals, setActiveProposals] = useState([]);
-  const [inactiveProposals, setInactiveProposals] = useState([]);
+    const [activeProposals, setActiveProposals] = useState([]);
+    const [inactiveProposals, setInactiveProposals] = useState([]);
 
-  const [activeGrants, setActiveGrants] = useState([]);
-  const [inactiveGrants, setInactiveGrants] = useState([]);
+    const [activeGrants, setActiveGrants] = useState([]);
+    const [inactiveGrants, setInactiveGrants] = useState([]);
 
-  const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(true);
 
-  const provider = new ethers.providers.JsonRpcProvider();
+    // alchemy provider can only read from blockchain. need b/c we want people w/o metamask to be able
+    // to view the site
+    const alchemy_provider = new ethers.providers.AlchemyProvider("maticmum", process.env.ALCHEMY_API_KEY);
 
-  async function loadApp() {
-    let allProposals = await getAllProposals(GOV_ADDRESS, GOV_ABI, provider);
+    // metamask provider provides write functionality
+    // TODO: may need to connect wallet first? need to request accounts?
+    const metamaskProvider = new ethers.providers.Web3Provider(window.ethereum);
 
-    let proposals = allProposals.filter(p => p.isGrant === false);
-    let grants = allProposals.filter(g => g.isGrant === true);
+    async function loadApp() {
+        let allProposals = await getAllProposals(GOV_ADDRESS, GOV_ABI, alchemy_provider);
 
-    setActiveProposals(proposals.filter(p => p.active === 1));
-    setInactiveProposals(proposals.filter(p => p.active !== 1));
+        let proposals = allProposals.filter(p => p.isGrant === false);
+        let grants = allProposals.filter(g => g.isGrant === true);
 
-    setActiveGrants(grants.filter(g => g.active === 1));
-    setInactiveGrants(grants.filter(g => g.active !== 1));
+        setActiveProposals(proposals.filter(p => p.active === 1));
+        setInactiveProposals(proposals.filter(p => p.active !== 1));
 
-    setLoading(false);
-  }
+        setActiveGrants(grants.filter(g => g.active === 1));
+        setInactiveGrants(grants.filter(g => g.active !== 1));
+
+        setLoading(false);
+    }
 
   return (
     <>
@@ -57,9 +63,9 @@ function App() {
             <Route path="/Loading" element={<Loading loading={loading} loadApp={loadApp}/>}/>
           </Route>
           <Route element={<WithNav />} >
-            <Route path="/Dashboard" element={<Dashboard activeProposals={activeProposals} inactiveProposals={inactiveProposals} activeGrants={activeGrants} inactiveGrants={inactiveGrants}/>} />
+            <Route path="/Dashboard" element={<Dashboard metamaskProvider={metamaskProvider} activeProposals={activeProposals} inactiveProposals={inactiveProposals} activeGrants={activeGrants} inactiveGrants={inactiveGrants}/>} />
             <Route path="/Proposals" element = {<Proposals activeProposals={activeProposals} inactiveProposals={inactiveProposals}/>}> </Route>
-            <Route path="/Proposals/Application" element = {<ProposalsApp/>}> </Route>
+            <Route path="/Proposals/Application" element = {<ProposalsApp provider={metamaskProvider} />}> </Route>
             <Route path="/Grants/Application" element = {<GrantsApp/>}> </Route>
             <Route path="/Grants" element = {<Grants activeGrants={activeGrants} inactiveGrants={inactiveGrants}/>}> </Route>
             <Route path="/Help" element = {<Help />}> </Route>
