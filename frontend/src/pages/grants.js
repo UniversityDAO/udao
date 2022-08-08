@@ -2,38 +2,49 @@ import TitleCard from "../components/Cards/titlecard";
 import GrantCard from "../components/Cards/grantCard";
 import GBanner from "../components/Banners/banner2"
 import { useState } from 'react';
+import { useSelector } from "react-redux";
+
+import Loading from "../components/Loading/loading";
 
 import "./styling/common.css"
 
-export default function Grants(props) {
-  
-    let activeGrants = props.activeGrants;
-    let inactiveGrants = props.inactiveGrants;
+export default function Grants() {
+    let activeGrants = useSelector(state => state.activeGrants);
+    let inactiveGrants = useSelector(state => state.inactiveGrants);
+
+    let metamaskProvider = useSelector(state => state.metamaskProvider);
+    let loading = useSelector(state => state.isLoading);
+
     const [cardTitle, setCardTitle] = useState("Active Grants");
 
     function FilterGrants(props) {
-        const status=props.status;
-        if (status === "Active Grants") {
-            return (
-                activeGrants.map(grant => {
-                    return <GrantCard title={grant.title} desc={grant.desc} amount={grant.amount} yesVotes={grant.yesVotes} noVotes={grant.noVotes} active={grant.active}/>
-                })
-            )
+        if (loading) {
+            return <Loading />
         }
-        else if (status === "Inactive Grants") {
-            return (
-                inactiveGrants.map(grant => {
-                    return <GrantCard title={grant.title} desc={grant.desc} amount={grant.amount} yesVotes={grant.yesVotes} noVotes={grant.noVotes} active={grant.active}/>
-                })
-            )
+        else {
+            const status=props.status;
+            if (status === "Active Grants") {
+                return (
+                    activeGrants.map(grant => {
+                        return <GrantCard title={grant.title} desc={grant.desc} amount={grant.amount} yesVotes={grant.yesVotes} noVotes={grant.noVotes} active={grant.active}/>
+                    })
+                )
+            }
+            else if (status === "Inactive Grants") {
+                return (
+                    inactiveGrants.map(grant => {
+                        return <GrantCard title={grant.title} desc={grant.desc} amount={grant.amount} yesVotes={grant.yesVotes} noVotes={grant.noVotes} active={grant.active}/>
+                    })
+                )
+            }
+            /*else if (status === "My Grants") {
+                return (
+                    myGrants.map(grant => {
+                        return <GrantCard title={grant.title} desc={grant.desc} amount={grant.amount} yesVotes={grant.yesVotes} noVotes={grant.noVotes} active={grant.active}/>
+                    })
+                )
+            }*/
         }
-        /*else if (status === "My Grants") {
-            return (
-                myGrants.map(grant => {
-                    return <GrantCard title={grant.title} desc={grant.desc} amount={grant.amount} yesVotes={grant.yesVotes} noVotes={grant.noVotes} active={grant.active}/>
-                })
-            )
-        }*/
     }
 
     let updateTitle = (newTitle) => {

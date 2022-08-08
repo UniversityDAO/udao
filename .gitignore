@@ -6,6 +6,8 @@ typechain
 
 #Hardhat files
 cache
+#artifacts
+
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # VSCode
@@ -21,6 +23,7 @@ cache
 
 # production
 /build
+#/frontend/src/data/artifacts
 
 # misc
 .DS_Store

@@ -10,8 +10,11 @@ import { propose } from "../data/EthersApi"
 import { GOV_ABI, GOV_ADDRESS } from "../data/config";
 import { ProposalMetadata } from '../data/classes';
 
+import { useSelector } from 'react-redux'
+
 function ProposalsApp(props) {
-    const provider = props.provider;
+
+    const provider = useSelector(state => state.metamaskProvider);
     const [title, setTitle] = useState("");
     const [desc, setDesc] = useState("");
     const [error, setError] = useState(false);

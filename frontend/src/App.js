@@ -2,7 +2,9 @@ import { Route } from 'react-router-dom';
 import { Routes } from 'react-router-dom';
 import './App.css';
 
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
+
+import { useDispatch } from 'react-redux/es/exports';
 
 import Grants from './pages/grants';
 import Proposals from './pages/proposals';
@@ -22,53 +24,54 @@ import { GOV_ADDRESS } from './data/config';
 import { GOV_ABI } from './data/config';
 
 import { getAllProposals } from './data/UDAOApi';
+import {setAlchemyProvider, setMetamaskProvider, setActiveGrants, setInactiveGrants, setActiveProposals, setInactiveProposals, setLoading} from "./actions"
 
 function App() {
-    const [activeProposals, setActiveProposals] = useState([]);
-    const [inactiveProposals, setInactiveProposals] = useState([]);
+    const dispatch = useDispatch();
 
-    const [activeGrants, setActiveGrants] = useState([]);
-    const [inactiveGrants, setInactiveGrants] = useState([]);
+    useEffect(() => {
+      // alchemy provider can only read from blockchain. need b/c we want people w/o metamask to be able
+      // to view the site
+      const alchemy_provider = new ethers.providers.AlchemyProvider("maticmum", process.env.ALCHEMY_API_KEY);
+      dispatch(setAlchemyProvider(alchemy_provider))
 
-    const [loading, setLoading] = useState(true);
+      // metamask provider provides write functionality
+      // TODO: may need to connect wallet first? need to request accounts?
+      // TODO: need to refactor this, will throw error and not load app if no metamask
+      const metamaskProvider = new ethers.providers.Web3Provider(window.ethereum);
+      dispatch(setMetamaskProvider(metamaskProvider))
 
-    // alchemy provider can only read from blockchain. need b/c we want people w/o metamask to be able
-    // to view the site
-    const alchemy_provider = new ethers.providers.AlchemyProvider("maticmum", process.env.ALCHEMY_API_KEY);
-
-    // metamask provider provides write functionality
-    // TODO: may need to connect wallet first? need to request accounts?
-    // TODO: need to refactor this, will throw error and not load app if no metamask
-    const metamaskProvider = new ethers.providers.Web3Provider(window.ethereum);
-    
-    async function loadApp() {
+      async function loadApp() {
         let allProposals = await getAllProposals(GOV_ADDRESS, GOV_ABI, alchemy_provider);
 
         let proposals = allProposals.filter(p => p.metadata.isGrant === false);
         let grants = allProposals.filter(g => g.metadata.isGrant === true);
+        
+        dispatch(setActiveProposals(proposals.filter(p => p.state === 1)));
+        dispatch(setInactiveProposals(proposals.filter(p => p.state !== 1)));
 
-        setActiveProposals(proposals.filter(p => p.state === 1));
-        setInactiveProposals(proposals.filter(p => p.state !== 1));
+        dispatch(setActiveGrants(grants.filter(g => g.state === 1)));
+        dispatch(setInactiveGrants(grants.filter(g => g.state !== 1)));
+  
+        dispatch(setLoading(false));
+      }
 
-        setActiveGrants(grants.filter(g => g.state === 1));
-        setInactiveGrants(grants.filter(g => g.state !== 1));
-
-        setLoading(false);
-    }
+      loadApp();
+    }, [])
 
   return (
     <>
       <Routes>
           <Route element={<WithoutNav />}>
             <Route path="/" element={<Landing/>} />
-            <Route path="/Loading" element={<Loading loading={loading} loadApp={loadApp}/>}/>
+            <Route path="/Loading" element={<Loading/>}/>
           </Route>
           <Route element={<WithNav />} >
-            <Route path="/Dashboard" element={<Dashboard metamaskProvider={metamaskProvider} activeProposals={activeProposals} inactiveProposals={inactiveProposals} activeGrants={activeGrants} inactiveGrants={inactiveGrants}/>} />
-            <Route path="/Proposals" element = {<Proposals activeProposals={activeProposals} inactiveProposals={inactiveProposals}/>}> </Route>
-            <Route path="/Proposals/Application" element = {<ProposalsApp provider={metamaskProvider} />}> </Route>
+            <Route path="/Dashboard" element={<Dashboard/>} />
+            <Route path="/Proposals" element = {<Proposals />}> </Route>
+            <Route path="/Proposals/Application" element = {<ProposalsApp/>}> </Route>
             <Route path="/Grants/Application" element = {<GrantsApp/>}> </Route>
-            <Route path="/Grants" element = {<Grants activeGrants={activeGrants} inactiveGrants={inactiveGrants}/>}> </Route>
+            <Route path="/Grants" element = {<Grants/>}> </Route>
             <Route path="/Help" element = {<Help />}> </Route>
           </Route>
       </Routes>
