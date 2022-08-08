@@ -6,6 +6,8 @@ import ThumbsDown from "../../thumbDown.svg"
 import { vote } from "../../data/EthersApi"
 import { GOV_ABI, GOV_ADDRESS } from "../../data/config";
 
+import { useSelector } from 'react-redux'
+
 function Card(props) {
     let proposal = props.proposal;
 
@@ -17,7 +19,7 @@ function Card(props) {
         <div className="card">
             <div className="card-body">
                 <h2 className="card-header">{proposal.metadata.title}</h2>
-                <p className="card-text"><small><small><em>{"Description: " + proposal.metadata.desc}</em></small></small></p>
+                <p className="card-text"><small><small><em>{"Description: " + proposal.metadata.description}</em></small></small></p>
                 <div className="row">
                     <div className="col-2 thumbBox">
                         <img src={ThumbsUp} className="thumb" /> 
