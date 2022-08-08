@@ -1,47 +1,27 @@
-import React, {useEffect} from 'react'
-import { Link } from 'react-router-dom';
-import Navbar from '../components/Navbar'
-import Card from '../components/Card'
+import React, {useEffect} from "react";
+import { Link } from "react-router-dom";
+import TopData from "../components/TopData"
+import CardSection from "../components/CardSection"
 
-function Proposals() {
+function ProposalsLayout(props) {
   useEffect(() => {
-    document.title = "UDAO - Proposals"
+    document.title = "UDAO - " + props.name;
   }, []);
+
+  const name = props.name.slice(0, -1);
+  const link = "/new_" + name.toLowerCase();
 
   return (
     <>
-      <Navbar/>
-      <div className='page-content'>
-        <div className='top'>
-          <div className='top-data'>
-            <div id='data'>
-              <h3 id='header'>Current Active Proposals</h3>
-              <h1 id='info'>6</h1>
-            </div>
-          </div>
-          <div className='top-data'>
-            <div id='data'>
-              <h3 id='header'>Your Current Votes</h3>
-              <h1 id='info'>3</h1>
-            </div>
-          </div>
-        </div>
-        <div className='row'>
-          <div className='row-header'>
-            <h1 className='header-text'>Your Voted Proposals</h1>
-            <Link className='header-button' to='/new_proposal'>New Proposal</Link>
-          </div>
-          <Card className='card'/>
-          <Card className='card'/>
-        </div>
-        <div className='row' id='bottom'>
-          <h1 className='header-text'>Other Active Proposals</h1>
-          <Card className='card'/>
-          <Card className='card'/>
-        </div>
+      <Link className="w-48 h-12 mb-5 mr-2.5 p-5 flex justify-center items-center rounded-lg text-lg cursor-pointer bg-purple hover:bg-hover-purple hover:text-white" to={link}>New {name}</Link>
+      <div className="mb-5 p-5 flex justify-center items-center rounded-lg bg-black">
+        <TopData name={"Current Active " + props.name} data={props.currentactiveproposals}/>
+        <TopData name={"Your Voted " + props.name} data={props.votedproposals}/>
       </div>
+      <CardSection header={"Your Voted " + props.name}/>
+      <CardSection header={"Other Active " + props.name}/>
     </>
   )
 }
 
-export default Proposals
+export default ProposalsLayout

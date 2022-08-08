@@ -1,25 +1,28 @@
-import React from 'react'
-import * as Icons from '@mui/icons-material'
+import React from "react"
+import Home from "@mui/icons-material/Home"
+import FormatAlignJustify from "@mui/icons-material/FormatAlignJustify"
+import AttachMoney from "@mui/icons-material/AttachMoney"
+import HelpOutline from "@mui/icons-material/HelpOutline"
 
 export const SidebarData = [
   {
-    title: 'Dashboard',
-    path: '/',
-    icon: <Icons.Home/>,
+    title: "Dashboard",
+    path: "/dashboard",
+    icon: <Home/>,
   },
   {
-    title: 'Proposals',
-    path: '/proposals',
-    icon: <Icons.FormatAlignJustify/>,
+    title: "Proposals",
+    path: "/proposals",
+    icon: <FormatAlignJustify/>,
   },
   {
-    title: 'Grants',
-    path: '/grants',
-    icon: <Icons.AttachMoney/>,
+    title: "Grants",
+    path: "/grants",
+    icon: <AttachMoney/>,
   },
   {
-    title: 'Help',
-    path: '/help',
-    icon: <Icons.HelpOutline/>,
+    title: "Help",
+    path: "/help",
+    icon: <HelpOutline/>,
   }
 ];
