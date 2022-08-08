@@ -23,7 +23,6 @@ artifacts
 
 # production
 /build
-/frontend/src/data/artifacts
 
 # misc
 .DS_Store
