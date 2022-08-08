@@ -1,5 +1,11 @@
+//To use this function fill out gov.execute exactly like propose except instead the of putting the hash in directly change const hash to run it through ethers.utils.id()
+
 const hre = require("hardhat");
 async function main() {
+
+    const hash = "Hash goes here"
+    
+    
     const Gov = await ethers.getContractFactory('Governance');
     const gov = await Gov.attach('0x1fe4CbaA86B9AD6f4f4B3A58Fea1a981a8415C13');
 
@@ -17,7 +23,7 @@ async function main() {
         [tokenAddress],
         [0],
         [transferCalldata],
-        "Hash goes here",
+        ethers.utils.id(hash),
     );
     let receipt = await transaction.wait();
     console.log(receipt.events[0].args);

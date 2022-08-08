@@ -2,7 +2,7 @@
 Runtime scripts allow users to interact directly with the blockchain without the need for a frontend or metamask. Scripts are divided into folders based on chain
 
 ## Using Scripts
-A great resource for setting to run scripts is [this video here](https://www.youtube.com/watch?v=Uvphp4aVeDg)
+A great resource for setting up run scripts is [this video here](https://www.youtube.com/watch?v=Uvphp4aVeDg)
 
 ## Mumbai Testnet addresses
 Membership Contract: 0x20fA7529C2F8D4C9f4b9ee9e060Fa0844760Ef0F
