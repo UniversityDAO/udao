@@ -7,22 +7,22 @@ import HelpOutline from "@mui/icons-material/HelpOutline"
 export const SidebarData = [
   {
     title: "Dashboard",
-    path: "/dashboard",
+    path: "dashboard",
     icon: <Home/>,
   },
   {
     title: "Proposals",
-    path: "/proposals",
+    path: "proposals",
     icon: <FormatAlignJustify/>,
   },
   {
     title: "Grants",
-    path: "/grants",
+    path: "grants",
     icon: <AttachMoney/>,
   },
   {
     title: "Help",
-    path: "/help",
+    path: "help",
     icon: <HelpOutline/>,
   }
 ];

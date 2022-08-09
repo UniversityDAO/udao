@@ -44,10 +44,6 @@ function ViewProposalLayout(props) {
             <br/><br/>Vestibulum nec risus a ligula aliquet ullamcorper. Morbi feugiat lectus velit, id pulvinar odio porttitor quis. Sed sem neque, vulputate finibus tempor non, eleifend nec augue. Mauris luctus malesuada dignissim. Fusce pulvinar urna ultricies lectus blandit, ac accumsan ipsum bibendum. Cras non tortor dignissim lacus vulputate elementum. Nunc vitae purus ut dui auctor commodo eget pretium velit. Fusce consequat euismod ligula, at scelerisque dolor molestie id. Suspendisse mattis diam nunc, nec tincidunt nulla lobortis nec. Vivamus ultrices odio vel elit rhoncus, eget porta leo laoreet.
           </p>
       </div>
-
-      <div className="row" id="bottom">
-        
-      </div>
     </>
   )
 }
