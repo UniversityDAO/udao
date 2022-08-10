@@ -12,6 +12,11 @@ dist
 dist-ssr
 *.local
 
+# hardhat files
+# TODO: will need to upload one set of contract abis to github so fleek can deploy
+src/data/artifacts
+cache
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
