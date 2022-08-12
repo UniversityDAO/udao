@@ -18,6 +18,7 @@ import { GOV_ABI } from "./data/config";
 
 import { getAllProposals } from "./api/UDAOApi";
 import {setAlchemyProvider, setMetamaskProvider, setActiveGrants, setInactiveGrants, setActiveProposals, setInactiveProposals, setLoading} from "../reduxActions"
+import { ALCHEMY_KEY } from './data/config'
 
 function App() {
 
@@ -26,7 +27,7 @@ function App() {
   useEffect(() => {
     // alchemy provider can only read from blockchain. need b/c we want people w/o metamask to be able
     // to view the site
-    const alchemy_provider = new ethers.providers.AlchemyProvider("maticmum", process.env.ALCHEMY_API_KEY);
+    const alchemy_provider = new ethers.providers.AlchemyProvider("maticmum", ALCHEMY_KEY);
     dispatch(setAlchemyProvider(alchemy_provider))
 
     // metamask provider provides write functionality

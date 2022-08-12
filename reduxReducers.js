@@ -63,8 +63,19 @@ const isLoading = (state = true, action) => {
     }
 }
 
+const selectedProposal = (state = "None", action) => {
+    switch (action.type) {
+        case "SET_PROPOSAL":
+            return action.data
+        default:
+            return state
+    }
+}
+
 const allReducers = combineReducers({
-    activeGrants, activeProposals, inactiveGrants, inactiveProposals, alchemyProvider, metamaskProvider, isLoading
+    activeGrants, activeProposals, inactiveGrants, 
+    inactiveProposals, alchemyProvider, metamaskProvider, 
+    isLoading, selectedProposal
 })
 
 

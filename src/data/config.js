@@ -16,3 +16,6 @@ export const TOKEN_ADDRESS_LOCAL = '0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512'
 export const GOV_ABI = govData.abi;
 export const NFT_ABI = nftData.abi;
 export const TOKEN_ABI = tokenData.abi;
+
+export const ALCHEMY_KEY = 'jAscKKY_RMadaRwnoSVFDWxKthi5DG7P';
+export const WEB3_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweENmOUUyRjI3MzQ0ZTFmQzU5QzEzNDg5RDc4NDRBRjQ4N0ZGMEYwRUUiLCJpc3MiOiJ3ZWIzLXN0b3JhZ2UiLCJpYXQiOjE2NTU1NzI5NzU2NjQsIm5hbWUiOiJEQU9Ub2tlbiJ9.xfAGJ0lBKio5FU66gQLbHpNfhJtibz8UBmlKY-RhA0g';

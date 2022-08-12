@@ -46,3 +46,10 @@ export const setLoading = (data) => {
         loading: data
     }
 }
+
+export const setSelectedProposal = (data) => {
+    return {
+        type: "SET_PROPOSAL",
+        data: data
+    }
+}
