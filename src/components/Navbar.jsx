@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import DarkMode from "@mui/icons-material/DarkMode"
 import Language from "@mui/icons-material/Language"
 import Twitter from "@mui/icons-material/Twitter"
@@ -6,16 +6,44 @@ import GitHub from "@mui/icons-material/GitHub"
 import { NavLink } from "react-router-dom";
 import { SidebarData } from "./SidebarData";
 import Logo from "../assets/udao_logo_square.svg"
+import { delegate } from "../api/EthersApi";
+import { NFT_ADDRESS, NFT_ABI } from "../data/config"
+import { useSelector } from 'react-redux';
+import { ethers } from 'ethers';
+
+import MetamaskConnect from "./metamaskConnect";
 
 function Navbar() {
   const [sidebar, setSidebar] = useState(false);
-
   const showSidebar = () => setSidebar(!sidebar);
+
+  let provider = useSelector(state => state.metamaskProvider);
+  let account;
+
+  useEffect(() => {
+    async function setUp() {
+        let accounts = await window.ethereum.request({ method: 'eth_accounts' });
+        account = accounts[0];
+    }
+    setUp();
+  }, []);
+
+  const checkAndDelegate = () => {
+    if (account && provider) {
+        delegate([NFT_ADDRESS, NFT_ABI, provider], account);
+    } else {
+        console.log("Account is null. Must connect metamask first before delegating");
+    }
+}
 
   return (
     <>
       <div className="w-full h-20 flex justify-end">
-        <button className="w-48 m-5 ml-2.5 mr-2.5 rounded-lg text-lg cursor-pointer bg-purple hover:bg-hover-purple hover:text-white">Connect Wallet</button>
+        <button className="w-48 m-5 ml-2.5 mr-2.5 rounded-lg text-lg cursor-pointer bg-purple hover:bg-hover-purple hover:text-white" onClick={() => checkAndDelegate()}>Delegate (To Self)</button>
+        <button className="w-48 m-5 ml-2.5 mr-2.5 rounded-lg text-lg cursor-pointer bg-purple hover:bg-hover-purple hover:text-white">
+          Connect Wallet
+          <MetamaskConnect />
+        </button>
         <button className="w-10 m-5 ml-2.5 mr-2.5 rounded-lg text-lg cursor-pointer bg-purple hover:bg-hover-purple hover:text-white"><DarkMode/></button>
         <button className="w-10 m-5 ml-2.5 rounded-lg text-lg cursor-pointer bg-purple hover:bg-hover-purple hover:text-white"><Language/></button>
       </div>
