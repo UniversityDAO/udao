@@ -57,15 +57,15 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Landing/>}/>
-        <Route path="/app" element={<NavbarLayout/>}>
-          <Route path="dashboard" element={<Dashboard/>}/>
-          <Route path="grants" element={<Proposals name="Grants"/>}/>
-          <Route path="help" element={<Help/>}/>
-          <Route path="proposals" element={<Proposals name="Proposals"/>}/>
-          <Route path="new_proposal" element={<NewProposal name="Proposal" hidden={true}/>}/>
-          <Route path="new_grant" element={<NewProposal name="Grant"/>}/>
-          <Route path="view_proposal" element={<ViewProposal name="Proposal"/>}/>
+        <Route path="/" element={<Landing/>} />
+        <Route element={<NavbarLayout/>}>
+            <Route path="/dashboard" element={<Dashboard/>}/>
+            <Route path="/grants" element={<Proposals name="Grants"/>}/>
+            <Route path="/help" element={<Help/>}/>
+            <Route path="/proposals" element={<Proposals name="Proposals"/>}/>
+            <Route path="/new_proposal" element={<NewProposal name="Proposal" hidden={true}/>}/>
+            <Route path="/new_grant" element={<NewProposal name="Grant"/>}/>
+            <Route path="/view_proposal" element={<ViewProposal name="Proposal"/>}/>
         </Route>
       </Routes>
     </Router>
