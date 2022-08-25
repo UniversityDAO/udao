@@ -1,0 +1,61 @@
+.vertical-nav {
+    min-width: 17rem;
+    width: 23rem;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.1);
+    background-color: #282c34;
+    transition: all 0.4s;
+    display: block;
+  }
+  
+  .page-content {
+    width: calc(100% - 17rem);
+    margin-left: 17rem;
+    transition: all 0.4s;
+  }
+  
+  .connect-wallet {
+    display: flex;
+    margin-top: 20px;
+    justify-content: center;
+  }
+
+  .daoLogo {
+    height: 10vmin;
+  }
+
+  .media-body {
+    text-align: center;
+    justify-content: center;
+  }
+
+  /* for toggle behavior */
+  
+  #sidebar.active {
+    margin-left: -17rem;
+  }
+  
+  #content.active {
+    width: 100%;
+    margin: 0;
+  }
+  
+  @media (max-width: 768px) {
+    #sidebar {
+      margin-left: -17rem;
+    }
+    #sidebar.active {
+      margin-left: 0;
+    }
+    #content {
+      width: 100%;
+      margin: 0;
+    }
+    #content.active {
+      margin-left: 17rem;
+      width: calc(100% - 17rem);
+    }
+  }

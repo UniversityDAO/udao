@@ -1,6 +1,9 @@
 import React, {useEffect} from "react"
 import TopData from "../components/TopData"
 import CardSection from "../components/CardSection"
+import ConnectWallet from "../components/ConnectWallet"
+
+import { useSelector } from 'react-redux';
 
 import { useSelector } from 'react-redux';
 
@@ -24,6 +27,9 @@ function Dashboard() {
         <CardSection header="Active Proposals" data={activeProposals}/>
         <CardSection header="Active Grants" data={activeGrants}/>
       </div>
+      
+      {/*For testing, will be removed*/}
+      <ConnectWallet/>
     </>
   )
 }
