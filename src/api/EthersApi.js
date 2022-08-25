@@ -160,6 +160,12 @@ export async function queueAndExecute([governorAddress, governorABI, governorPro
   await executeTx.wait(1);
 }
 
+export async function getNftCount(membershipNFTAddress, membershipNFTabi, provider) {
+    const nftMembership = new ethers.Contract(membershipNFTAddress, membershipNFTabi, provider);
+    let totalNftCount = await nftMembership.totalSupply()
+    return totalNftCount;
+}
+
 function handleError(e) {
     console.error(e);
     alert(e.error.data.message);

@@ -13,11 +13,12 @@ import ViewProposal from "./pages/ViewProposal";
 import { useDispatch } from 'react-redux/es/exports'
 
 import { ethers } from 'ethers';
-import { GOV_ADDRESS } from "./data/config";
-import { GOV_ABI } from "./data/config";
+import { GOV_ADDRESS, NFT_ADDRESS } from "./data/config";
+import { GOV_ABI, NFT_ABI } from "./data/config";
 
 import { getAllProposals } from "./api/UDAOApi";
-import {setAlchemyProvider, setMetamaskProvider, setActiveGrants, setInactiveGrants, setActiveProposals, setInactiveProposals, setLoading} from "../reduxActions"
+import { getNftCount } from "./api/EthersApi";
+import {setAlchemyProvider, setMetamaskProvider, setActiveGrants, setInactiveGrants, setActiveProposals, setInactiveProposals, setLoading, setTotalNfts} from "../reduxActions"
 import { ALCHEMY_KEY } from './data/config'
 
 function App() {
@@ -42,6 +43,9 @@ function App() {
       let proposals = allProposals.filter(p => p.metadata.isGrant === false);
       let grants = allProposals.filter(g => g.metadata.isGrant === true);
       
+      let totalNfts = getNftCount(NFT_ADDRESS, NFT_ABI, alchemy_provider);
+      dispatch(setTotalNfts(totalNfts));
+
       dispatch(setActiveProposals(proposals.filter(p => p.state === 1)));
       dispatch(setInactiveProposals(proposals.filter(p => p.state !== 1)));
 
