@@ -15,8 +15,12 @@ function Card(props) {
   }
 
   return (
-    <Link className="w-full h-full p-5 mt-5 border-solid rounded-lg cursor-pointer border-4 border-gray bg-gray hover:bg-hover-gray hover:border-purple" to="/view_proposal">
-      <h1 className="text-3xl mb-5">{props.title}</h1>
+<<<<<<<<< Temporary merge branch 1
+    <Link className="w-full h-full p-5 mt-5 border-solid rounded-lg cursor-pointer border-4 border-gray bg-gray hover:bg-hover-gray hover:border-purple" onClick={() => handleClick()} to="/app/view_proposal">
+=========
+    <Link className="w-full h-full p-5 mt-5 border-solid rounded-lg cursor-pointer border-4 border-gray bg-gray hover:bg-hover-gray hover:border-purple" onClick={() => handleClick()} to="/view_proposal">
+>>>>>>>>> Temporary merge branch 2
+      <h1 className="text-3xl mb-5">{props.proposal.metadata.title}</h1>
       <div className="w-full h-2.5 mb-5 rounded-lg bg-red">
         <div className="w-10/12 rounded-r-none h-2.5 mb-5 rounded-lg bg-green"/>
       </div>
