@@ -1,7 +1,6 @@
 import React, {useEffect} from "react"
 import TopData from "../components/TopData"
 import CardSection from "../components/CardSection"
-import ConnectWallet from "../components/ConnectWallet"
 
 import { useSelector } from 'react-redux';
 
@@ -10,7 +9,6 @@ function Dashboard() {
     document.title = "UDAO - Dashboard"
   }, []);
   
-  let allState = useSelector(state => state);
   let activeProposals = useSelector(state => state.activeProposals);
   let activeGrants = useSelector(state => state.activeGrants);
 
@@ -25,9 +23,6 @@ function Dashboard() {
         <CardSection header="Active Proposals" data={activeProposals}/>
         <CardSection header="Active Grants" data={activeGrants}/>
       </div>
-      
-      {/*For testing, will be removed*/}
-      <ConnectWallet/>
     </>
   )
 }

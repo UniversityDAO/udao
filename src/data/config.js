@@ -2,6 +2,9 @@ import govData from "./artifacts/contracts/Governance.sol/Governance.json";
 import nftData from "./artifacts/contracts/MembershipNFT.sol/MembershipNFT.json";
 import tokenData from "./artifacts/contracts/UDAOToken.sol/UDAOToken.json";
 
+export const MUMBAI_CHAIN_ID = '0x13881';
+export const POLYGON_CHAIN_ID = '0x89';
+
 //export const WEB3_ACCESS_TOKEN = process.env.WEB3STORAGE_TOKEN;
 
 // polygon addresses

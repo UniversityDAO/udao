@@ -10,19 +10,57 @@ import Proposals from "./pages/Proposals"
 import NewProposal from "./pages/NewProposal"
 import ViewProposal from "./pages/ViewProposal";
 
-import { useDispatch } from 'react-redux/es/exports'
+import { useDispatch, useSelector } from 'react-redux/es/exports'
 
 import { ethers } from 'ethers';
 import { GOV_ADDRESS } from "./data/config";
 import { GOV_ABI } from "./data/config";
 
 import { getAllProposals } from "./api/UDAOApi";
-import {setAlchemyProvider, setMetamaskProvider, setActiveGrants, setInactiveGrants, setActiveProposals, setInactiveProposals, setLoading} from "../reduxActions"
+import {setAlchemyProvider, setMetamaskProvider, setNetwork, setActiveGrants, setInactiveGrants, setActiveProposals, setInactiveProposals, setLoading, setAccount} from "../reduxActions"
 import { ALCHEMY_KEY } from './data/config'
+import detectEthereumProvider from "@metamask/detect-provider";
 
 function App() {
-
   const dispatch = useDispatch();
+  const currentAccount = useSelector(state => state.account);
+
+  useEffect(() => {
+    async function detectMetamask(currentAccount) {
+        // store metamask provider in redux state
+        const metamaskProvider = new ethers.providers.Web3Provider(await detectEthereumProvider());
+        await dispatch(setMetamaskProvider(metamaskProvider));
+
+        // if user has connected wallet previously, will return the connected account
+        // otherwise, will return an empty array
+        let accounts = await metamaskProvider.provider.request({ method: 'eth_accounts' });
+        await dispatch(setAccount(accounts));
+
+        // check the network
+        // detect network and store in redux state
+        const chainId = await metamaskProvider.provider.request({ method: 'eth_chainId' });
+        dispatch(setNetwork(chainId));
+
+        // register event listeners
+        metamaskProvider.provider.on('chainChanged', (chainId) => {
+            dispatch(setNetwork(chainId));
+            window.location.reload();
+        });
+
+        metamaskProvider.provider.on('accountsChanged', (accounts) => {
+            // TODO: could extract this code into a function since it is same as in Navbar
+            if (accounts.length === 0) {
+                // MetaMask is locked or the user has not connected any accounts
+                console.log('Please connect to MetaMask.');
+            } else if (accounts[0] !== currentAccount) {
+                dispatch(setAccount(accounts));
+            }
+        });
+    }
+    
+    // console.log(currentAccount)
+    detectMetamask(currentAccount);
+  }, []);
 
   useEffect(() => {
     // alchemy provider can only read from blockchain. need b/c we want people w/o metamask to be able
@@ -31,10 +69,7 @@ function App() {
     dispatch(setAlchemyProvider(alchemy_provider))
 
     // metamask provider provides write functionality
-    // TODO: may need to connect wallet first? need to request accounts?
-    // TODO: need to refactor this, will throw error and not load app if no metamask
-    const metamaskProvider = new ethers.providers.Web3Provider(window.ethereum);
-    dispatch(setMetamaskProvider(metamaskProvider))
+    // const metamaskProvider = new ethers.providers.Web3Provider(window.ethereum);
 
     async function loadApp() {
       let allProposals = await getAllProposals(GOV_ADDRESS, GOV_ABI, alchemy_provider);
