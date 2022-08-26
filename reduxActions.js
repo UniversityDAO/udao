@@ -12,6 +12,20 @@ export const setMetamaskProvider = (data) => {
     }
 }
 
+export const setNetwork = (data) => {
+    return {
+        type: "NETWORK",
+        provider: data
+    }
+}
+
+export const setAccount = (data) => {
+    return {
+        type: "ACCOUNT",
+        payload: data
+    }
+}
+
 export const setActiveProposals = (data) => {
     return {
         type: "LOAD_ACTIVE_PROPOSALS",
