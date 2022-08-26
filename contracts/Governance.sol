@@ -16,13 +16,13 @@ contract Governance is Governor, GovernorCountingSimple, GovernorVotes {
     }
 
     function votingPeriod() public pure override returns (uint256) {
-        return 45818; // 1 week
+        return 345600; // 1 week
     }
 
     // The minimum number of cast votes required for a proposal to be successful. It can
     // be a fixed value, or fluctuate based on the `blockNumber`.
     function quorum(uint256) public pure override returns (uint256) {
-        return 1; // for now, set to 1 for easier testing
+        return 3;
     }
 
     // The number of votes required for a voter to become a proposer, ie, make a proposal

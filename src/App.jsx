@@ -27,7 +27,7 @@ function App() {
   useEffect(() => {
     // alchemy provider can only read from blockchain. need b/c we want people w/o metamask to be able
     // to view the site
-    const alchemy_provider = new ethers.providers.AlchemyProvider("maticmum", ALCHEMY_KEY);
+    const alchemy_provider = new ethers.providers.AlchemyProvider("matic", ALCHEMY_KEY);
     dispatch(setAlchemyProvider(alchemy_provider))
 
     // metamask provider provides write functionality
