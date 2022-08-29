@@ -5,11 +5,10 @@ import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/cryptography/draft-EIP712.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/draft-ERC721Votes.sol";
-import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 
 // TODO: figure out what *not* deriving from ERC721 does
-contract MembershipNFT is ERC721, Ownable, EIP712, ERC721Votes, ERC721Enumerable {
+contract MembershipNFT is ERC721, Ownable, EIP712, ERC721Votes {
     using Counters for Counters.Counter;
 
     Counters.Counter private _tokenIdCounter;
@@ -36,15 +35,4 @@ contract MembershipNFT is ERC721, Ownable, EIP712, ERC721Votes, ERC721Enumerable
     {
         super._afterTokenTransfer(from, to, tokenId);
     }
-
-    function supportsInterface(bytes4 interfaceId) public view override(ERC721Enumerable, ERC721) returns (bool) {
-        return (
-            ERC721.supportsInterface(interfaceId) 
-        );
-    }
-
-    function _beforeTokenTransfer(address from, address to, uint256 tokenId) internal override(ERC721Enumerable, ERC721) {
-        return ERC721._beforeTokenTransfer(from, to, tokenId);
-    }
-
 }
