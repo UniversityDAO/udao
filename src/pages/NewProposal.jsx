@@ -1,5 +1,5 @@
 import React, {useEffect} from "react";
-import { Link, Navigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useSelector } from 'react-redux';
 
@@ -8,7 +8,14 @@ import { propose } from "../api/EthersApi"
 import { GOV_ABI, GOV_ADDRESS } from "../data/config";
 import { ProposalMetadata } from '../data/classes';
 
+import {setCurrentJson, setCurrentTitle} from "../../reduxActions"
+import { useDispatch } from 'react-redux/es/exports'
+
 function NewProposalLayout(props) {
+
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
     const provider = useSelector(state => state.metamaskProvider);
     const [title, setTitle] = useState("");
     const [desc, setDesc] = useState("");
@@ -34,22 +41,18 @@ function NewProposalLayout(props) {
         if (title === "" || desc === "") {
             setError(true);
         } else {
+            
             let metadata = new ProposalMetadata(title, desc, false);
+            console.log(`Metadata: ${JSON.stringify(metadata)}`);
             let jsonFile = makeFileObjects(metadata);
             let slicedString = title.slice(0, 8);
 
-            // TODO: find way to get cid w/o uploading. then wait for blockchain txn to confirm
-            // first before then finalling uploading to IPFS (or else we might have files in limbo)
-            let ipfs_cid = await web3Storage.upload(jsonFile, `Proposal-${slicedString}`, true);
+            console.log(JSON.stringify(jsonFile));
+            console.log(`jsonFile in submitApp ${JSON.stringify(jsonFile)}`);
+            dispatch(setCurrentJson(jsonFile));
+            dispatch(setCurrentTitle(slicedString));
 
-            // create a proposal on blockchain
-            let proposal_id = await propose([GOV_ADDRESS, GOV_ABI, provider], ipfs_cid);
-            // can now do something with proposal_id, like fetch and render or something
-
-            // TODO: add proposal submit message and redirect back to dashboard or something
-            return (
-                <Navigate to="/submitting_proposal"/>
-            )
+            navigate('/submitting_proposal');
         }
     }
 
@@ -59,6 +62,7 @@ function NewProposalLayout(props) {
         const files = [
             new File([blob], 'Proposal.json')
         ]
+        console.log(files);
         return files;
     }
 

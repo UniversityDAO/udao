@@ -53,3 +53,19 @@ export const setSelectedProposal = (data) => {
         data: data
     }
 }
+
+export const setCurrentJson = (data) => {
+    return {
+        type: "SET__CURRENT_JSON",
+        data: data
+    }
+}
+
+
+export const setCurrentTitle = (data) => {
+    return {
+        type: "SET_CURRENT_TITLE",
+        data: data
+    }
+}
+

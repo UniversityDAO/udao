@@ -14,7 +14,7 @@ import SubmittingProposal from "./pages/SubmittingProposal";
 import { useDispatch } from 'react-redux/es/exports'
 
 import { ethers } from 'ethers';
-import { GOV_ADDRESS, NFT_ADDRESS } from "./data/config";
+import { GOV_ADDRESS, GOV_ADDRESS_MUMBAI, NFT_ADDRESS } from "./data/config";
 import { GOV_ABI, NFT_ABI } from "./data/config";
 
 import { getAllProposals } from "./api/UDAOApi";
@@ -28,7 +28,7 @@ function App() {
   useEffect(() => {
     // alchemy provider can only read from blockchain. need b/c we want people w/o metamask to be able
     // to view the site
-    const alchemy_provider = new ethers.providers.AlchemyProvider("matic", ALCHEMY_KEY);
+    const alchemy_provider = new ethers.providers.AlchemyProvider("maticmum", ALCHEMY_KEY);
     dispatch(setAlchemyProvider(alchemy_provider))
 
     // metamask provider provides write functionality
@@ -38,7 +38,7 @@ function App() {
     dispatch(setMetamaskProvider(metamaskProvider))
 
     async function loadApp() {
-      let allProposals = await getAllProposals(GOV_ADDRESS, GOV_ABI, alchemy_provider);
+      let allProposals = await getAllProposals(GOV_ADDRESS_MUMBAI, GOV_ABI, alchemy_provider);
 
       let proposals = allProposals.filter(p => p.metadata.isGrant === false);
       let grants = allProposals.filter(g => g.metadata.isGrant === true);
@@ -65,7 +65,7 @@ function App() {
             <Route path="/help" element={<Help/>}/>
             <Route path="/proposals" element={<Proposals name="Proposals"/>}/>
             <Route path="/new_proposal" element={<NewProposal name="Proposal" hidden={true}/>}/>
-            <Route path="submitting_proposal" element={<SubmittingProposal />} />
+            <Route path="/submitting_proposal" element={<SubmittingProposal />} />
             <Route path="/new_grant" element={<NewProposal name="Grant"/>}/>
             <Route path="/view_proposal" element={<ViewProposal name="Proposal"/>}/>
         </Route>
