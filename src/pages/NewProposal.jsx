@@ -1,5 +1,5 @@
 import React, {useEffect} from "react";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { useState } from "react";
 import { useSelector } from 'react-redux';
 
@@ -13,6 +13,8 @@ function NewProposalLayout(props) {
     const [title, setTitle] = useState("");
     const [desc, setDesc] = useState("");
     const [error, setError] = useState(false);
+
+    let loading = false;
 
     useEffect(() => {
         document.title = "UDAO - New " + props.name;
@@ -46,7 +48,7 @@ function NewProposalLayout(props) {
 
             // TODO: add proposal submit message and redirect back to dashboard or something
             return (
-                <Link to="/proposals"/>
+                <Navigate to="/submitting_proposal"/>
             )
         }
     }

@@ -72,19 +72,10 @@ const selectedProposal = (state = "None", action) => {
     }
 }
 
-const totalNftCount = (state = 0, action) => {
-    switch (action.type) {
-        case "SET_NFTs":
-            return action.data
-        default:
-            return state
-    }
-}
-
 const allReducers = combineReducers({
     activeGrants, activeProposals, inactiveGrants, 
     inactiveProposals, alchemyProvider, metamaskProvider, 
-    isLoading, selectedProposal, totalNftCount
+    isLoading, selectedProposal
 })
 
 

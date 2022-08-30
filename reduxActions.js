@@ -53,10 +53,3 @@ export const setSelectedProposal = (data) => {
         data: data
     }
 }
-
-export const setTotalNfts = (data) => {
-    return {
-        type: "SET_NFTs",
-        data: data
-    }
-}

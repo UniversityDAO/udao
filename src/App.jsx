@@ -9,6 +9,7 @@ import Help from "./pages/Help";
 import Proposals from "./pages/Proposals"
 import NewProposal from "./pages/NewProposal"
 import ViewProposal from "./pages/ViewProposal";
+import SubmittingProposal from "./pages/SubmittingProposal";
 
 import { useDispatch } from 'react-redux/es/exports'
 
@@ -17,8 +18,7 @@ import { GOV_ADDRESS, NFT_ADDRESS } from "./data/config";
 import { GOV_ABI, NFT_ABI } from "./data/config";
 
 import { getAllProposals } from "./api/UDAOApi";
-import { getNftCount } from "./api/EthersApi";
-import {setAlchemyProvider, setMetamaskProvider, setActiveGrants, setInactiveGrants, setActiveProposals, setInactiveProposals, setLoading, setTotalNfts} from "../reduxActions"
+import {setAlchemyProvider, setMetamaskProvider, setActiveGrants, setInactiveGrants, setActiveProposals, setInactiveProposals, setLoading} from "../reduxActions"
 import { ALCHEMY_KEY } from './data/config'
 
 function App() {
@@ -43,9 +43,6 @@ function App() {
       let proposals = allProposals.filter(p => p.metadata.isGrant === false);
       let grants = allProposals.filter(g => g.metadata.isGrant === true);
       
-      let totalNfts = getNftCount(NFT_ADDRESS, NFT_ABI, alchemy_provider);
-      dispatch(setTotalNfts(totalNfts));
-
       dispatch(setActiveProposals(proposals.filter(p => p.state === 1)));
       dispatch(setInactiveProposals(proposals.filter(p => p.state !== 1)));
 
@@ -68,6 +65,7 @@ function App() {
             <Route path="/help" element={<Help/>}/>
             <Route path="/proposals" element={<Proposals name="Proposals"/>}/>
             <Route path="/new_proposal" element={<NewProposal name="Proposal" hidden={true}/>}/>
+            <Route path="submitting_proposal" element={<SubmittingProposal />} />
             <Route path="/new_grant" element={<NewProposal name="Grant"/>}/>
             <Route path="/view_proposal" element={<ViewProposal name="Proposal"/>}/>
         </Route>
