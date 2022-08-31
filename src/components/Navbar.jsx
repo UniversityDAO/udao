@@ -112,10 +112,12 @@ function SwitchMessagePopup() {
 
     // TODO: fix this css!! (centered correctly and brought to very front, ie should overlay all other components)
     return (
-        <div style={{marginLeft: 500, marginTop: 500}}>
-            <p>This app only works on Polygon mainnet.</p>
-            <button style={{backgroundColor: 'red'}} onClick={() => switchNetwork()} className="w-48 m-5 ml-2.5 mr-2.5 rounded-lg text-lg cursor-pointer bg-purple hover:bg-hover-purple hover:text-white">Switch Network</button>
+      <div className="p-5 flex flex-col justify-center items-center fixed top-0 left-0 w-screen h-screen bg-black/80">
+        <div className="p-5 flex flex-col justify-center items-center rounded-lg bg-gray">
+          <p className="text-2xl">This app only works on Polygon mainnet.</p>
+          <button onClick={() => switchNetwork()} className="w-48 h-10 m-5 ml-2.5 mr-2.5 rounded-lg text-lg cursor-pointer bg-purple hover:bg-hover-purple hover:text-white">Switch Network</button>
         </div>
+      </div>
     )
 }
 
@@ -162,7 +164,14 @@ function ConnectButton(props) {
             return <SwitchMessagePopup/>;
         } else {
             // render connect button
-            return <button onClick={() => connectAccount()} className="bg-purple">Connect With Metamask</button>;
+            return (
+              <div className="p-5 flex flex-col justify-center items-center fixed top-0 left-0 w-screen h-screen bg-black/80">
+                <div className="p-5 flex flex-col justify-center items-center rounded-lg bg-gray">
+                  <p className="text-2xl">Connect</p>
+                  <button onClick={() => connectAccount()} className="w-48 m-5 ml-2.5 mr-2.5 rounded-lg text-lg cursor-pointer bg-purple hover:bg-hover-purple hover:text-white">Connect with Metamask</button>
+                </div>
+              </div>
+            );
         }
     }
 
