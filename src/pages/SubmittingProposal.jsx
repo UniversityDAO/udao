@@ -9,11 +9,11 @@ import { GOV_ADDRESS_MUMBAI, GOV_ABI } from "../data/config";
 
 export default async function SubmittingProposal() {
 
-    let jsonFile = useSelector(state => state.currentProposalJSON);
+    let metadata = useSelector(state => state.currentProposalMetadata);
     let slicedString = useSelector(state => state.currentProposalTitle);
 
-    console.log(`jsonFile in SubmittingPage ${JSON.stringify(jsonFile)}`);
-    console.log(slicedString);
+    let jsonFile = makeFileObjects(metadata);
+
 
     const provider = useSelector(state => state.metamaskProvider);
     // TODO: find way to get cid w/o uploading. then wait for blockchain txn to confirm
@@ -23,6 +23,15 @@ export default async function SubmittingProposal() {
     // create a proposal on blockchain
     let proposal_id = await propose([GOV_ADDRESS_MUMBAI, GOV_ABI, provider], ipfs_cid);
     // can now do something with proposal_id, like fetch and render or something
+
+    function makeFileObjects (obj) {
+      const blob = 
+          new Blob([JSON.stringify(obj)], { type: 'application/json'})
+      const files = [
+          new File([blob], 'Proposal.json')
+      ]
+      return files;
+  }
 
     if (!(ipfs_cid && proposal_id)) {
         return (

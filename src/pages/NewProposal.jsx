@@ -8,7 +8,7 @@ import { propose } from "../api/EthersApi"
 import { GOV_ABI, GOV_ADDRESS } from "../data/config";
 import { ProposalMetadata } from '../data/classes';
 
-import {setCurrentJson, setCurrentTitle} from "../../reduxActions"
+import {setCurrentMetadata, setCurrentTitle} from "../../reduxActions"
 import { useDispatch } from 'react-redux/es/exports'
 
 function NewProposalLayout(props) {
@@ -41,30 +41,17 @@ function NewProposalLayout(props) {
         if (title === "" || desc === "") {
             setError(true);
         } else {
-            
             let metadata = new ProposalMetadata(title, desc, false);
-            console.log(`Metadata: ${JSON.stringify(metadata)}`);
-            let jsonFile = makeFileObjects(metadata);
             let slicedString = title.slice(0, 8);
-
-            console.log(JSON.stringify(jsonFile));
-            console.log(`jsonFile in submitApp ${JSON.stringify(jsonFile)}`);
-            dispatch(setCurrentJson(jsonFile));
+     
+            dispatch(setCurrentMetadata(metadata));
             dispatch(setCurrentTitle(slicedString));
 
             navigate('/submitting_proposal');
         }
     }
 
-    function makeFileObjects (obj) {
-        const blob = 
-            new Blob([JSON.stringify(obj)], { type: 'application/json'})
-        const files = [
-            new File([blob], 'Proposal.json')
-        ]
-        console.log(files);
-        return files;
-    }
+ 
 
     return (
         <> 
