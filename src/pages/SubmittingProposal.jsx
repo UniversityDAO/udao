@@ -6,15 +6,21 @@ import { GOV_ADDRESS_MUMBAI, GOV_ABI } from "../data/config";
 import { upload } from "../api/web3StorageAPI";
 import { propose } from "../api/EthersApi";
 
-export default function SubmittingProposal() {
-    let metadata = useSelector(state => state.CurrentProposalMetadata);
-    let title = useSelector(state => state.CurrentProposalTitle);
+import { useEffect } from "react";
+
+export default async function SubmittingProposal() {
+    let metadata = useSelector(state => state.currentProposalMetadata);
+    let title = useSelector(state => state.currentProposalTitle);
     let provider = useSelector(state => state.metamaskProvider);
+
+    console.log(`Metadata is ${metadata}`);
 
     let jsonFile = makeFileObjects(metadata);
 
-    let ipfs_cid = upload(jsonFile, `Proposal-${title}`, true);
-    let proposal_id = propose([GOV_ADDRESS_MUMBAI, GOV_ABI, provider], ipfs_cid);
+    console.log(`jsonFile is ${jsonFile}`);
+
+    let ipfs_cid = await upload(jsonFile, `Proposal-${title}`, true);
+    let proposal_id = await propose([GOV_ADDRESS_MUMBAI, GOV_ABI, provider], ipfs_cid);
 
     function makeFileObjects (obj) {
         const blob = 
