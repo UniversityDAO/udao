@@ -18,6 +18,25 @@ const metamaskProvider = (state = null, action) => {
     }
 }
 
+
+const network = (state = null, action) => {
+    switch (action.type) {
+        case "NETWORK":
+            return action.provider
+        default:
+            return state
+    }
+}
+
+const account = (state = [], action) => {
+    switch (action.type) {
+        case "ACCOUNT":
+            return action.payload
+        default:
+            return state
+    }
+}
+
 const activeGrants = (state = [], action) => {
   switch (action.type) {
     case "LOAD_ACTIVE_GRANTS":
@@ -93,7 +112,8 @@ const currentProposalTitle = (state = "", action) => {
 const allReducers = combineReducers({
     activeGrants, activeProposals, inactiveGrants, 
     inactiveProposals, alchemyProvider, metamaskProvider, 
-    isLoading, selectedProposal, currentProposalMetadata, currentProposalTitle
+    isLoading, selectedProposal, network, account, 
+    currentProposalMetadata, currentProposalTitle
 })
 
 
