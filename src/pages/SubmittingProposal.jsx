@@ -1,7 +1,7 @@
 import Loading from "../components/LoadingSymbol";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { GOV_ADDRESS_MUMBAI, GOV_ABI } from "../data/config";
+import { GOV_ADDRESS, GOV_ABI } from "../data/config";
 
 import { upload } from "../api/web3StorageAPI";
 import { propose } from "../api/EthersApi";
@@ -23,7 +23,7 @@ export default function SubmittingProposal() {
             let ipfs_cid = await upload(jsonFile, `Proposal-${title}`, true);
             setIpfsCid(ipfs_cid);
 
-            let proposal_id = await propose([GOV_ADDRESS_MUMBAI, GOV_ABI, provider], ipfs_cid);
+            let proposal_id = await propose([GOV_ADDRESS, GOV_ABI, provider], ipfs_cid);
             setProposalId(proposal_id);
     
             function makeFileObjects (obj) {
