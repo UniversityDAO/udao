@@ -31,6 +31,9 @@ function NewProposalLayout(props) {
         if (title === "" || desc === "") {
             setError(true);
         } else {
+
+            // Last arg represents the isGrant boolean. Proposals are not
+            // grants, so this arg should be set to false (isGrant = false)
             let metadata = new ProposalMetadata(title, desc, false);
             let slicedString = title.slice(0, 8);
      
