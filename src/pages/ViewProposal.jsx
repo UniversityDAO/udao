@@ -2,15 +2,19 @@ import React, {useEffect} from "react";
 import { Link } from "react-router-dom";
 import ThumbUpOffAltSharp from "@mui/icons-material/ThumbUpOffAltSharp"
 import ThumbDownOffAltSharp from "@mui/icons-material/ThumbDownOffAltSharp"
+import VoteRatio from "../components/VoteRatio";
 
 import { useSelector } from 'react-redux';
 import { vote } from "../api/EthersApi";
 import { GOV_ABI, GOV_ADDRESS } from "../data/config";
 
 function ViewProposalLayout(props) {
-
   let data = useSelector(state => state.selectedProposal);
   let metamaskProvider = useSelector(state => state.metamaskProvider);
+
+  const total = data.votes.forVotes + data.votes.againstVotes;
+  const forPercent = (data.votes.forVotes / total) * 100;
+  const againstPercent = (data.votes.againstVotes / total) * 100;
 
   useEffect(() => {
     document.title = "UDAO - View " + props.name;
@@ -25,7 +29,6 @@ function ViewProposalLayout(props) {
       <div className="flex flex-col p-5 mb-5 rounded-lg bg-black">
         <p className="text-3xl">{data.metadata.title}</p>
       </div>
-
       <div className="flex flex-col p-5 mb-5 rounded-lg bg-black">
         <p className="text-3xl mb-2">Votes</p>
         <div className="flex mb-2">
@@ -34,9 +37,7 @@ function ViewProposalLayout(props) {
           <ThumbDownOffAltSharp className="mr-2.5"/>
           <p>{data.votes.againstVotes}</p>
         </div>
-        <div className="w-full h-2.5 mb-5 rounded-lg bg-red">
-          <div className="w-10/12 rounded-r-none h-2.5 mb-5 rounded-lg bg-green"/>
-        </div>
+        <VoteRatio forPercent={forPercent} againstPercent={againstPercent}/>
         <div className="flex justify-between">
           <div className="flex">
             <button className="mr-5 w-72 h-10 flex justify-center items-center rounded-lg text-2xl bg-green hover:bg-hover-green" onClick={() => voteAndCheck(1) }>Yea</button>
