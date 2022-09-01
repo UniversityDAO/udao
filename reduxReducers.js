@@ -18,7 +18,6 @@ const metamaskProvider = (state = null, action) => {
     }
 }
 
-
 const network = (state = null, action) => {
     switch (action.type) {
         case "NETWORK":
@@ -112,7 +111,7 @@ const currentProposalTitle = (state = "", action) => {
 const allReducers = combineReducers({
     activeGrants, activeProposals, inactiveGrants, 
     inactiveProposals, alchemyProvider, metamaskProvider, 
-    isLoading, selectedProposal, network, account, 
+    isLoading, selectedProposal, network, account,
     currentProposalMetadata, currentProposalTitle
 })
 

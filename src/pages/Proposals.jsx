@@ -23,11 +23,11 @@ function ProposalsLayout(props) {
     <>
       <Link className="w-48 h-12 mb-5 mr-2.5 p-5 flex justify-center items-center rounded-lg text-lg cursor-pointer bg-purple hover:bg-hover-purple hover:text-white" to={link}>New {name}</Link>
       <div className="mb-5 p-5 flex justify-center items-center rounded-lg bg-black">
-        <TopData name={"Current Active " + props.name} data={activeProposalsLength}/>
-        <TopData name={"Your Voted " + props.name} data={inactiveProposalsLength}/>
+        <TopData name={"Active " + props.name} data={activeProposalsLength}/>
+        <TopData name={"Inactive " + props.name} data={inactiveProposalsLength}/>
       </div>
-      <CardSection header={"Your Voted " + props.name} data={activeProposals}/>
-      <CardSection header={"Other Active " + props.name} data={inactiveProposals}/>
+      <CardSection header={"Active " + props.name} data={activeProposals}/>
+      <CardSection header={"Inactive " + props.name} data={inactiveProposals}/>
     </>
   )
 }
