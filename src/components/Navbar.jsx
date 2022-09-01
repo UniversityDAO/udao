@@ -12,7 +12,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setAccount, setMetamaskProvider } from '../../reduxActions';
 import { ethers } from 'ethers';
 
-import { MUMBAI_CHAIN_ID } from "../data/config";
+import { MUMBAI_CHAIN_ID, POLYGON_CHAIN_ID } from "../data/config";
 
 // import 'reactjs-popup/dist/index.css';
 import Popup from 'reactjs-popup';
@@ -44,7 +44,7 @@ function Navbar() {
   return (
     <>
       <div className="w-full h-20 flex justify-end">
-        {accounts.length !== 0 && network !== MUMBAI_CHAIN_ID ? <SwitchMessagePopup/> : null}
+        {accounts.length !== 0 && network !== POLYGON_CHAIN_ID ? <SwitchMessagePopup/> : null}
         <button className="w-48 m-5 ml-2.5 mr-2.5 rounded-lg text-lg cursor-pointer bg-purple hover:bg-hover-purple hover:text-white" onClick={() => checkAndDelegate()}>Delegate (To Self)</button>
         <ConnectButton metamaskProvider={metamaskProvider} network={network} />
         <button className="w-10 m-5 ml-2.5 mr-2.5 rounded-lg text-lg cursor-pointer bg-purple hover:bg-hover-purple hover:text-white"><DarkMode/></button>
@@ -86,7 +86,7 @@ function SwitchMessagePopup() {
             await metamaskProvider.provider
                 .request({ 
                     method: 'wallet_switchEthereumChain',
-                    params: [{ chainId: MUMBAI_CHAIN_ID}], // TODO: switch to polygon
+                    params: [{ chainId: POLYGON_CHAIN_ID}], // TODO: switch to polygon
                 });
         } catch (switchError) {
             // This error code indicates that the chain has not been added to MetaMask.
@@ -96,9 +96,9 @@ function SwitchMessagePopup() {
                         method: 'wallet_addEthereumChain',
                         params: [
                             {
-                                chainId: MUMBAI_CHAIN_ID,
-                                chainName: 'Mumbai',
-                                rpcUrls: ['https://rpc-mumbai.maticvigil.com/'],
+                                chainId: POLYGON_CHAIN_ID,
+                                chainName: 'Polygon Mainnet',
+                                rpcUrls: ['https://polygon-rpc.com'],
                             },
                         ],
                     });
@@ -164,7 +164,7 @@ function ConnectButton(props) {
                   </div>
                 </div>
             );
-        } else if (props.network != MUMBAI_CHAIN_ID) { // TODO: change to polygon
+        } else if (props.network != POLYGON_CHAIN_ID) { // TODO: change to polygon
             return <SwitchMessagePopup/>;
         } else {
             // render connect button
