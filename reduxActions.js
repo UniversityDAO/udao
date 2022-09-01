@@ -56,7 +56,7 @@ export const setSelectedProposal = (data) => {
 
 export const setCurrentMetadata = (data) => {
     return {
-        type: "SET__CURRENT_METADATA",
+        type: "SET_CURRENT_METADATA",
         data: data
     }
 }

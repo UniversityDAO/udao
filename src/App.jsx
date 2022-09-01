@@ -14,8 +14,8 @@ import SubmittingProposal from "./pages/SubmittingProposal";
 import { useDispatch } from 'react-redux/es/exports'
 
 import { ethers } from 'ethers';
-import { GOV_ADDRESS, GOV_ADDRESS_MUMBAI, NFT_ADDRESS } from "./data/config";
-import { GOV_ABI, NFT_ABI } from "./data/config";
+import { GOV_ADDRESS, GOV_ADDRESS_MUMBAI } from "./data/config";
+import { GOV_ABI } from "./data/config";
 
 import { getAllProposals } from "./api/UDAOApi";
 import {setAlchemyProvider, setMetamaskProvider, setActiveGrants, setInactiveGrants, setActiveProposals, setInactiveProposals, setLoading} from "../reduxActions"

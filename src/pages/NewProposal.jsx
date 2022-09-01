@@ -1,27 +1,17 @@
 import React, {useEffect} from "react";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { useSelector } from 'react-redux';
-
-import * as web3Storage from '../api/web3StorageAPI'
-import { propose } from "../api/EthersApi"
-import { GOV_ABI, GOV_ADDRESS } from "../data/config";
 import { ProposalMetadata } from '../data/classes';
-
 import {setCurrentMetadata, setCurrentTitle} from "../../reduxActions"
 import { useDispatch } from 'react-redux/es/exports'
 
 function NewProposalLayout(props) {
-
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    const provider = useSelector(state => state.metamaskProvider);
     const [title, setTitle] = useState("");
     const [desc, setDesc] = useState("");
     const [error, setError] = useState(false);
-
-    let loading = false;
 
     useEffect(() => {
         document.title = "UDAO - New " + props.name;

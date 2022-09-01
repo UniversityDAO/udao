@@ -16,13 +16,15 @@ export async function getAllProposals(address, abi, provider) {
     for await (const event of proposalCreatedEvents) {
         try {
             let file = await web3Storage.retrieveArchiveByCid(event.description);
-            let ipfsMetadata = JSON.parse(await file[0].text());
+            if (JSON.parse(await file[0].text())) {
+                let ipfsMetadata = JSON.parse(await file[0].text());
 
-            let voteData = await getVoteData(event.proposalId, address, abi, provider);
-            let state = await getActiveStatus(event.proposalId, address, abi, provider);
+                let voteData = await getVoteData(event.proposalId, address, abi, provider);
+                let state = await getActiveStatus(event.proposalId, address, abi, provider);
 
-            let proposal = new Proposal(event, ipfsMetadata, voteData, state);
-            proposals.push(proposal);
+                let proposal = new Proposal(event, ipfsMetadata, voteData, state);
+                proposals.push(proposal);
+            }
         } catch (e) {
             console.error(e);
         }
