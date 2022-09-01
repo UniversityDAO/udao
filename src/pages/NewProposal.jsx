@@ -1,15 +1,14 @@
 import React, {useEffect} from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { useSelector } from 'react-redux';
-
-import * as web3Storage from '../api/web3StorageAPI'
-import { propose } from "../api/EthersApi"
-import { GOV_ABI, GOV_ADDRESS } from "../data/config";
 import { ProposalMetadata } from '../data/classes';
+import {setCurrentMetadata, setCurrentTitle} from "../../reduxActions"
+import { useDispatch } from 'react-redux/es/exports'
 
 function NewProposalLayout(props) {
-    const provider = useSelector(state => state.metamaskProvider);
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
     const [title, setTitle] = useState("");
     const [desc, setDesc] = useState("");
     const [error, setError] = useState(false);
@@ -32,33 +31,20 @@ function NewProposalLayout(props) {
         if (title === "" || desc === "") {
             setError(true);
         } else {
+
+            // Last arg represents the isGrant boolean. Proposals are not
+            // grants, so this arg should be set to false (isGrant = false)
             let metadata = new ProposalMetadata(title, desc, false);
-            let jsonFile = makeFileObjects(metadata);
             let slicedString = title.slice(0, 8);
+     
+            dispatch(setCurrentMetadata(metadata));
+            dispatch(setCurrentTitle(slicedString));
 
-            // TODO: find way to get cid w/o uploading. then wait for blockchain txn to confirm
-            // first before then finalling uploading to IPFS (or else we might have files in limbo)
-            let ipfs_cid = await web3Storage.upload(jsonFile, `Proposal-${slicedString}`, true);
-
-            // create a proposal on blockchain
-            let proposal_id = await propose([GOV_ADDRESS, GOV_ABI, provider], ipfs_cid);
-            // can now do something with proposal_id, like fetch and render or something
-
-            // TODO: add proposal submit message and redirect back to dashboard or something
-            return (
-                <Link to="/proposals"/>
-            )
+            navigate('/submitting_proposal');
         }
     }
 
-    function makeFileObjects (obj) {
-        const blob = 
-            new Blob([JSON.stringify(obj)], { type: 'application/json'})
-        const files = [
-            new File([blob], 'Proposal.json')
-        ]
-        return files;
-    }
+ 
 
     return (
         <> 

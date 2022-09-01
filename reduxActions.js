@@ -67,3 +67,19 @@ export const setSelectedProposal = (data) => {
         data: data
     }
 }
+
+export const setCurrentMetadata = (data) => {
+    return {
+        type: "SET_CURRENT_METADATA",
+        data: data
+    }
+}
+
+
+export const setCurrentTitle = (data) => {
+    return {
+        type: "SET_CURRENT_TITLE",
+        data: data
+    }
+}
+

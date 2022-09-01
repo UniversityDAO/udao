@@ -90,10 +90,29 @@ const selectedProposal = (state = "None", action) => {
     }
 }
 
+const currentProposalMetadata = (state = null, action) => {
+    switch (action.type) {
+        case "SET_CURRENT_METADATA":
+            return action.data
+        default:
+            return state
+    }
+}
+
+const currentProposalTitle = (state = "", action) => {
+    switch (action.type) {
+        case "SET_CURRENT_TITLE":
+            return action.data
+        default:
+            return state
+    }
+}
+
 const allReducers = combineReducers({
     activeGrants, activeProposals, inactiveGrants, 
     inactiveProposals, alchemyProvider, metamaskProvider, 
-    isLoading, selectedProposal, network, account
+    isLoading, selectedProposal, network, account,
+    currentProposalMetadata, currentProposalTitle
 })
 
 
