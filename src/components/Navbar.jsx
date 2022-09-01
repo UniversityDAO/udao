@@ -10,9 +10,8 @@ import { delegate } from "../api/EthersApi";
 import { NFT_ADDRESS, NFT_ABI } from "../data/config"
 import { useDispatch, useSelector } from 'react-redux';
 import { setAccount, setMetamaskProvider } from '../../reduxActions';
-import { ethers } from 'ethers';
 
-import { MUMBAI_CHAIN_ID, POLYGON_CHAIN_ID } from "../data/config";
+import { POLYGON_CHAIN_ID } from "../data/config";
 
 // import 'reactjs-popup/dist/index.css';
 import Popup from 'reactjs-popup';
@@ -86,7 +85,7 @@ function SwitchMessagePopup() {
             await metamaskProvider.provider
                 .request({ 
                     method: 'wallet_switchEthereumChain',
-                    params: [{ chainId: POLYGON_CHAIN_ID}], // TODO: switch to polygon
+                    params: [{ chainId: POLYGON_CHAIN_ID}],
                 });
         } catch (switchError) {
             // This error code indicates that the chain has not been added to MetaMask.
@@ -110,7 +109,6 @@ function SwitchMessagePopup() {
         }
     }
 
-    // TODO: fix this css!! (centered correctly and brought to very front, ie should overlay all other components)
     return (
       <div className="p-5 flex flex-col justify-center items-center fixed top-0 left-0 w-screen h-screen bg-black/80">
         <div className="p-5 flex flex-col justify-center items-center rounded-lg bg-gray">
@@ -164,7 +162,7 @@ function ConnectButton(props) {
                   </div>
                 </div>
             );
-        } else if (props.network != POLYGON_CHAIN_ID) { // TODO: change to polygon
+        } else if (props.network != POLYGON_CHAIN_ID) {
             return <SwitchMessagePopup/>;
         } else {
             // render connect button

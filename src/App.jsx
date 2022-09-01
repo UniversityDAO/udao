@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import "./App.css"
-import Install from "./components/Install";
 import Landing from "./pages/Landing";
 import NavbarLayout from "./pages/NavbarLayout";
 import { Routes, Route, HashRouter} from "react-router-dom";
