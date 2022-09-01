@@ -156,8 +156,12 @@ function ConnectButton(props) {
             // render install metamask msg
             return (
                 <div>
-                    <p>Please install metamask to use this app: https://chrome.google.com/webstore/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn?hl=en</p>
-                    {/* TODO: add installation button here */}
+                  <div className="p-5 flex flex-col justify-center items-center fixed top-0 left-0 w-screen h-screen bg-black/80">
+                    <div className="p-5 flex flex-col justify-center items-center rounded-lg bg-gray">
+                      <p className="text-2xl">Metamask Not Installed</p>
+                      <a href="https://metamask.io/download/" className="flex justify-center items-center w-48 m-5 ml-2.5 mr-2.5 rounded-lg text-lg cursor-pointer bg-purple hover:bg-hover-purple hover:text-white">Download Metamask</a>
+                    </div>
+                  </div>
                 </div>
             );
         } else if (props.network != MUMBAI_CHAIN_ID) { // TODO: change to polygon
@@ -179,7 +183,7 @@ function ConnectButton(props) {
         <>
             {
             currentAccount.length !== 0 ? 
-            <button className="w-48 m-5 ml-2.5 mr-2.5 rounded-lg text-lg bg-purple">Connected to: {currentAccount[0].slice(0,5) + '...' + currentAccount[0].slice(-3)}</button> :
+            <button className="w-48 m-5 ml-2.5 mr-2.5 rounded-lg text-lg bg-purple">{currentAccount[0].slice(0,5) + '...' + currentAccount[0].slice(-3)}</button> :
                 <Popup
                     trigger={<button className="w-48 m-5 ml-2.5 mr-2.5 rounded-lg text-lg cursor-pointer bg-purple hover:bg-hover-purple hover:text-white">Connect Wallet</button>}
                     modal
