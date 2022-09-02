@@ -17,6 +17,7 @@ Requires git and Node.js to build and run.
 git clone https://github.com/UniversityDAO/udao.git
 cd udao
 npm install
+npx hardhat compile
 npm run dev
 ```
 
