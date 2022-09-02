@@ -60,8 +60,8 @@ function NewProposalLayout(props) {
             </div>
             <h1 className="text-2xl mb-2">Submit {props.name}</h1>
             <div className="flex">
-            <Link className="mr-5 w-72 h-10 flex justify-center items-center rounded-lg text-2xl bg-purple hover:bg-hover-purple" to={"/" + props.name.toLowerCase() + "s"}>Back</Link>
-            <button onClick={() => submitApp()} className="w-72 h-10 flex justify-center items-center rounded-lg text-2xl bg-purple hover:bg-hover-purple">Submit</button>
+            <Link className="transition-all duration-200 mr-5 w-72 h-10 flex justify-center items-center rounded-lg text-2xl bg-purple hover:bg-hover-purple" to={"/" + props.name.toLowerCase() + "s"}>Back</Link>
+            <button onClick={() => submitApp()} className="transition-all duration-200 w-72 h-10 flex justify-center items-center rounded-lg text-2xl bg-purple hover:bg-hover-purple">Submit</button>
             </div>
           </div>
         </>

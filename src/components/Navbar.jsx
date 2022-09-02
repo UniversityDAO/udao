@@ -47,11 +47,11 @@ function Navbar() {
     <>
       <div className="flex justify-between p-5">
         {accounts.length !== 0 && network !== POLYGON_CHAIN_ID ? <SwitchMessagePopup/> : null}
-        <button onClick={toggleSidebar} className="flex justify-center items-center w-12 h-12 rounded-lg text-lg cursor-pointer bg-purple hover:bg-hover-purple hover:text-white"><Menu/></button>
+        <button onClick={toggleSidebar} className="transition-all duration-200 flex justify-center items-center w-12 h-12 rounded-lg text-lg cursor-pointer bg-purple hover:bg-hover-purple hover:text-white"><Menu/></button>
         <div className="flex">
-          <button className="hidden md:flex justify-center items-center w-12 h-12 mr-5 rounded-lg text-lg cursor-pointer bg-purple hover:bg-hover-purple hover:text-white"><DarkMode/></button>
-          <button className="hidden md:flex justify-center items-center w-12 h-12 mr-5 rounded-lg text-lg cursor-pointer bg-purple hover:bg-hover-purple hover:text-white"><Language/></button>
-          <button className="flex justify-center items-center mr-5 w-28 h-12 rounded-lg text-lg cursor-pointer bg-purple hover:bg-hover-purple hover:text-white" onClick={() => checkAndDelegate()}>Delegate</button>
+          <button className="transition-all duration-200 hidden md:flex justify-center items-center w-12 h-12 mr-5 rounded-lg text-lg cursor-pointer bg-purple hover:bg-hover-purple hover:text-white"><DarkMode/></button>
+          <button className="transition-all duration-200 hidden md:flex justify-center items-center w-12 h-12 mr-5 rounded-lg text-lg cursor-pointer bg-purple hover:bg-hover-purple hover:text-white"><Language/></button>
+          {currentAccount.length == 0 ? <div/> : <button className="transition-all duration-200 flex justify-center items-center mr-5 w-28 h-12 rounded-lg text-lg cursor-pointer bg-purple hover:bg-hover-purple hover:text-white" onClick={() => checkAndDelegate()}>Delegate</button>}
           <ConnectButton metamaskProvider={metamaskProvider} network={network}/>
         </div>
       </div>
@@ -70,7 +70,7 @@ function Navbar() {
           {SidebarData.map((item, index) => {
             return (
               <li key={index} className="flex justify-center">
-                <NavLink to={item.path} className="w-72 m-4 mt-2 mb-2 p-3 flex justify-start align-center rounded-lg hover:bg-purple hover:text-white">
+                <NavLink to={item.path} className="transition-all duration-200 w-72 m-4 mt-2 mb-2 p-3 flex justify-start align-center rounded-lg hover:bg-purple hover:text-white">
                   {item.icon}
                   <span className="ml-4">{item.title}</span>
                 </NavLink>
@@ -79,8 +79,8 @@ function Navbar() {
           })}
           <div className="h-0.5 m-5 flex justify-center align-center bg-purple"/>
           <div className="flex justify-center align-center">
-            <a href="https://twitter.com/TrumanUDAO" target="_blank" className="w-10 h-10 m-5 mt-0 mr-2.5 text-lg rounded-lg bg-purple hover:bg-hover-purple hover:text-white"><div className="w-full h-full flex justify-center items-center"><Twitter/></div></a>
-            <a href="https://github.com/UniversityDAO/" target="_blank" className="w-10 h-10 mt-0 m-5 ml-2.5 text-lg rounded-lg bg-purple hover:bg-hover-purple hover:text-white"><div className="w-full h-full flex justify-center items-center"><GitHub/></div></a>
+            <a href="https://twitter.com/TrumanUDAO" target="_blank" className="transition-all duration-200 w-10 h-10 m-5 mt-0 mr-2.5 text-lg rounded-lg bg-purple hover:bg-hover-purple hover:text-white"><div className="w-full h-full flex justify-center items-center"><Twitter/></div></a>
+            <a href="https://github.com/UniversityDAO/" target="_blank" className="transition-all duration-200 w-10 h-10 mt-0 m-5 ml-2.5 text-lg rounded-lg bg-purple hover:bg-hover-purple hover:text-white"><div className="w-full h-full flex justify-center items-center"><GitHub/></div></a>
           </div>
         </ul>
       </nav>
@@ -192,9 +192,9 @@ function ConnectButton(props) {
         <>
             {
             currentAccount.length !== 0 ? 
-            <button className="flex justify-center items-center w-32 h-12 rounded-lg text-lg cursor-pointer bg-purple hover:bg-hover-purple hover:text-white">Connected</button> :
+            <button className="flex justify-center items-center w-32 h-12 rounded-lg text-lg bg-purple">Connected</button> :
                 <Popup
-                    trigger={<button className="flex justify-center items-center w-32 h-12 rounded-lg text-lg cursor-pointer bg-purple hover:bg-hover-purple hover:text-white">Connect</button>}
+                    trigger={<button className="transition-all duration-200 flex justify-center items-center w-32 h-12 rounded-lg text-lg cursor-pointer bg-purple hover:bg-hover-purple hover:text-white">Connect</button>}
                     modal
                     nested
                 >

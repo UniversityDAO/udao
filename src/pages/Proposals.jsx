@@ -21,7 +21,7 @@ function ProposalsLayout(props) {
 
   return (
     <>
-      <Link className="w-48 h-12 mb-5 mr-2.5 p-5 flex justify-center items-center rounded-lg text-lg cursor-pointer bg-purple hover:bg-hover-purple hover:text-white" to={link}>New {name}</Link>
+      <Link className="transition-all duration-200 w-48 h-12 mb-5 mr-2.5 p-5 flex justify-center items-center rounded-lg text-lg cursor-pointer bg-purple hover:bg-hover-purple hover:text-white" to={link}>New {name}</Link>
       <div className="mb-5 p-5 flex flex-col md:flex-row justify-center items-center rounded-lg bg-black">
         <TopData name={"Active " + props.name} data={activeProposalsLength}/>
         <TopData name={"Inactive " + props.name} data={inactiveProposalsLength}/>
