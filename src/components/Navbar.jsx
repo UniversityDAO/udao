@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import DarkMode from "@mui/icons-material/DarkMode"
+import Menu from "@mui/icons-material/Menu"
 import Language from "@mui/icons-material/Language"
 import Twitter from "@mui/icons-material/Twitter"
 import GitHub from "@mui/icons-material/GitHub"
@@ -17,8 +18,10 @@ import { POLYGON_CHAIN_ID } from "../data/config";
 import Popup from 'reactjs-popup';
 
 function Navbar() {
-  const [sidebar, setSidebar] = useState(false);
-  const showSidebar = () => setSidebar(!sidebar);
+  const [isShown, setIsShown] = useState(false);
+  const toggleSidebar = () => setIsShown(!isShown);
+
+  const currentAccount = useSelector(state => state.account);
 
   let metamaskProvider = useSelector(state => state.metamaskProvider);
   let network = useSelector(state => state.network);
@@ -42,31 +45,39 @@ function Navbar() {
 
   return (
     <>
-      <div className="w-full h-20 flex justify-end">
+      <div className="flex justify-between p-5">
         {accounts.length !== 0 && network !== POLYGON_CHAIN_ID ? <SwitchMessagePopup/> : null}
-        <button className="w-48 m-5 ml-2.5 mr-2.5 rounded-lg text-lg cursor-pointer bg-purple hover:bg-hover-purple hover:text-white" onClick={() => checkAndDelegate()}>Delegate (To Self)</button>
-        <ConnectButton metamaskProvider={metamaskProvider} network={network} />
-        <button className="w-10 m-5 ml-2.5 mr-2.5 rounded-lg text-lg cursor-pointer bg-purple hover:bg-hover-purple hover:text-white"><DarkMode/></button>
-        <button className="w-10 m-5 ml-2.5 rounded-lg text-lg cursor-pointer bg-purple hover:bg-hover-purple hover:text-white"><Language/></button>
+        <button onClick={toggleSidebar} className="flex justify-center items-center w-12 h-12 rounded-lg text-lg cursor-pointer bg-purple hover:bg-hover-purple hover:text-white"><Menu/></button>
+        <div className="flex">
+          <button className="hidden md:flex justify-center items-center w-12 h-12 mr-5 rounded-lg text-lg cursor-pointer bg-purple hover:bg-hover-purple hover:text-white"><DarkMode/></button>
+          <button className="hidden md:flex justify-center items-center w-12 h-12 mr-5 rounded-lg text-lg cursor-pointer bg-purple hover:bg-hover-purple hover:text-white"><Language/></button>
+          <button className="flex justify-center items-center mr-5 w-28 h-12 rounded-lg text-lg cursor-pointer bg-purple hover:bg-hover-purple hover:text-white" onClick={() => checkAndDelegate()}>Delegate</button>
+          <ConnectButton metamaskProvider={metamaskProvider} network={network}/>
+        </div>
       </div>
-      <nav className="bg-black w-72 h-screen flex justify-center fixed top-0 flex-1">
+      <div onClick={toggleSidebar} className={"overflow-y-auto bg-black/50 w-screen h-screen fixed top-0 "  + (isShown ? "block" : "hidden") + " lg:hidden"}/>
+      <nav className={"overflow-y-auto bg-black w-72 h-screen flex justify-center fixed top-0 " + (isShown ? "left-0" : "-left-full") + " lg:left-0"}>
         <ul className="w-full">
-          <div className="h-28 m-5 flex justify-center align-center">
+          <div className="h-24 m-3 flex justify-center align-center">
             <img src={Logo} alt="logo"/>
           </div>
-          <p className="flex justify-center align-center font text-7xl">UDAO</p>
+          <p className="flex justify-center align-center text-6xl">UDAO</p>
+          <div className="h-0.5 m-5 flex justify-center align-center bg-purple"/>
+          <p className="m-5 mb-0 text-xl text-white">Your Wallet Address:</p>
+          
+          {currentAccount.length !== 0 ? <p className="m-5 mt-0">{currentAccount[0].slice(0,5) + '...' + currentAccount[0].slice(-3)}</p> : <p className="m-5 mt-0">Not Connected</p>}
           <div className="h-0.5 m-5 flex justify-center align-center bg-purple"/>
           {SidebarData.map((item, index) => {
             return (
               <li key={index} className="flex justify-center">
-                <NavLink to={item.path} className="w-10/12 mb-2.5 p-3 flex justify-start align-center rounded-lg hover:bg-purple hover:text-white">
+                <NavLink to={item.path} className="w-72 m-4 mt-2 mb-2 p-3 flex justify-start align-center rounded-lg hover:bg-purple hover:text-white">
                   {item.icon}
                   <span className="ml-4">{item.title}</span>
                 </NavLink>
               </li>
             );
           })}
-          <div className="h-0.5 m-5 mt-2.5 flex justify-center align-center bg-purple"/>
+          <div className="h-0.5 m-5 flex justify-center align-center bg-purple"/>
           <div className="flex justify-center align-center">
             <a href="https://twitter.com/TrumanUDAO" target="_blank" className="w-10 h-10 m-5 mt-0 mr-2.5 text-lg rounded-lg bg-purple hover:bg-hover-purple hover:text-white"><div className="w-full h-full flex justify-center items-center"><Twitter/></div></a>
             <a href="https://github.com/UniversityDAO/" target="_blank" className="w-10 h-10 mt-0 m-5 ml-2.5 text-lg rounded-lg bg-purple hover:bg-hover-purple hover:text-white"><div className="w-full h-full flex justify-center items-center"><GitHub/></div></a>
@@ -95,9 +106,9 @@ function SwitchMessagePopup() {
                         method: 'wallet_addEthereumChain',
                         params: [
                             {
-                                chainId: POLYGON_CHAIN_ID,
-                                chainName: 'Polygon Mainnet',
-                                rpcUrls: ['https://polygon-rpc.com'],
+                              chainId: POLYGON_CHAIN_ID,
+                              chainName: 'Polygon Mainnet',
+                              rpcUrls: ['https://polygon-rpc.com'],
                             },
                         ],
                     });
@@ -183,7 +194,7 @@ function ConnectButton(props) {
             currentAccount.length !== 0 ? 
             <button className="w-48 m-5 ml-2.5 mr-2.5 rounded-lg text-lg bg-purple"><span className="text-sm">Connected To: </span>{currentAccount[0].slice(0,5) + '...' + currentAccount[0].slice(-3)}</button> :
                 <Popup
-                    trigger={<button className="w-48 m-5 ml-2.5 mr-2.5 rounded-lg text-lg cursor-pointer bg-purple hover:bg-hover-purple hover:text-white">Connect Wallet</button>}
+                    trigger={<button className="flex justify-center items-center w-28 h-12 rounded-lg text-lg cursor-pointer bg-purple hover:bg-hover-purple hover:text-white">Connect</button>}
                     modal
                     nested
                 >

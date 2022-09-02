@@ -15,11 +15,11 @@ export const SidebarData = [
     path: "proposals",
     icon: <FormatAlignJustify/>,
   },
-  {
+  /*{
     title: "Grants",
     path: "grants",
     icon: <AttachMoney/>,
-  },
+  },*/
   {
     title: "Help",
     path: "help",

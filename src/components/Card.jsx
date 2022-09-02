@@ -34,7 +34,7 @@ function Card(props) {
           Active
         </div>
         <div className="p-2.5 pt-1 pb-1 rounded-lg flex justify-center items-center bg-purple hover:bg-hover-purple">
-          Big Dog Status
+          Another Status
         </div>
       </div>
     </Link>

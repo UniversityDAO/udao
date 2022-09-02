@@ -48,7 +48,7 @@ function NewProposalLayout(props) {
 
     return (
         <> 
-        <div className="flex flex-col p-5 mb-5 rounded-lg bg-black">
+          <div className="flex flex-col p-5 mb-5 h-[calc(100vh-6.75rem)] rounded-lg bg-black">
             <h1 className="text-3xl mb-2.5">Create New {props.name}</h1>
             <h1 className="text-2xl mb-2">Name</h1>
             <input onChange={e => setTitle(e.target.value)} className="text-2xl mb-5 p-1 rounded-lg bg-gray focus:outline-0 focus:shadow-none" maxLength={100} placeholder="Name goes here"></input>
@@ -61,9 +61,9 @@ function NewProposalLayout(props) {
             <h1 className="text-2xl mb-2">Submit {props.name}</h1>
             <div className="flex">
             <Link className="mr-5 w-72 h-10 flex justify-center items-center rounded-lg text-2xl bg-purple hover:bg-hover-purple" to={"/" + props.name.toLowerCase() + "s"}>Back</Link>
-            <button onClick={() => submitApp()} className="w-72 h-10 flex justify-center items-center rounded-lg text-2xl bg-purple hover:bg-hover-purple">Submit {props.name}</button>
+            <button onClick={() => submitApp()} className="w-72 h-10 flex justify-center items-center rounded-lg text-2xl bg-purple hover:bg-hover-purple">Submit</button>
             </div>
-        </div>
+          </div>
         </>
     )
 }

@@ -20,13 +20,17 @@ function Dashboard() {
 
   return (
     <>
-      <div className="mb-5 p-5 flex justify-center items-center rounded-lg bg-black">
+      <div className="mb-5 p-5 flex flex-col md:flex-row justify-center items-center rounded-lg bg-black">
         <TopData name="Active Proposals" data={activeProposalCount}/>
         <TopData name="Active Grants" data={activeGrantCount}/>
       </div>
-      <div className="flex">
-        <CardSection header="Active Proposals" data={activeProposals}/>
-        <CardSection header="Active Grants" data={activeGrants}/>
+      <div className="mb-5 flex flex-col lg:flex-row">
+        <div className="mr-5 w-full">
+          <CardSection header="Active Proposals" data={activeProposals}/>
+        </div>
+        <div className="w-full">
+          <CardSection header="Active Grants" data={activeGrants}/>
+        </div>        
       </div>
     </>
   )

@@ -7,7 +7,7 @@ function NavbarLayout() {
     <>
       <Navbar/>
       <main>
-        <div className="ml-72 p-5 pt-0 pb-0 flex flex-col flow-col">
+        <div className="p-5 pt-0 pb-0 flex flex-col lg:ml-72">
           <Outlet/>
         </div>
       </main>
