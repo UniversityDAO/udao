@@ -192,7 +192,7 @@ function ConnectButton(props) {
         <>
             {
             currentAccount.length !== 0 ? 
-            <button className="w-48 m-5 ml-2.5 mr-2.5 rounded-lg text-lg bg-purple"><span className="text-sm">Connected To: </span>{currentAccount[0].slice(0,5) + '...' + currentAccount[0].slice(-3)}</button> :
+            <button className="w-48 m-5 ml-2.5 mr-2.5 rounded-lg text-lg bg-purple">Connected</button> :
                 <Popup
                     trigger={<button className="flex justify-center items-center w-28 h-12 rounded-lg text-lg cursor-pointer bg-purple hover:bg-hover-purple hover:text-white">Connect</button>}
                     modal
