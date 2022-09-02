@@ -51,7 +51,7 @@ function Navbar() {
         <div className="flex">
           <button className="hidden md:flex justify-center items-center w-12 h-12 mr-5 rounded-lg text-lg cursor-pointer bg-purple hover:bg-hover-purple hover:text-white"><DarkMode/></button>
           <button className="hidden md:flex justify-center items-center w-12 h-12 mr-5 rounded-lg text-lg cursor-pointer bg-purple hover:bg-hover-purple hover:text-white"><Language/></button>
-          <button className="flex justify-center items-center mr-5 w-32 h-12 rounded-lg text-lg cursor-pointer bg-purple hover:bg-hover-purple hover:text-white" onClick={() => checkAndDelegate()}>Delegate</button>
+          <button className="flex justify-center items-center mr-5 w-28 h-12 rounded-lg text-lg cursor-pointer bg-purple hover:bg-hover-purple hover:text-white" onClick={() => checkAndDelegate()}>Delegate</button>
           <ConnectButton metamaskProvider={metamaskProvider} network={network}/>
         </div>
       </div>
