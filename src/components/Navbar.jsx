@@ -56,7 +56,7 @@ function Navbar() {
         </div>
       </div>
       <div onClick={toggleSidebar} className={"overflow-y-auto bg-black/50 w-screen h-screen fixed top-0 "  + (isShown ? "block" : "hidden") + " lg:hidden"}/>
-      <nav className={"overflow-y-auto bg-black w-72 h-screen flex justify-center fixed top-0 " + (isShown ? "left-0" : "-left-full") + " lg:left-0"}>
+      <nav className={"transition-all duration-200 overflow-y-auto bg-black w-72 h-screen flex justify-center fixed top-0 " + (isShown ? "left-0" : "-left-full") + " lg:left-0"}>
         <ul className="w-full">
           <div className="h-24 m-3 flex justify-center align-center">
             <img src={Logo} alt="logo"/>
@@ -70,7 +70,7 @@ function Navbar() {
           {SidebarData.map((item, index) => {
             return (
               <li key={index} className="flex justify-center">
-                <NavLink to={item.path} className="transition-all duration-200 w-72 m-4 mt-2 mb-2 p-3 flex justify-start align-center rounded-lg hover:bg-purple hover:text-white">
+                <NavLink to={item.path} onClick={toggleSidebar} className={({ isActive }) => (isActive ? "bg-purple" : "") + " transition-all duration-200 w-72 m-4 mt-2 mb-2 p-3 flex justify-start align-center rounded-lg hover:bg-purple hover:text-white"}>
                   {item.icon}
                   <span className="ml-4">{item.title}</span>
                 </NavLink>
@@ -192,7 +192,7 @@ function ConnectButton(props) {
         <>
             {
             currentAccount.length !== 0 ? 
-            <button className="flex justify-center items-center w-32 h-12 rounded-lg text-lg bg-purple">Connected</button> :
+            <button className="cursor-default flex justify-center items-center w-32 h-12 rounded-lg text-lg bg-purple">Connected</button> :
                 <Popup
                     trigger={<button className="transition-all duration-200 flex justify-center items-center w-32 h-12 rounded-lg text-lg cursor-pointer bg-purple hover:bg-hover-purple hover:text-white">Connect</button>}
                     modal
