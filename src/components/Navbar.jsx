@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import DarkMode from "@mui/icons-material/DarkMode"
+import Close from "@mui/icons-material/Close"
 import Menu from "@mui/icons-material/Menu"
 import Language from "@mui/icons-material/Language"
 import Twitter from "@mui/icons-material/Twitter"
@@ -13,9 +14,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setAccount, setMetamaskProvider } from '../../reduxActions';
 
 import { POLYGON_CHAIN_ID } from "../data/config";
-
-// import 'reactjs-popup/dist/index.css';
-import Popup from 'reactjs-popup';
 
 function Navbar() {
   const [isShown, setIsShown] = useState(false);
@@ -46,7 +44,6 @@ function Navbar() {
   return (
     <>
       <div className="flex justify-between p-5">
-        {accounts.length !== 0 && network !== POLYGON_CHAIN_ID ? <SwitchMessagePopup/> : null}
         <button onClick={toggleSidebar} className="transition-all duration-200 flex justify-center items-center w-12 h-12 rounded-lg text-lg cursor-pointer bg-purple hover:bg-hover-purple hover:text-white"><Menu/></button>
         <div className="flex">
           <button className="transition-all duration-200 hidden md:flex justify-center items-center w-12 h-12 mr-5 rounded-lg text-lg cursor-pointer bg-purple hover:bg-hover-purple hover:text-white"><DarkMode/></button>
@@ -56,7 +53,7 @@ function Navbar() {
         </div>
       </div>
       <div onClick={toggleSidebar} className={"overflow-y-auto bg-black/50 w-screen h-screen fixed top-0 "  + (isShown ? "block" : "hidden") + " lg:hidden"}/>
-      <nav className={"transition-all duration-200 overflow-y-auto bg-black w-72 h-screen flex justify-center fixed top-0 " + (isShown ? "left-0" : "-left-full") + " lg:left-0"}>
+      <nav className={"overflow-y-auto bg-black w-72 h-screen flex justify-center fixed top-0 " + (isShown ? "left-0" : "-left-full") + " lg:left-0"}>
         <ul className="w-full">
           <div className="h-24 m-3 flex justify-center align-center">
             <img src={Logo} alt="logo"/>
@@ -70,7 +67,7 @@ function Navbar() {
           {SidebarData.map((item, index) => {
             return (
               <li key={index} className="flex justify-center">
-                <NavLink to={item.path} onClick={toggleSidebar} className={({ isActive }) => (isActive ? "bg-purple" : "") + " transition-all duration-200 w-72 m-4 mt-2 mb-2 p-3 flex justify-start align-center rounded-lg hover:bg-purple hover:text-white"}>
+                <NavLink to={item.path} className="transition-all duration-200 w-72 m-4 mt-2 mb-2 p-3 flex justify-start align-center rounded-lg hover:bg-purple hover:text-white">
                   {item.icon}
                   <span className="ml-4">{item.title}</span>
                 </NavLink>
@@ -88,127 +85,126 @@ function Navbar() {
   );
 }
 
-function SwitchMessagePopup() {
+function ConnectButton(props) {
+  const [isShown, setIsShown] = useState(false);
+  const togglePopup = () => setIsShown(!isShown);
+  
+  const metamaskProvider = props.metamaskProvider;
+
+  const dispatch = useDispatch();
+  const currentAccount = useSelector(state => state.account);
+
+  function handleAccountsChanged(accounts) {
+    if (accounts.length === 0) {
+      // MetaMask is locked or the user has not connected any accounts
+      console.log('Please connect to MetaMask.');
+    } else if (accounts[0] !== currentAccount) {
+      dispatch(setAccount(accounts));
+    }
+  }   
+
+  const connectAccount = async () => {
+    try {
+      const accounts = await metamaskProvider.provider.request({ method: 'eth_requestAccounts' });
+      await handleAccountsChanged(accounts);
+    } catch (err) {
+      if (err.code === 4001) {
+        // EIP-1193 userRejectedRequest error
+        // If this happens, the user rejected the connection request.
+        alert('User denied connection. Please connect to MetaMask.');
+      } else {
+        console.error(err);
+      }
+    }
+
+    {window.location.reload()}
+  }
+
+  const disconnectAccount = async () => {
+    // TODO: Add disconnect account
+
+    {window.location.reload()}
+  }
+
+  function SwitchMessagePopup() {
     const metamaskProvider = useSelector(state => state.metamaskProvider);
 
     const switchNetwork = async () => {
-        try {
-            await metamaskProvider.provider
-                .request({ 
-                    method: 'wallet_switchEthereumChain',
-                    params: [{ chainId: POLYGON_CHAIN_ID}],
-                });
-        } catch (switchError) {
-            // This error code indicates that the chain has not been added to MetaMask.
-            if (switchError.code === 4902) {
-                try {
-                    await ethereum.request({
-                        method: 'wallet_addEthereumChain',
-                        params: [
-                            {
-                              chainId: POLYGON_CHAIN_ID,
-                              chainName: 'Polygon Mainnet',
-                              rpcUrls: ['https://polygon-rpc.com'],
-                            },
-                        ],
-                    });
-                } catch (addError) {
-                    console.error(addError);
-                }
-            }
-            console.error(switchError);    
+      try {
+        await metamaskProvider.provider.request({ 
+          method: 'wallet_switchEthereumChain',
+          params: [{ chainId: POLYGON_CHAIN_ID}],
+        });
+      } catch (switchError) {
+        // This error code indicates that the chain has not been added to MetaMask.
+        if (switchError.code === 4902) {
+          try {
+            await ethereum.request({
+              method: 'wallet_addEthereumChain',
+              params: [
+                {
+                  chainId: POLYGON_CHAIN_ID,
+                  chainName: 'Polygon Mainnet',
+                  rpcUrls: ['https://polygon-rpc.com'],
+                },
+              ],
+            });
+          } catch (addError) {
+            console.error(addError);
+          }
         }
+        console.error(switchError);    
+      }
     }
 
     return (
-      <div className="p-5 flex flex-col justify-center items-center fixed top-0 left-0 w-screen h-screen bg-black/80">
-        <div className="p-5 flex flex-col justify-center items-center rounded-lg bg-gray">
-          <p className="text-2xl">This app only works on Polygon mainnet.</p>
-          <button onClick={() => switchNetwork()} className="w-48 h-10 m-5 ml-2.5 mr-2.5 rounded-lg text-lg cursor-pointer bg-purple hover:bg-hover-purple hover:text-white">Switch Network</button>
+      <Popup message="This app only works on Polygon mainnet." button={<button onClick={() => switchNetwork()} className="w-48 h-10 m-5 ml-2.5 mr-2.5 rounded-lg text-lg cursor-pointer bg-purple hover:bg-hover-purple hover:text-white">Switch Network</button>}/>
+    )
+  }
+
+  function Popup(props) {
+    return (
+      <div className={"transition-all duration-200 p-5 flex flex-col justify-center items-center fixed top-0 w-screen h-screen bg-black/80 " + (isShown ? "left-0" : "-left-full")}>
+        <div className="p-5 flex flex-col justify-center rounded-lg bg-gray">
+          <button onClick={togglePopup} className="transition-all duration-200 pt-3 pb-6 flex justify-center items-center w-6 h-6 rounded-lg text-lg cursor-pointer hover:text-white"><Close/></button>
+          <div className="flex flex-col justify-center items-center">
+            <p className="text-2xl">{props.message}</p>
+            {props.button}
+          </div>
         </div>
       </div>
     )
-}
+  }
 
-function ConnectButton(props) {
-    const metamaskProvider = props.metamaskProvider;
-
-    const dispatch = useDispatch();
-    const currentAccount = useSelector(state => state.account);
-
-    function handleAccountsChanged(accounts) {
-        if (accounts.length === 0) {
-            // MetaMask is locked or the user has not connected any accounts
-            console.log('Please connect to MetaMask.');
-        } else if (accounts[0] !== currentAccount) {
-            dispatch(setAccount(accounts));
-        }
+  const RenderPopup = () => {
+    // Install metamask popup  
+    if (metamaskProvider == null) {
+      return (
+        <Popup message="MetaMask not installed." button={<a href="https://metamask.io/download/" className="flex justify-center items-center w-48 h-10 m-5 ml-2.5 mr-2.5 rounded-lg text-lg cursor-pointer bg-purple hover:bg-hover-purple hover:text-white">Download</a>}/>
+      );
     }
 
-    const connectAccount = async () => {
-        try {
-            const accounts = await metamaskProvider.provider.request({ method: 'eth_requestAccounts' });
-            await handleAccountsChanged(accounts);
-        } catch (err) {
-            if (err.code === 4001) {
-                // EIP-1193 userRejectedRequest error
-                // If this happens, the user rejected the connection request.
-                alert('User denied connection. Please connect to MetaMask.');
-            } else {
-                console.error(err);
-            }
-        }
+    // Switch networks popup
+    if (props.network != POLYGON_CHAIN_ID) {
+      return <SwitchMessagePopup/>;
     }
-
-    const renderMainMessage = () => {
-        if (metamaskProvider == null) {
-            // render install metamask msg
-            return (
-                <div>
-                  <div className="p-5 flex flex-col justify-center items-center fixed top-0 left-0 w-screen h-screen bg-black/80">
-                    <div className="p-5 flex flex-col justify-center items-center rounded-lg bg-gray">
-                      <p className="text-2xl">Metamask Not Installed</p>
-                      <a href="https://metamask.io/download/" className="flex justify-center items-center w-48 m-5 ml-2.5 mr-2.5 rounded-lg text-lg cursor-pointer bg-purple hover:bg-hover-purple hover:text-white">Download Metamask</a>
-                    </div>
-                  </div>
-                </div>
-            );
-        } else if (props.network != POLYGON_CHAIN_ID) {
-            return <SwitchMessagePopup/>;
-        } else {
-            // render connect button
-            return (
-              <div className="p-5 flex flex-col justify-center items-center fixed top-0 left-0 w-screen h-screen bg-black/80">
-                <div className="p-5 flex flex-col justify-center items-center rounded-lg bg-gray">
-                  <p className="text-2xl">Connect</p>
-                  <button onClick={() => connectAccount()} className="w-48 m-5 ml-2.5 mr-2.5 rounded-lg text-lg cursor-pointer bg-purple hover:bg-hover-purple hover:text-white">Connect with Metamask</button>
-                </div>
-              </div>
-            );
-        }
-    }
-
+        
+    // Connect popup
     return (
-        <>
-            {
-            currentAccount.length !== 0 ? 
-            <button className="cursor-default flex justify-center items-center w-32 h-12 rounded-lg text-lg bg-purple">Connected</button> :
-                <Popup
-                    trigger={<button className="transition-all duration-200 flex justify-center items-center w-32 h-12 rounded-lg text-lg cursor-pointer bg-purple hover:bg-hover-purple hover:text-white">Connect</button>}
-                    modal
-                    nested
-                >
-                    {close => (
-                    <div>
-                        <button onClick={close}>&times;</button>
-                        <div>{renderMainMessage()}</div>
-                    </div>
-                    )}
-                </Popup>
-            }
-        </>
-
+      <>
+        <Popup message="Connect account." button={<button onClick={() => connectAccount()} className="w-48 m-5 ml-2.5 mr-2.5 rounded-lg text-lg cursor-pointer bg-purple hover:bg-hover-purple hover:text-white">Connect with Metamask</button>}/>
+      </>
     );
+  }
+
+  return (
+    <>
+      { 
+        currentAccount.length !== 0 ? <button onClick={disconnectAccount} className="transition-all duration-200 flex justify-center items-center w-32 h-12 rounded-lg text-lg bg-purple hover:bg-hover-purple hover:text-white">Disconnect</button> : <button onClick={togglePopup} className="transition-all duration-200 flex justify-center items-center w-32 h-12 rounded-lg text-lg bg-purple hover:bg-hover-purple hover:text-white">Connect</button>
+      }
+      <div>{RenderPopup()}</div>
+    </>
+  );
 }
 
 export default Navbar;
