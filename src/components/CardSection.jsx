@@ -18,7 +18,7 @@ function CardSection(props) {
     }
 
     return (
-      data.map(proposal => <Card proposal={proposal}/>)
+      data.map(proposal => <Card key={proposal.metadata.title} proposal={proposal}/>)
     )
   }
 
