@@ -1,4 +1,4 @@
-import loading from "../../public/EclipseLoading.svg"
+import loading from "../../src/assets/EclipseLoading.svg"
 
 function Loading () {
     return (

@@ -23,7 +23,6 @@
     "react-redux": "^8.0.2",
     "react-router": "^6.3.0",
     "react-router-dom": "^6.3.0",
-    "reactjs-popup": "^2.0.5",
     "redux": "^4.2.0",
     "web3.storage": "^4.3.0"
   },
