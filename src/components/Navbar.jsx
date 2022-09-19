@@ -59,7 +59,7 @@ function Navbar() {
           {SidebarData.map((item, index) => {
             return (
               <li key={index} className="flex justify-center">
-                <NavLink to={item.path} className={({isActive}) => isActive ? "transition-all duration-200 w-72 m-4 mt-2 mb-2 p-3 flex justify-start align-center rounded-lg bg-purple hover:text-white" : "transition-all duration-200 w-72 m-4 mt-2 mb-2 p-3 flex justify-start align-center rounded-lg hover:bg-purple hover:text-white"}>
+                <NavLink to={item.path} onClick={toggleSidebar} className={({isActive}) => "transition-all duration-200 w-72 m-4 mt-2 mb-2 p-3 flex justify-start align-center rounded-lg hover:text-white " + (isActive ? " bg-purple" : " hover:bg-purple ")}>
                   {item.icon}
                   <span className="ml-4">{item.title}</span>
                 </NavLink>
