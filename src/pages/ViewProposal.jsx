@@ -38,10 +38,10 @@ function ViewProposalLayout(props) {
           <p>{data.votes.againstVotes}</p>
         </div>
         <VoteRatio forPercent={forPercent} againstPercent={againstPercent}/>
-        <div className="flex justify-between">
-          <div className="flex">
-            <button className="transition-all duration-200 mr-5 w-72 h-10 flex justify-center items-center rounded-lg text-2xl bg-green hover:bg-hover-green" onClick={() => voteAndCheck(1) }>Yea</button>
-            <button className="transition-all duration-200 w-72 h-10 flex justify-center items-center rounded-lg text-2xl bg-red hover:bg-hover-red" onClick={() => voteAndCheck(0) }>Nay</button>
+        <div className="flex flex-col justify-between items-center lg:flex-row">
+          <div className="flex flex-col lg:flex-row">
+            <button className="transition-all duration-200 mb-5 lg:mr-5 lg:mb-0 w-72 h-10 flex justify-center items-center rounded-lg text-2xl bg-green hover:bg-hover-green" onClick={() => voteAndCheck(1) }>Yea</button>
+            <button className="transition-all duration-200 mb-10 lg:mr-5 lg:mb-0 w-72 h-10 flex justify-center items-center rounded-lg text-2xl bg-red hover:bg-hover-red" onClick={() => voteAndCheck(0) }>Nay</button>
           </div>
           <button className="transition-all duration-200 w-72 h-10 flex justify-center items-center rounded-lg text-2xl bg-purple hover:bg-hover-purple" onClick={() => history.back()}>Back</button>
         </div>
