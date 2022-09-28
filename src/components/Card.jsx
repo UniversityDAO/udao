@@ -3,9 +3,11 @@ import { Link } from "react-router-dom";
 import ThumbUpOffAltSharp from "@mui/icons-material/ThumbUpOffAltSharp"
 import ThumbDownOffAltSharp from "@mui/icons-material/ThumbDownOffAltSharp"
 import VoteRatio from "./VoteRatio";
+import Tag from "./Tag";
 
 import { setSelectedProposal } from "../../reduxActions";
 import { useDispatch } from 'react-redux/es/exports';
+import { breadcrumbsClasses } from "@mui/material";
 
 function Card({proposal}) {
   const dispatch = useDispatch();
@@ -29,12 +31,7 @@ function Card({proposal}) {
         <p>{proposal.votes.againstVotes}</p>
       </div>
       <div className="flex">
-        <div className="transition-all duration-200 mr-2.5 p-2.5 pt-1 pb-1 rounded-lg flex justify-center items-center bg-purple hover:bg-hover-purple">
-          Active
-        </div>
-        <div className="transition-all duration-200 p-2.5 pt-1 pb-1 rounded-lg flex justify-center items-center bg-purple hover:bg-hover-purple">
-          Another Status
-        </div>
+        <Tag proposal={proposal}/>
       </div>
     </Link>
   )

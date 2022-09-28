@@ -53,6 +53,7 @@ export async function getProposalCreatedEvents(address, abi, provider) {
 
     let proposalCreatedObjects = [];
     events.forEach(event => proposalCreatedObjects.push(new ProposalCreatedEvent(event.args)));
+    proposalCreatedObjects.reverse();
 
     return proposalCreatedObjects;
 }
