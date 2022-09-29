@@ -26,6 +26,13 @@ export const setAccount = (data) => {
     }
 }
 
+export const setAllProposals = (data) => {
+    return {
+        type: "LOAD_ALL_PROPOSALS",
+        payload: data
+    }
+}
+
 export const setActiveProposals = (data) => {
     return {
         type: "LOAD_ACTIVE_PROPOSALS",
@@ -79,6 +86,13 @@ export const setCurrentMetadata = (data) => {
 export const setCurrentTitle = (data) => {
     return {
         type: "SET_CURRENT_TITLE",
+        data: data
+    }
+}
+
+export const setRefresh = (data) => {
+    return {
+        type: "NEED_REFRESH",
         data: data
     }
 }

@@ -36,6 +36,15 @@ const account = (state = [], action) => {
     }
 }
 
+const allProposals = (state = [], action) => {
+    switch (action.type) {
+        case "LOAD_ALL_PROPOSALS":
+            return action.payload
+        default:
+          return state
+      }
+}
+
 const activeGrants = (state = [], action) => {
   switch (action.type) {
     case "LOAD_ACTIVE_GRANTS":
@@ -108,11 +117,20 @@ const currentProposalTitle = (state = "", action) => {
     }
 }
 
+const needsRefresh = (state = false, action) => {
+    switch (action.type) {
+        case "NEED_REFRESH":
+            return action.data
+        default:
+            return state
+    }
+}
+
 const allReducers = combineReducers({
-    activeGrants, activeProposals, inactiveGrants, 
+    allProposals, activeGrants, activeProposals, inactiveGrants, 
     inactiveProposals, alchemyProvider, metamaskProvider, 
     isLoading, selectedProposal, network, account,
-    currentProposalMetadata, currentProposalTitle
+    currentProposalMetadata, currentProposalTitle, needsRefresh
 })
 
 

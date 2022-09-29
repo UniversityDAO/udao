@@ -4,22 +4,15 @@ import ThumbUpOffAltSharp from "@mui/icons-material/ThumbUpOffAltSharp"
 import ThumbDownOffAltSharp from "@mui/icons-material/ThumbDownOffAltSharp"
 import VoteRatio from "./VoteRatio";
 
-import { setSelectedProposal } from "../../reduxActions";
-import { useDispatch } from 'react-redux/es/exports';
-
 function Card({proposal}) {
-  const dispatch = useDispatch();
+  let url = `/view_proposal/${proposal.event.proposalId}`
 
   const total = proposal.votes.forVotes + proposal.votes.againstVotes
   const forPercent = (proposal.votes.forVotes / total) * 100;
   const againstPercent = (proposal.votes.againstVotes / total) * 100
 
-  function handleClick() {
-    dispatch(setSelectedProposal(proposal))
-  }
-
   return (
-    <Link className="transition-all duration-200 w-full h-full p-5 mt-5 border-solid rounded-lg cursor-pointer border-4 border-gray bg-gray hover:bg-hover-gray hover:border-purple" onClick={() => handleClick()} to="/view_proposal">
+    <Link className="transition-all duration-200 w-full h-full p-5 mt-5 border-solid rounded-lg cursor-pointer border-4 border-gray bg-gray hover:bg-hover-gray hover:border-purple" to={url}>
       <h1 className="text-3xl mb-5">{proposal.metadata.title}</h1>
       <VoteRatio forPercent={forPercent} againstPercent={againstPercent}/>
       <div className="flex mb-5">

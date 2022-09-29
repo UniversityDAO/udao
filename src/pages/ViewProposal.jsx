@@ -1,20 +1,40 @@
 import React, {useEffect} from "react";
-import { Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import ThumbUpOffAltSharp from "@mui/icons-material/ThumbUpOffAltSharp"
 import ThumbDownOffAltSharp from "@mui/icons-material/ThumbDownOffAltSharp"
 import VoteRatio from "../components/VoteRatio";
+
+import Loading from "../components/LoadingSymbol"
 
 import { useSelector } from 'react-redux';
 import { vote } from "../api/EthersApi";
 import { GOV_ABI, GOV_ADDRESS } from "../data/config";
 
 function ViewProposalLayout(props) {
-  let data = useSelector(state => state.selectedProposal);
   let metamaskProvider = useSelector(state => state.metamaskProvider);
+  let loading = useSelector(state => state.isLoading);
+  let proposals = useSelector(state => state.allProposals);
 
-  const total = data.votes.forVotes + data.votes.againstVotes;
-  const forPercent = (data.votes.forVotes / total) * 100;
-  const againstPercent = (data.votes.againstVotes / total) * 100;
+  let data = undefined;
+
+  let total = 0;
+  let forPercent = 0;
+  let againstPercent = 0;
+
+  let { proposalId } = useParams();
+  console.log(`Proposal ID is: ${proposalId}`);
+  
+  if (!loading) {
+    for ( const proposal of proposals) {
+      if (proposalId === proposal.event.proposalId){
+        data = proposal
+        break
+      }
+    }
+    total = data.votes.forVotes + data.votes.againstVotes;
+    forPercent = (data.votes.forVotes / total) * 100;
+    againstPercent = (data.votes.againstVotes / total) * 100;
+  }
 
   useEffect(() => {
     document.title = "UDAO - View " + props.name;
@@ -26,6 +46,16 @@ function ViewProposalLayout(props) {
 
   return (
     <>
+      {loading 
+      ?
+      <>
+        <div className="flex flex-col p-5 mb-5 rounded-lg bg-black">
+        <p className="text-3xl">Loading Proposal...</p>
+        </div>
+        <Loading/> 
+      </>
+      :
+      <>
       <div className="flex flex-col p-5 mb-5 rounded-lg bg-black">
         <p className="text-3xl">{data.metadata.title}</p>
       </div>
@@ -51,9 +81,9 @@ function ViewProposalLayout(props) {
           <p>
             {data.metadata.description}
           </p>
-      </div>
-    </>
-  )
+      </div> 
+      </>}
+  </>)
 }
 
 export default ViewProposalLayout

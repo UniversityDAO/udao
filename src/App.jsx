@@ -17,7 +17,7 @@ import { GOV_ADDRESS } from "./data/config";
 import { GOV_ABI } from "./data/config";
 
 import { getAllProposals } from "./api/UDAOApi";
-import {setAlchemyProvider, setMetamaskProvider, setNetwork, setActiveGrants, setInactiveGrants, setActiveProposals, setInactiveProposals, setLoading, setAccount} from "../reduxActions"
+import {setAlchemyProvider, setMetamaskProvider, setNetwork, setAllProposals, setActiveGrants, setInactiveGrants, setActiveProposals, setInactiveProposals, setLoading, setAccount, setRefresh} from "../reduxActions"
 import { ALCHEMY_KEY } from './data/config'
 import detectEthereumProvider from "@metamask/detect-provider";
 
@@ -77,17 +77,19 @@ function App() {
       let proposals = allProposals.filter(p => p.metadata.isGrant === false);
       let grants = allProposals.filter(g => g.metadata.isGrant === true);
       
+      dispatch(setAllProposals(proposals));
       dispatch(setActiveProposals(proposals.filter(p => p.state === 1)));
       dispatch(setInactiveProposals(proposals.filter(p => p.state !== 1)));
 
       dispatch(setActiveGrants(grants.filter(g => g.state === 1)));
       dispatch(setInactiveGrants(grants.filter(g => g.state !== 1)));
 
+      dispatch(setRefresh(false));
       dispatch(setLoading(false));
     }
 
     loadApp();
-  }, [])
+  }, [useSelector(state => state.needsRefresh)])
 
   return (
     <HashRouter>
@@ -101,7 +103,7 @@ function App() {
             <Route path="/new_proposal" element={<NewProposal name="Proposal" hidden={true}/>}/>
             <Route path="/submitting_proposal" element={<SubmittingProposal />} />
             <Route path="/new_grant" element={<NewProposal name="Grant"/>}/>
-            <Route path="/view_proposal" element={<ViewProposal name="Proposal"/>}/>
+            <Route path="/view_proposal/:proposalId" element={<ViewProposal name="Proposal"/>}/>       
         </Route>
       </Routes>
     </HashRouter>

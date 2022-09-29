@@ -7,8 +7,11 @@ import { upload } from "../api/web3StorageAPI";
 import { propose } from "../api/EthersApi";
 
 import { useEffect, useState } from "react";
+import { useDispatch } from 'react-redux/es/exports'
+import { setRefresh } from "../../reduxActions";
 
 export default function SubmittingProposal() {
+    const dispatch = useDispatch();
     const [ipfsCid, setIpfsCid] = useState("");
     const [proposalId, setProposalId] = useState("");
 
@@ -48,9 +51,13 @@ export default function SubmittingProposal() {
             )
         }
         else {
+            dispatch(setRefresh(true));
             return (
                 <div className="mb-5 mr-5 p-5 w-full h-full flex flex-col rounded-lg bg-black">
-                <p className="text-3xl">Proposal is now on the blockchain</p>
+                <p className="text-3xl">
+                    Proposal is now on the blockchain. 
+                    It may take a minute or two to show up on the app.
+                    </p>
                 <Link to="/proposals">
                     <button>Click here to return to proposals</button>
                 </Link>
