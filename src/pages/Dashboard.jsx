@@ -13,18 +13,18 @@ function Dashboard() {
   let activeGrants = useSelector(state => state.activeGrants);
   let state = useSelector(state => state);
 
-  console.log(state);
-
   let activeProposalCount = activeProposals.length;
   let activeGrantCount = activeGrants.length;
 
   return (
     <>
       <div className="mb-5 p-5 flex flex-col md:flex-row justify-center items-center rounded-lg bg-black">
-        <TopData name="Active Proposals" data={activeProposalCount}/>
+        <div className="mb-5 md:mb-0">
+          <TopData name="Active Proposals" data={activeProposalCount}/>
+        </div>
         <TopData name="Active Grants" data={activeGrantCount}/>
       </div>
-      <div className="mb-5 flex flex-col lg:flex-row">
+      <div className="flex flex-col lg:flex-row">
         <div className="mr-5 w-full">
           <CardSection header="Active Proposals" data={activeProposals}/>
         </div>
